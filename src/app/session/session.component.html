@@ -53,10 +53,10 @@
 </section>
 
 <ng-container *ngIf="book$ | async as bc; else nb">
-  <app-terminal [book]="bc"></app-terminal>
+  <tiptap-terminal [book]="bc"></tiptap-terminal>
 </ng-container>
 <ng-template #nb>
   <ng-container *ngIf="lesson$ | async as lesson">
-    <app-terminal [lesson]="lesson"></app-terminal>
+    <tiptap-terminal [lesson]="lesson"></tiptap-terminal>
   </ng-container>
 </ng-template>

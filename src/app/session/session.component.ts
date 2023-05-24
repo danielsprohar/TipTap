@@ -30,7 +30,8 @@ import { SessionService } from './services/session.service'
 import { TerminalComponent } from './terminal/terminal.component'
 
 @Component({
-  selector: 'app-session',
+  standalone: true,
+  selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
   providers: [
@@ -39,7 +40,6 @@ import { TerminalComponent } from './terminal/terminal.component'
       useValue: document,
     },
   ],
-  standalone: true,
   imports: [
     NgIf,
     MatDividerModule,
@@ -64,7 +64,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     readonly sessionService: SessionService,
-    protected readonly keyboardService: KeyboardService,
+    private readonly keyboardService: KeyboardService,
     private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog
   ) {}

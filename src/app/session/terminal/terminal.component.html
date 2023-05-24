@@ -1,14 +1,12 @@
 <section class="container mt-1">
-  <ng-container *ngIf="lesson || book; else loading">
-    <mat-card>
-      <div #terminal id="terminal">
-        <div id="stack">{{ stack }}</div>
-        <div id="cursor"></div>
-        <div id="queue">{{ queue }}</div>
-      </div>
-    </mat-card>
-  </ng-container>
+  <mat-card *ngIf="lesson || book; else loading">
+    <div #terminal id="terminal">
+      <div id="stack">{{ stack }}</div>
+      <div id="cursor"></div>
+      <div id="queue">{{ queue }}</div>
+    </div>
+  </mat-card>
   <ng-template #loading>
-    <article aria-busy="true"></article>
+    <mat-progress-spinner></mat-progress-spinner>
   </ng-template>
 </section>

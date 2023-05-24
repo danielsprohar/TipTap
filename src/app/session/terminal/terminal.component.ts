@@ -1,62 +1,72 @@
+import { NgIf } from '@angular/common'
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core'
-import { Subscription } from 'rxjs'
+import { MatCardModule } from '@angular/material/card'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { Subject, takeUntil, timer } from 'rxjs'
 import { CharacterSpaceBuilder } from 'src/app/lessons/builders/character-space-builder'
 import { Lesson } from 'src/app/lessons/models/lesson'
 import { Book } from 'src/app/models/book'
 import { KeyboardService } from '../services/keyboard.service'
 import { RandomWordGeneratorService } from '../services/random-word-generator.service'
 import { SessionService } from '../services/session.service'
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
-import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-terminal',
-    templateUrl: './terminal.component.html',
-    styleUrls: ['./terminal.component.scss'],
-    standalone: true,
-    imports: [NgIf, MatLegacyCardModule],
+  standalone: true,
+  selector: 'tiptap-terminal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './terminal.component.html',
+  styleUrls: ['./terminal.component.scss'],
+  imports: [NgIf, MatCardModule, MatProgressSpinnerModule],
 })
 export class TerminalComponent implements OnInit, OnDestroy {
-  private subsink = new Array<Subscription>()
-  private readonly wordCount = 150
+  private readonly destroy$ = new Subject<void>()
+  private readonly terminalFlashDuration$ = timer(100)
+  private readonly wordCount = 1500
   queue = ''
   stack = ''
 
   @Input() lesson?: Lesson
   @Input() book?: Book
-  @ViewChild('terminal') terminalEl!: ElementRef
+
+  // TODO: add class list inside terminal component?
+  @ViewChild('terminal') terminalComponent!: ElementRef
 
   constructor(
-    private keyboard: KeyboardService,
-    private session: SessionService,
-    private rwg: RandomWordGeneratorService
-  ) // private bs: BookService
-  {}
+    private readonly keyboardService: KeyboardService,
+    private readonly sessionService: SessionService,
+    private readonly rwg: RandomWordGeneratorService,
+    private readonly changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.subsink.push(this.keyboard.event$.subscribe(this.parseKey.bind(this)))
+    this.keyboardService.event$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.parseKey.bind(this))
+
     if (this.lesson || this.book) {
       this.init()
     }
 
-    this.subsink.push(
-      this.session.reset$.subscribe((value: boolean) => {
+    this.sessionService.reset$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: boolean) => {
         if (value) {
           this.reset()
         }
       })
-    )
   }
 
   ngOnDestroy(): void {
-    this.subsink.forEach((sub) => sub.unsubscribe())
+    this.destroy$.next()
   }
 
   /**
@@ -67,7 +77,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
     if (this.lesson) {
       const charSpace = new CharacterSpaceBuilder(this.lesson!).build()
       this.queue = this.rwg.createSessionText(charSpace, this.wordCount)
-      this.keyboard.setHighlightKey(this.queue.charAt(0))
+      this.keyboardService.setHighlightKey(this.queue.charAt(0))
     } else if (this.book && this.book.chapter) {
       this.queue = this.book.chapter.text
     }
@@ -82,11 +92,19 @@ export class TerminalComponent implements OnInit, OnDestroy {
    * Flash the terminal when an incorrect key is pressed
    */
   flashTerminal() {
-    const el$ = this.terminalEl.nativeElement as HTMLElement
-    el$.classList.add('flash')
-    setTimeout(() => {
-      el$.classList.remove('flash')
-    }, 100)
+    // TODO: Create a TerminalService to handle this?
+    const terminalElement = this.terminalComponent.nativeElement as HTMLElement
+    terminalElement.classList.add('flash')
+    // this.changeDetector.detectChanges()
+
+    this.terminalFlashDuration$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      terminalElement.classList.remove('flash')
+    })
+
+    // TODO: Replace this with a timer()
+    // setTimeout(() => {
+    //   el$.classList.remove('flash')
+    // }, 100)
   }
 
   parseKey(event: KeyboardEvent) {
@@ -104,7 +122,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
 
     if (this.queue.length) {
       // Highlight the next key in the queue
-      this.keyboard.setHighlightKey(this.queue.charAt(0))
+      this.keyboardService.setHighlightKey(this.queue.charAt(0))
     }
   }
 
@@ -115,15 +133,15 @@ export class TerminalComponent implements OnInit, OnDestroy {
   handleKey(key: string) {
     if (key !== this.queue[0]) {
       this.flashTerminal()
-      this.session.incrementErrorCount()
+      this.sessionService.incrementErrorCount()
     } else {
       this.stack += this.queue[0]
       this.queue = this.queue.substring(1)
 
       if (this.queue.length && this.queue.charAt(0) === ' ') {
-        this.session.incrementWordCount()
+        this.sessionService.incrementWordCount()
       } else {
-        this.session.incrementCharacterCount()
+        this.sessionService.incrementCharacterCount()
       }
     }
   }
@@ -132,13 +150,13 @@ export class TerminalComponent implements OnInit, OnDestroy {
     if (this.stack.length === 0) return
 
     if (this.queue.charAt(0) === ' ') {
-      this.session.incrementWordCount(-1)
+      this.sessionService.incrementWordCount(-1)
     }
 
     const popped = this.stack.charAt(this.stack.length - 1)
     this.queue = popped + this.queue
     this.stack = this.stack.substring(0, this.stack.length - 1)
-    this.session.incrementCharacterCount(-1)
+    this.sessionService.incrementCharacterCount(-1)
   }
 
   /**
