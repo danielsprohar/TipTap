@@ -1,6 +1,6 @@
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout'
 import { OverlayContainer } from '@angular/cdk/overlay'
-import { DOCUMENT } from '@angular/common'
+import { DOCUMENT, AsyncPipe } from '@angular/common'
 import {
   Component,
   HostBinding,
@@ -10,11 +10,28 @@ import {
 } from '@angular/core'
 import { AuthService } from '@auth0/auth0-angular'
 import { Observable, map, shareReplay, Subscription } from 'rxjs'
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyListModule } from '@angular/material/legacy-list';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [
+        MatSidenavModule,
+        MatToolbarModule,
+        RouterLink,
+        MatLegacyListModule,
+        MatLegacyButtonModule,
+        MatIconModule,
+        RouterOutlet,
+        AsyncPipe,
+    ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private sub!: Subscription

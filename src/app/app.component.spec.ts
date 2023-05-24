@@ -33,6 +33,7 @@ describe('AppComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
+        AppComponent,
     ],
     providers: [
         {
@@ -41,7 +42,6 @@ describe('AppComponent', () => {
         },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [AppComponent],
 }).compileComponents()
   })
 
