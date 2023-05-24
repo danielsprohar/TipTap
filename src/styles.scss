@@ -1,19 +1,6 @@
+@use './scss/flex';
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+@include mat.core();
 
 $light-theme-primary: mat.define-palette(mat.$cyan-palette, 900);
 $light-theme-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
@@ -42,17 +29,14 @@ $dark-theme: mat.define-dark-theme(
 
 .dark-theme {
   // https://github.com/angular/components/blob/master/guides/duplicate-theming-styles.md
-  @include mat.all-legacy-component-colors($dark-theme);
+  @include mat.all-component-colors($dark-theme);
 
   a {
     color: #bfedef;
   }
 }
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-legacy-component-themes($light-theme);
+@include mat.all-component-themes($light-theme);
 
 a {
   color: #40686b;
@@ -141,23 +125,4 @@ body {
 .px-1 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-centered {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.column-gap-1 {
-  column-gap: 1em;
 }
