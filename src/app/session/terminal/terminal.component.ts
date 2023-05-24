@@ -32,7 +32,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
   private readonly terminalFlashDuration$ = timer(100)
   private readonly wordCount = 1500
-  queue = ''
+  queue = 'Click "Start" to begin'
   stack = ''
 
   @Input() lesson?: Lesson
@@ -49,38 +49,38 @@ export class TerminalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    if (this.lesson === undefined && this.book === undefined) {
+      throw new Error()
+    }
+
     this.keyboardService.keyPressed$
       .pipe(takeUntil(this.destroy$))
       .subscribe((key: string) => this.handleKeyPressed(key))
 
-    if (this.lesson || this.book) {
-      this.init()
-    }
-
     this.sessionService.reset$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value: boolean) => {
-        if (value) {
-          this.reset()
-        }
-      })
+      .subscribe(() => this.reset())
+
+    this.sessionService.started$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.init())
   }
 
   ngOnDestroy(): void {
     this.destroy$.next()
   }
 
-  /**
-   * Initialize the terminal
-   * @returns
-   */
   init() {
+    this.reset()
+
     if (this.lesson) {
       const charSpace = new CharacterSpaceBuilder(this.lesson!).build()
       this.queue = this.rwg.createSessionText(charSpace, this.wordCount)
     } else if (this.book && this.book.chapter) {
       this.queue = this.book.chapter.text
     }
+
+    this.changeDetector.detectChanges()
   }
 
   reset() {
@@ -110,7 +110,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
       this.flashTerminal()
       this.metricsService.incrementErrorCount()
     } else {
-      console.log('handleKey', key)
       this.stack += this.queue[0]
       this.queue = this.queue.substring(1)
 
@@ -126,7 +125,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
 
   handleBackspace() {
     if (this.stack.length === 0) return
-
     if (this.queue.charAt(0) === ' ') {
       this.metricsService.incrementWordCount(-1)
     }
@@ -136,14 +134,4 @@ export class TerminalComponent implements OnInit, OnDestroy {
     this.stack = this.stack.substring(0, this.stack.length - 1)
     this.metricsService.incrementCharacterCount(-1)
   }
-
-  /**
-   * Checks if the given value is a whitespace character.
-   * @param value The key value
-   * @returns TRUE if the given value is a whitespace character;
-   * otherwise, FALSE.
-   */
-  // isHTMLWhitespace(value: string): boolean {
-  //   return value.charCodeAt(0) === 32 || value.charCodeAt(0) === 160
-  // }
 }
