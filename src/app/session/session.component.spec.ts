@@ -67,11 +67,11 @@ describe('SessionComponent', () => {
   })
 
   it('should render the mock lesson', (done: DoneFn) => {
-    routeStub.setQueryParamMap(mockLesson.toParams())
+    routeStub.setQueryParamMap(mockLesson.toQueryParams())
 
     component.lesson$?.subscribe((lesson: Lesson) => {
       expect(lesson).toEqual(mockLesson)
-      expect(lesson.toParams()).toEqual(mockLesson.toParams())
+      expect(lesson.toQueryParams()).toEqual(mockLesson.toQueryParams())
       done()
     })
   })

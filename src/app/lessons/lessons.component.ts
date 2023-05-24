@@ -5,7 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { LessonDetailComponent } from './lesson-detail/lesson-detail.component'
 import { Finger, Hand, Lesson, Level } from './models/lesson'
 
-// TODO: Move to models
+// TODO: Hard code all the lessons?
 export interface LessonData {
   level: Level
   hand: Hand

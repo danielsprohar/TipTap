@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router'
-import { BookResolver } from '../resolvers/book.resolver'
+import { bookResolver } from '../resolvers/book.resolver'
 import { SessionComponent } from './session.component'
 
 export const sessionRoutes: Routes = [
@@ -11,7 +11,7 @@ export const sessionRoutes: Routes = [
     path: 'book/:title/chapter/:chapter',
     component: SessionComponent,
     resolve: {
-      book: BookResolver,
+      book: bookResolver,
     },
   },
 ]
