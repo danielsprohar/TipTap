@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { MatDialogModule } from '@angular/material/dialog'
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog'
 import { ActivatedRoute } from '@angular/router'
 import { of } from 'rxjs'
 import { ActivatedRouteStub } from 'src/testing/activated-route-stub'

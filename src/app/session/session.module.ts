@@ -7,18 +7,18 @@ import { TerminalComponent } from './terminal/terminal.component'
 import { KeyboardComponent } from './keyboard/keyboard.component'
 import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { SharedModule } from '../shared/shared.module'
-import { MatTooltipModule } from '@angular/material/tooltip'
-import { MatCardModule } from '@angular/material/card'
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip'
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
 import { MatDividerModule } from '@angular/material/divider'
 import {
-  MatDialogModule,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog'
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+} from '@angular/material/legacy-dialog'
 import { SessionService } from './services/session.service'
 import { KeyboardService } from './services/keyboard.service'
 import { RandomWordGeneratorService } from './services/random-word-generator.service'
-import { MatButtonModule } from '@angular/material/button'
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
 
 @NgModule({
   declarations: [

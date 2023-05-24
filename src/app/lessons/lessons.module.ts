@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common'
 import { LessonsRoutingModule } from './lessons-routing.module'
 import { LessonsComponent } from './lessons.component'
 import { LessonDetailComponent } from './lesson-detail/lesson-detail.component'
-import { MatTabsModule } from '@angular/material/tabs'
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs'
 import { MatDividerModule } from '@angular/material/divider'
-import { MatListModule } from '@angular/material/list'
-import { MatCardModule } from '@angular/material/card'
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list'
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
 
 @NgModule({
   declarations: [LessonsComponent, LessonDetailComponent],

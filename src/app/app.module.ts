@@ -13,13 +13,13 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular'
 import { environment } from 'src/environments/environment'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 // Angular Material
-import { MatButtonModule } from '@angular/material/button'
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { LayoutModule } from '@angular/cdk/layout'
 import { MatSidenavModule } from '@angular/material/sidenav'
-import { MatListModule } from '@angular/material/list'
-import { MatMenuModule } from '@angular/material/menu'
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list'
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu'
 
 @NgModule({
   declarations: [

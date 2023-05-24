@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common'
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import {
   finalize,
