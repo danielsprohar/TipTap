@@ -1,5 +1,3 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
@@ -17,18 +15,9 @@
 @include mat.all-legacy-component-typographies();
 @include mat.legacy-core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$light-theme-primary: mat.define-palette(mat.$teal-palette, 900);
-// $light-theme-primary: mat.define-palette(mat.$deep-purple-palette);
+$light-theme-primary: mat.define-palette(mat.$cyan-palette, 900);
 $light-theme-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
 $light-theme-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $light-theme: mat.define-light-theme(
   (
     color: (
@@ -40,8 +29,7 @@ $light-theme: mat.define-light-theme(
 );
 
 $dark-theme-primary: mat.define-palette(mat.$blue-grey-palette);
-$dark-theme-accent: mat.define-palette(mat.$grey-palette);
-
+$dark-theme-accent: mat.define-palette(mat.$cyan-palette);
 $dark-theme: mat.define-dark-theme(
   (
     color: (
@@ -155,6 +143,10 @@ body {
   padding-right: 1rem !important;
 }
 
+.flex {
+  display: flex;
+}
+
 .flex-centered {
   display: flex;
   align-items: center;
@@ -164,4 +156,8 @@ body {
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.column-gap-1 {
+  column-gap: 1em;
 }

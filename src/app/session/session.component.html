@@ -1,35 +1,54 @@
 <div class="container centered mt-1">
-  <ng-container *ngIf="book$ | async as book; else notBook">
+  <ng-container *ngIf="book$ | async as book">
     <h2>
       <i>{{ book.title | titlecase }}</i> by {{ book.author }}
     </h2>
     <h4>{{ book.chapter?.title | titlecase }}</h4>
   </ng-container>
-  <ng-template #notBook>
-    <ng-container *ngIf="lesson$ | async as lesson">
-      <h2>
-        {{ lesson.hand | titlecase }}
-        <ng-container *ngIf="lesson.isBothHands; else oneHand">
-          Hands
-        </ng-container>
-        <ng-template #oneHand> Hand </ng-template>
-        &nbsp;
-        <span>&verbar;</span>
-        &nbsp;
-        {{ lesson.finger | titlecase }}
-      </h2>
+
+  <h2 *ngIf="lesson$ | async as lesson">
+    {{ lesson.hand | titlecase }}
+    <ng-container *ngIf="lesson.isBothHands; else oneHand">
+      Hands
     </ng-container>
-  </ng-template>
+    <ng-template #oneHand> Hand </ng-template>
+    &nbsp;
+    <span>&verbar;</span>
+    &nbsp;
+    {{ lesson.finger | titlecase }}
+  </h2>
+
   <mat-divider></mat-divider>
+
+  <tiptap-metrics></tiptap-metrics>
+
+  <tiptap-terminal
+    *ngIf="book$ | async as book"
+    [book]="book"
+  ></tiptap-terminal>
+
+  <tiptap-terminal
+    *ngIf="lesson$ | async as lesson"
+    [lesson]="lesson"
+  ></tiptap-terminal>
+
+  <div class="flex column-gap-1">
+    <button
+      *ngIf="!isSessionInProgress"
+      mat-raised-button
+      color="primary"
+      (click)="start()"
+    >
+      Start
+    </button>
+    <button
+      *ngIf="isSessionInProgress"
+      mat-raised-button
+      color="primary"
+      (click)="stop()"
+    >
+      Stop
+    </button>
+    <!-- <button (click)="openResultsDialog()">See results</button> -->
+  </div>
 </div>
-
-<tiptap-metrics></tiptap-metrics>
-
-<ng-container *ngIf="book$ | async as bc; else lesson">
-  <tiptap-terminal [book]="bc"></tiptap-terminal>
-</ng-container>
-<ng-template #lesson>
-  <ng-container *ngIf="lesson$ | async as lesson">
-    <tiptap-terminal [lesson]="lesson"></tiptap-terminal>
-  </ng-container>
-</ng-template>

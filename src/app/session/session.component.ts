@@ -1,31 +1,23 @@
 import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common'
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import {
-  Observable,
-  Subject,
-  map,
-  share,
-  takeUntil,
-  takeWhile,
-  tap,
-  timer,
-} from 'rxjs'
+import { Observable, Subject, map, share, takeUntil } from 'rxjs'
 import { LessonBuilder } from '../lessons/builders/lesson-builder'
 import { Lesson } from '../lessons/models/lesson'
 import { Book } from '../models/book'
 import { MetricsComponent } from './metrics/metrics.component'
 import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { KeyboardService } from './services/keyboard.service'
-import { MetricsService } from './services/metrics.service'
 import { SessionService } from './services/session.service'
 import { TerminalComponent } from './terminal/terminal.component'
 
@@ -37,6 +29,7 @@ import { TerminalComponent } from './terminal/terminal.component'
   styleUrls: ['./session.component.scss'],
   imports: [
     AsyncPipe,
+    MatButtonModule,
     MatDialogModule,
     MatDividerModule,
     MetricsComponent,
@@ -50,33 +43,45 @@ export class SessionComponent implements OnInit, OnDestroy {
   readonly book$: Observable<Book> = this.route.data.pipe(
     map((data) => {
       return data['book'] as Book
-    })
+    }),
+    share()
   )
 
   readonly lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
     map((paramMap: ParamMap) => new LessonBuilder().buildFromParamMap(paramMap))
   )
 
+  isSessionInProgress = false
+
   constructor(
     private readonly sessionService: SessionService,
     private readonly keyboardService: KeyboardService,
-    private readonly metricsService: MetricsService,
     private readonly route: ActivatedRoute,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.sessionService.reset$
+    this.sessionService.started$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((resetRequested: boolean) => {
-        if (resetRequested) {
-          this.stop()
-          this.start()
-        }
+      .subscribe(() => (this.isSessionInProgress = true))
+
+    this.sessionService.stopped$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.isSessionInProgress = false
+        this.changeDetector.detectChanges()
+      })
+
+    this.sessionService.completed$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.isSessionInProgress = false
+        this.changeDetector.detectChanges()
       })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next()
   }
 
@@ -87,49 +92,36 @@ export class SessionComponent implements OnInit, OnDestroy {
    */
   @HostListener('document:keyup', ['$event'])
   handleKeydown(event: KeyboardEvent): void {
-    // TODO: Check if the session is in progress
+    if (!this.isSessionInProgress) return
+    if (event.key === 'Shift') return
 
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
     if (event.repeat) return
+
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/ctrlKey
     if (event.ctrlKey) return
+
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/altKey
     if (event.altKey) return
+
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey
     if (event.metaKey) return
-    if (event.key === 'Shift') return
+
     // Ignore function keys
     if (event.key.length > 1 && event.key.charAt(0) === 'F') return
 
     this.keyboardService.setKeyPressed(event.key)
   }
 
-  /**
-   * Create the session's timer
-   * @returns The timer as an `Observable`
-   */
-  private createTimer() {
-    return timer(0, 1000).pipe(
-      share(),
-      takeWhile(
-        (secondsElapsed) => secondsElapsed <= this.sessionService.duration
-      ),
-      tap((secondsElapsed) => {
-        this.metricsService.calcWordsPerMinute(secondsElapsed)
-        if (secondsElapsed === this.sessionService.duration) {
-          this.openResultsDialog()
-        }
-      })
-    )
+  start(): void {
+    this.sessionService.start()
   }
 
-  start(): void {}
+  stop(): void {
+    this.sessionService.stop()
+  }
 
-  stop(): void {}
-
-  reset(): void {}
-
-  private openResultsDialog() {
+  openResultsDialog() {
     this.dialog.open(ResultsDialogComponent)
   }
 }
