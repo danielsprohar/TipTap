@@ -23,14 +23,17 @@ import {
 import { LessonBuilder } from '../lessons/builders/lesson-builder'
 import { Lesson } from '../lessons/models/lesson'
 import { Book } from '../models/book'
+import { MetricsComponent } from './metrics/metrics.component'
 import { Metrica } from './models/metrica'
 import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { KeyboardService } from './services/keyboard.service'
+import { MetricsService } from './services/metrics.service'
 import { SessionService } from './services/session.service'
 import { TerminalComponent } from './terminal/terminal.component'
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
@@ -44,55 +47,50 @@ import { TerminalComponent } from './terminal/terminal.component'
     NgIf,
     MatDividerModule,
     TerminalComponent,
+    MetricsComponent,
     AsyncPipe,
     TitleCasePipe,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
   private keyboardHandler!: any
-  readonly metrica$: Observable<Metrica> = this.sessionService.metrica$
+  readonly metrics$: Observable<Metrica> = this.metricsService.metrics$
 
   inProgress = false
   time: number = 0
   timer$: Observable<number> | null = null
   metrica!: Metrica
-  lesson$?: Observable<Lesson>
-  book$?: Observable<Book>
+
+  readonly book$: Observable<Book> = this.route.data.pipe(
+    map((data) => {
+      return data['book'] as Book
+    })
+  )
+
+  readonly lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
+    map((paramMap: ParamMap) => new LessonBuilder().buildFromParamMap(paramMap))
+  )
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    readonly sessionService: SessionService,
+    private readonly sessionService: SessionService,
     private readonly keyboardService: KeyboardService,
+    private readonly metricsService: MetricsService,
     private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.keyboardHandler = this.handleKeyboard.bind(this)
-    this.metrica$
+    this.metrics$
       .pipe(takeUntil(this.destroy$))
       .subscribe((metrica) => (this.metrica = metrica))
 
-    // Check if we are doing a random word sequence
-    this.lesson$ = this.route.queryParamMap.pipe(
-      map((paramMap: ParamMap) =>
-        new LessonBuilder().buildFromParamMap(paramMap)
-      )
-    )
-
-    // Check if we are doing an "advanced" lesson
-    this.book$ = this.route.data.pipe(
-      map((data) => {
-        return data['book'] as Book
-      })
-    )
-
     this.sessionService.reset$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value: boolean) => {
-        if (value) {
+      .subscribe((resetRequested: boolean) => {
+        if (resetRequested) {
           this.init()
           this.start()
         }
@@ -133,7 +131,7 @@ export class SessionComponent implements OnInit, OnDestroy {
         (secondsElapsed) => secondsElapsed <= this.sessionService.duration
       ),
       tap((secondsElapsed) => {
-        this.sessionService.calcWordsPerMinute(secondsElapsed)
+        this.metricsService.calcWordsPerMinute(secondsElapsed)
         if (secondsElapsed === this.sessionService.duration) {
           this.showResults()
         }
@@ -145,9 +143,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   private showResults() {
-    this.dialog.open(ResultsDialogComponent, {
-      data: this.sessionService.metrica,
-    })
+    this.dialog.open(ResultsDialogComponent)
   }
 
   /**

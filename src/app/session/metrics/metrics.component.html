@@ -1,0 +1,25 @@
+<div class="container my-1">
+<table>
+    <thead>
+      <th>Time</th>
+      <th>Errors</th>
+      <th matTooltip="Words per minute">WPM</th>
+    </thead>
+    <tbody>
+      <tr>
+        <!-- <td *ngIf="time; else default">
+          {{ time }}
+        </td>
+        <ng-template #default>
+          <td>0</td>
+        </ng-template> -->
+        <td>0</td>
+
+        <ng-container *ngIf="metrics$ | async as metrics">
+          <td>{{ metrics.errorCount }}</td>
+          <td>{{ metrics.wpm }}</td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>

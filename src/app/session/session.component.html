@@ -23,39 +23,12 @@
   <mat-divider></mat-divider>
 </div>
 
-<section class="container my-1">
-  <table>
-    <thead>
-      <th>Time</th>
-      <th>Errors</th>
-      <th matTooltip="Words per minute">WPM</th>
-    </thead>
-    <tbody>
-      <tr>
-        <td *ngIf="time; else default">
-          {{ time }}
-        </td>
-        <ng-template #default>
-          <td>0</td>
-        </ng-template>
+<tiptap-metrics></tiptap-metrics>
 
-        <ng-container *ngIf="metrica$ | async as metrica; else defaultMetrica">
-          <td>{{ metrica.errorCount }}</td>
-          <td>{{ metrica.wpm }}</td>
-        </ng-container>
-        <ng-template #defaultMetrica>
-          <td>0</td>
-          <td>0</td>
-        </ng-template>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<ng-container *ngIf="book$ | async as bc; else nb">
+<ng-container *ngIf="book$ | async as bc; else lesson">
   <tiptap-terminal [book]="bc"></tiptap-terminal>
 </ng-container>
-<ng-template #nb>
+<ng-template #lesson>
   <ng-container *ngIf="lesson$ | async as lesson">
     <tiptap-terminal [lesson]="lesson"></tiptap-terminal>
   </ng-container>
