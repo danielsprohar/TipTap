@@ -16,12 +16,12 @@ export const appRoutes: Routes = [
   {
     path: 'lessons',
     loadComponent: () =>
-      import('./lessons/lessons.component').then((comp) => comp.LessonsComponent),
+      import('./lessons/lessons.component').then((component) => component.LessonsComponent),
   },
   {
     path: 'session',
-    loadChildren: () =>
-      import('./session/session.module').then((m) => m.SessionModule),
+    loadComponent: () =>
+      import('./session/session.component').then((component) => component.SessionComponent),
   },
   {
     path: '**',

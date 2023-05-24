@@ -1,13 +1,21 @@
-import { DOCUMENT, NgIf, AsyncPipe, TitleCasePipe } from '@angular/common'
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { AsyncPipe, DOCUMENT, NgIf, TitleCasePipe } from '@angular/common'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
+import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import {
+  Observable,
+  Subject,
   finalize,
   map,
-  Observable,
   shareReplay,
-  Subscription,
+  takeUntil,
   takeWhile,
   tap,
   timer,
@@ -19,57 +27,53 @@ import { Metrica } from './models/metrica'
 import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { KeyboardService } from './services/keyboard.service'
 import { SessionService } from './services/session.service'
-import { TerminalComponent } from './terminal/terminal.component';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatDividerModule } from '@angular/material/divider';
+import { TerminalComponent } from './terminal/terminal.component'
 
 @Component({
-    selector: 'app-session',
-    templateUrl: './session.component.html',
-    styleUrls: ['./session.component.scss'],
-    providers: [
-        {
-            provide: Document,
-            useValue: document,
-        },
-    ],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatDividerModule,
-        MatLegacyTooltipModule,
-        TerminalComponent,
-        AsyncPipe,
-        TitleCasePipe,
-    ],
+  selector: 'app-session',
+  templateUrl: './session.component.html',
+  styleUrls: ['./session.component.scss'],
+  providers: [
+    {
+      provide: Document,
+      useValue: document,
+    },
+  ],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatDividerModule,
+    TerminalComponent,
+    AsyncPipe,
+    TitleCasePipe,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SessionComponent implements OnInit, OnDestroy {
-  private subsink = new Array<Subscription>()
-  private timerSub?: Subscription
+  private readonly destroy$ = new Subject<void>()
   private keyboardHandler!: any
+  readonly metrica$: Observable<Metrica> = this.sessionService.metrica$
 
   inProgress = false
   time: number = 0
   timer$: Observable<number> | null = null
-  metrica$!: Observable<Metrica>
   metrica!: Metrica
   lesson$?: Observable<Lesson>
   book$?: Observable<Book>
 
   constructor(
-    readonly session: SessionService,
     @Inject(DOCUMENT) private document: Document,
-    protected keyboard: KeyboardService,
-    private route: ActivatedRoute,
-    private dialog: MatDialog
+    readonly sessionService: SessionService,
+    protected readonly keyboardService: KeyboardService,
+    private readonly route: ActivatedRoute,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.keyboardHandler = this.handleKeyboard.bind(this)
-    this.metrica$ = this.session.metrica$
-    this.subsink.push(
-      this.session.metrica$.subscribe((metrica) => (this.metrica = metrica))
-    )
+    this.metrica$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((metrica) => (this.metrica = metrica))
 
     // Check if we are doing a random word sequence
     this.lesson$ = this.route.queryParamMap.pipe(
@@ -85,27 +89,20 @@ export class SessionComponent implements OnInit, OnDestroy {
       })
     )
 
-    this.subsink.push(
-      this.session.reset$.subscribe((value: boolean) => {
+    this.sessionService.reset$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: boolean) => {
         if (value) {
           this.init()
           this.start()
         }
       })
-    )
 
     this.init()
   }
 
   ngOnDestroy() {
-    if (this.timerSub) {
-      this.timerSub.unsubscribe()
-      console.log('Unsubscribed from the Timer.')
-      this.document.removeEventListener('keydown', this.keyboardHandler, true)
-      console.log('Removed the keyboard handler.')
-    }
-
-    this.subsink.forEach((sub) => sub.unsubscribe())
+    this.destroy$.next()
   }
 
   /**
@@ -122,7 +119,7 @@ export class SessionComponent implements OnInit, OnDestroy {
       this.start()
     }
 
-    this.keyboard.setKeyboardEvent(event)
+    this.keyboardService.setKeyboardEvent(event)
   }
 
   /**
@@ -132,10 +129,12 @@ export class SessionComponent implements OnInit, OnDestroy {
   private createTimer() {
     return timer(0, 1000).pipe(
       shareReplay(),
-      takeWhile((secondsElapsed) => secondsElapsed <= this.session.duration),
+      takeWhile(
+        (secondsElapsed) => secondsElapsed <= this.sessionService.duration
+      ),
       tap((secondsElapsed) => {
-        this.session.calcWordsPerMinute(secondsElapsed)
-        if (secondsElapsed === this.session.duration) {
+        this.sessionService.calcWordsPerMinute(secondsElapsed)
+        if (secondsElapsed === this.sessionService.duration) {
           this.showResults()
         }
       }),
@@ -147,7 +146,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   private showResults() {
     this.dialog.open(ResultsDialogComponent, {
-      data: this.session.metrica,
+      data: this.sessionService.metrica,
     })
   }
 
@@ -155,6 +154,7 @@ export class SessionComponent implements OnInit, OnDestroy {
    * Initialize the session
    */
   init() {
+    // TODO: Replace this with a HostListener
     this.document.addEventListener('keydown', this.keyboardHandler, true)
     this.timer$ = this.createTimer()
   }
@@ -163,10 +163,9 @@ export class SessionComponent implements OnInit, OnDestroy {
    * Start the session
    */
   start() {
-    if (this.timer$) {
-      this.timerSub = this.timer$.subscribe(
-        (value: number) => (this.time = value)
-      )
-    }
+    // TODO: Refactor this shit code
+    // this.timer$.pipe(takeUntil(this.destroy$)).subscribe(
+    //   (value: number) => (this.time = value)
+    // )
   }
 }

@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
+import { Routes } from '@angular/router'
 import { BookResolver } from '../resolvers/book.resolver'
 import { SessionComponent } from './session.component'
 
-const routes: Routes = [
+export const sessionRoutes: Routes = [
   {
     path: '',
     component: SessionComponent,
@@ -16,9 +15,3 @@ const routes: Routes = [
     },
   },
 ]
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class SessionRoutingModule {}
