@@ -1,12 +1,6 @@
 import { HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  Params,
-  Resolve,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router'
+import { ActivatedRouteSnapshot, Params, Router, RouterStateSnapshot } from '@angular/router'
 import { catchError, EMPTY, mergeMap, Observable, of, take } from 'rxjs'
 import { Book } from 'src/app/models/book'
 import { BookService } from 'src/app/services/book.service'
@@ -14,7 +8,7 @@ import { BookService } from 'src/app/services/book.service'
 @Injectable({
   providedIn: 'root',
 })
-export class BookResolver implements Resolve<Book> {
+export class BookResolver  {
   constructor(private bs: BookService, private router: Router) {}
 
   resolve(
