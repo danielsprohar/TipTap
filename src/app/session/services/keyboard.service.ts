@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { Subject } from 'rxjs'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class KeyboardService {
   private readonly keyboardEventSubject = new Subject<KeyboardEvent>()
-  private readonly highlightKeySubject = new BehaviorSubject<string>('')
-
-  constructor() {}
+  private readonly highlightKeySubject = new Subject<string>()
 
   /**
    * Get an instance of a new `Observable` to listen for events emitted by the keyboard.

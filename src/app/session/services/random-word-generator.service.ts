@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { environment } from 'src/environments/environment'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RandomWordGeneratorService {
   private readonly defaultWordCount = environment.rwg.defaults.wordCount
   private readonly defaultWordSize = environment.rwg.defaults.wordSize
-
-  constructor() {}
 
   /**
    * Creates a random word from the given character space.
@@ -25,7 +25,7 @@ export class RandomWordGeneratorService {
     n: number = this.defaultWordSize
   ): string {
     const max = characterSpace.length
-    let sequence = []
+    const sequence = []
 
     // indices
     let i = 0
@@ -34,7 +34,7 @@ export class RandomWordGeneratorService {
     while (i < n) {
       // Randomly select an index in the range [0, n-1]
       j = Math.floor(Math.random() * max)
-      //
+      // Get a character from the character space
       sequence.push(characterSpace[j])
       i++
     }
