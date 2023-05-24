@@ -9,12 +9,12 @@
       <th>Accuracy</th>
     </thead>
     <tbody>
-      <tr *ngIf="data">
-        <td>{{ data.errorCount }}</td>
-        <td>{{ data.characterCount }}</td>
-        <td>{{ data.wordCount }}</td>
-        <td>{{ data.wpm }}</td>
-        <td>{{ data.accuracy | percent }}</td>
+      <tr *ngIf="metrics$ | async as metrics">
+        <td>{{ metrics.errorCount }}</td>
+        <td>{{ metrics.characterCount }}</td>
+        <td>{{ metrics.wordCount }}</td>
+        <td>{{ metrics.wpm }}</td>
+        <td>{{ metrics.accuracy | percent }}</td>
       </tr>
     </tbody>
   </table>
