@@ -16,6 +16,7 @@ import { CharacterSpaceBuilder } from 'src/app/lessons/builders/character-space-
 import { Lesson } from 'src/app/lessons/models/lesson'
 import { Book } from 'src/app/models/book'
 import { KeyboardService } from '../services/keyboard.service'
+import { MetricsService } from '../services/metrics.service'
 import { RandomWordGeneratorService } from '../services/random-word-generator.service'
 import { SessionService } from '../services/session.service'
 
@@ -37,20 +38,20 @@ export class TerminalComponent implements OnInit, OnDestroy {
   @Input() lesson?: Lesson
   @Input() book?: Book
 
-  // TODO: add class list inside terminal component?
-  @ViewChild('terminal') terminalComponent!: ElementRef
+  @ViewChild('terminal') terminal!: ElementRef
 
   constructor(
     private readonly keyboardService: KeyboardService,
+    private readonly metricsService: MetricsService,
     private readonly sessionService: SessionService,
     private readonly rwg: RandomWordGeneratorService,
     private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.keyboardService.event$
+    this.keyboardService.keyPressed$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(this.parseKey.bind(this))
+      .subscribe((key: string) => this.handleKeyPressed(key))
 
     if (this.lesson || this.book) {
       this.init()
@@ -77,7 +78,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
     if (this.lesson) {
       const charSpace = new CharacterSpaceBuilder(this.lesson!).build()
       this.queue = this.rwg.createSessionText(charSpace, this.wordCount)
-      this.keyboardService.setHighlightKey(this.queue.charAt(0))
     } else if (this.book && this.book.chapter) {
       this.queue = this.book.chapter.text
     }
@@ -88,61 +88,39 @@ export class TerminalComponent implements OnInit, OnDestroy {
     this.stack = ''
   }
 
-  /**
-   * Flash the terminal when an incorrect key is pressed
-   */
   flashTerminal() {
-    // TODO: Create a TerminalService to handle this?
-    const terminalElement = this.terminalComponent.nativeElement as HTMLElement
+    const terminalElement = this.terminal.nativeElement as HTMLElement
     terminalElement.classList.add('flash')
-    // this.changeDetector.detectChanges()
-
     this.terminalFlashDuration$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       terminalElement.classList.remove('flash')
     })
-
-    // TODO: Replace this with a timer()
-    // setTimeout(() => {
-    //   el$.classList.remove('flash')
-    // }, 100)
   }
 
-  parseKey(event: KeyboardEvent) {
+  handleKeyPressed(key: string) {
     if (this.queue.length === 0) return
-
-    const { key } = event
-    if (key === 'Shift') return
-    if (key === 'F12') return
-
     if (key === 'Backspace') {
       this.handleBackspace()
     } else {
       this.handleKey(key)
     }
-
-    if (this.queue.length) {
-      // Highlight the next key in the queue
-      this.keyboardService.setHighlightKey(this.queue.charAt(0))
-    }
   }
 
-  /**
-   * Handle the key after it has been parsed.
-   * @param key The key value
-   */
   handleKey(key: string) {
     if (key !== this.queue[0]) {
       this.flashTerminal()
-      this.sessionService.incrementErrorCount()
+      this.metricsService.incrementErrorCount()
     } else {
+      console.log('handleKey', key)
       this.stack += this.queue[0]
       this.queue = this.queue.substring(1)
 
       if (this.queue.length && this.queue.charAt(0) === ' ') {
-        this.sessionService.incrementWordCount()
+        this.metricsService.incrementWordCount()
       } else {
-        this.sessionService.incrementCharacterCount()
+        this.metricsService.incrementCharacterCount()
       }
+
+      this.changeDetector.detectChanges()
     }
   }
 
@@ -150,13 +128,13 @@ export class TerminalComponent implements OnInit, OnDestroy {
     if (this.stack.length === 0) return
 
     if (this.queue.charAt(0) === ' ') {
-      this.sessionService.incrementWordCount(-1)
+      this.metricsService.incrementWordCount(-1)
     }
 
     const popped = this.stack.charAt(this.stack.length - 1)
     this.queue = popped + this.queue
     this.stack = this.stack.substring(0, this.stack.length - 1)
-    this.sessionService.incrementCharacterCount(-1)
+    this.metricsService.incrementCharacterCount(-1)
   }
 
   /**

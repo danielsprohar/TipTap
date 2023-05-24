@@ -1,20 +1,19 @@
-import { AsyncPipe, DOCUMENT, NgIf, TitleCasePipe } from '@angular/common'
+import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
+  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import {
   Observable,
   Subject,
-  finalize,
   map,
-  shareReplay,
+  share,
   takeUntil,
   takeWhile,
   tap,
@@ -24,7 +23,6 @@ import { LessonBuilder } from '../lessons/builders/lesson-builder'
 import { Lesson } from '../lessons/models/lesson'
 import { Book } from '../models/book'
 import { MetricsComponent } from './metrics/metrics.component'
-import { Metrica } from './models/metrica'
 import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { KeyboardService } from './services/keyboard.service'
 import { MetricsService } from './services/metrics.service'
@@ -37,31 +35,18 @@ import { TerminalComponent } from './terminal/terminal.component'
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
-  providers: [
-    {
-      provide: Document,
-      useValue: document,
-    },
-  ],
   imports: [
-    NgIf,
-    MatDividerModule,
-    TerminalComponent,
-    MetricsComponent,
     AsyncPipe,
+    MatDialogModule,
+    MatDividerModule,
+    MetricsComponent,
+    NgIf,
+    TerminalComponent,
     TitleCasePipe,
   ],
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
-  private keyboardHandler!: any
-  readonly metrics$: Observable<Metrica> = this.metricsService.metrics$
-
-  inProgress = false
-  time: number = 0
-  timer$: Observable<number> | null = null
-  metrica!: Metrica
-
   readonly book$: Observable<Book> = this.route.data.pipe(
     map((data) => {
       return data['book'] as Book
@@ -73,7 +58,6 @@ export class SessionComponent implements OnInit, OnDestroy {
   )
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     private readonly sessionService: SessionService,
     private readonly keyboardService: KeyboardService,
     private readonly metricsService: MetricsService,
@@ -82,21 +66,14 @@ export class SessionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.keyboardHandler = this.handleKeyboard.bind(this)
-    this.metrics$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((metrica) => (this.metrica = metrica))
-
     this.sessionService.reset$
       .pipe(takeUntil(this.destroy$))
       .subscribe((resetRequested: boolean) => {
         if (resetRequested) {
-          this.init()
+          this.stop()
           this.start()
         }
       })
-
-    this.init()
   }
 
   ngOnDestroy() {
@@ -104,20 +81,27 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle the keyboard event
-   * @param event The keyboard event
-   * @returns
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent#instance_properties
+   * @param event The KeyboardEvent
    */
-  private handleKeyboard(event: KeyboardEvent) {
-    if (event.isComposing) return
-    // event.preventDefault()
+  @HostListener('document:keyup', ['$event'])
+  handleKeydown(event: KeyboardEvent): void {
+    // TODO: Check if the session is in progress
 
-    if (!this.inProgress) {
-      this.inProgress = true
-      this.start()
-    }
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
+    if (event.repeat) return
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/ctrlKey
+    if (event.ctrlKey) return
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/altKey
+    if (event.altKey) return
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey
+    if (event.metaKey) return
+    if (event.key === 'Shift') return
+    // Ignore function keys
+    if (event.key.length > 1 && event.key.charAt(0) === 'F') return
 
-    this.keyboardService.setKeyboardEvent(event)
+    this.keyboardService.setKeyPressed(event.key)
   }
 
   /**
@@ -126,42 +110,26 @@ export class SessionComponent implements OnInit, OnDestroy {
    */
   private createTimer() {
     return timer(0, 1000).pipe(
-      shareReplay(),
+      share(),
       takeWhile(
         (secondsElapsed) => secondsElapsed <= this.sessionService.duration
       ),
       tap((secondsElapsed) => {
         this.metricsService.calcWordsPerMinute(secondsElapsed)
         if (secondsElapsed === this.sessionService.duration) {
-          this.showResults()
+          this.openResultsDialog()
         }
-      }),
-      finalize(() => {
-        this.document.removeEventListener('keydown', this.keyboardHandler, true)
       })
     )
   }
 
-  private showResults() {
+  start(): void {}
+
+  stop(): void {}
+
+  reset(): void {}
+
+  private openResultsDialog() {
     this.dialog.open(ResultsDialogComponent)
-  }
-
-  /**
-   * Initialize the session
-   */
-  init() {
-    // TODO: Replace this with a HostListener
-    this.document.addEventListener('keydown', this.keyboardHandler, true)
-    this.timer$ = this.createTimer()
-  }
-
-  /**
-   * Start the session
-   */
-  start() {
-    // TODO: Refactor this shit code
-    // this.timer$.pipe(takeUntil(this.destroy$)).subscribe(
-    //   (value: number) => (this.time = value)
-    // )
   }
 }
