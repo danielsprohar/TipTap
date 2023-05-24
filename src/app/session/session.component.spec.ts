@@ -37,24 +37,23 @@ describe('SessionComponent', () => {
     )
 
     await TestBed.configureTestingModule({
-      declarations: [SessionComponent],
-      imports: [MatDialogModule],
-      providers: [
+    imports: [MatDialogModule, SessionComponent],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: routeStub,
+            provide: ActivatedRoute,
+            useValue: routeStub,
         },
         {
-          provide: SessionService,
-          useValue: sessionService,
+            provide: SessionService,
+            useValue: sessionService,
         },
         {
-          provide: KeyboardService,
-          useValue: keyboardService,
+            provide: KeyboardService,
+            useValue: keyboardService,
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents()
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents()
   })
 
   beforeEach(() => {

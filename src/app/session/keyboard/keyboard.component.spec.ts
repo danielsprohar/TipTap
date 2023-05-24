@@ -9,9 +9,9 @@ describe('KeyboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [KeyboardComponent],
-      providers: [KeyboardService],
-    }).compileComponents()
+    imports: [KeyboardComponent],
+    providers: [KeyboardService],
+}).compileComponents()
   })
 
   beforeEach(() => {

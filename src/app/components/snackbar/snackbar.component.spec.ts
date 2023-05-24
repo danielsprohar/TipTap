@@ -12,8 +12,8 @@ describe('SnackbarComponent', () => {
     mockMessage = 'hello there'
 
     await TestBed.configureTestingModule({
-      declarations: [SnackbarComponent],
-    }).compileComponents()
+    imports: [SnackbarComponent],
+}).compileComponents()
   })
 
   beforeEach(() => {

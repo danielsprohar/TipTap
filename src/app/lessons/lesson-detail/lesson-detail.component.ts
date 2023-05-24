@@ -1,11 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { CharacterSpaceBuilder } from '../builders/character-space-builder'
 import { Lesson } from '../models/lesson'
+import { RouterLink } from '@angular/router';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-lesson-detail',
-  templateUrl: './lesson-detail.component.html',
-  styleUrls: ['./lesson-detail.component.scss'],
+    selector: 'app-lesson-detail',
+    templateUrl: './lesson-detail.component.html',
+    styleUrls: ['./lesson-detail.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        MatLegacyCardModule,
+        RouterLink,
+        NgFor,
+        TitleCasePipe,
+    ],
 })
 export class LessonDetailComponent implements OnInit {
   @Input() lesson?: Lesson

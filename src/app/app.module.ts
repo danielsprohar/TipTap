@@ -22,36 +22,34 @@ import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-l
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NotFoundComponent,
-    WelcomeComponent,
-    SnackbarComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SharedModule,
-    AuthModule.forRoot({
-      ...environment.auth,
-      httpInterceptor: {
-        ...environment.httpInterceptor,
-      },
-    }),
-    // Angular Material
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    LayoutModule,
-    MatSidenavModule,
-    MatListModule,
-    MatMenuModule,
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        SharedModule,
+        AuthModule.forRoot({
+            ...environment.auth,
+            httpInterceptor: {
+                ...environment.httpInterceptor,
+            },
+        }),
+        // Angular Material
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        LayoutModule,
+        MatSidenavModule,
+        MatListModule,
+        MatMenuModule,
+        NotFoundComponent,
+        WelcomeComponent,
+        SnackbarComponent,
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -34,13 +34,13 @@ describe('TerminalComponent', () => {
     ])
 
     await TestBed.configureTestingModule({
-      declarations: [TerminalComponent],
-      providers: [
+    imports: [TerminalComponent],
+    providers: [
         { provide: KeyboardService, useValue: keyboardSpy },
         { provide: SessionService, useValue: sessionSpy },
         { provide: RandomWordGeneratorService, useValue: rwgSpy },
-      ],
-    }).compileComponents()
+    ],
+}).compileComponents()
   })
 
   beforeEach(() => {

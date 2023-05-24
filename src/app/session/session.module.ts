@@ -21,34 +21,32 @@ import { RandomWordGeneratorService } from './services/random-word-generator.ser
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
 
 @NgModule({
-  declarations: [
-    SessionComponent,
-    TerminalComponent,
-    KeyboardComponent,
-    ResultsDialogComponent,
-  ],
-  imports: [
-    CommonModule,
-    SessionRoutingModule,
-    SharedModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatDividerModule,
-    MatDialogModule,
-    MatButtonModule,
-  ],
-  providers: [
-    SessionService,
-    KeyboardService,
-    RandomWordGeneratorService,
-    {
-      provide: MatDialogRef,
-      useValue: {},
-    },
-    {
-      provide: MAT_DIALOG_DATA,
-      useValue: {},
-    },
-  ],
+    imports: [
+        CommonModule,
+        SessionRoutingModule,
+        SharedModule,
+        MatTooltipModule,
+        MatCardModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatButtonModule,
+        SessionComponent,
+        TerminalComponent,
+        KeyboardComponent,
+        ResultsDialogComponent,
+    ],
+    providers: [
+        SessionService,
+        KeyboardService,
+        RandomWordGeneratorService,
+        {
+            provide: MatDialogRef,
+            useValue: {},
+        },
+        {
+            provide: MAT_DIALOG_DATA,
+            useValue: {},
+        },
+    ],
 })
 export class SessionModule {}

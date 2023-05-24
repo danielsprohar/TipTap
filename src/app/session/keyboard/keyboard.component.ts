@@ -14,9 +14,10 @@ import { KeyboardService } from '../services/keyboard.service'
 import Keyboard from 'src/assets/keyboard-keys.json'
 
 @Component({
-  selector: 'app-keyboard',
-  templateUrl: './keyboard.component.html',
-  styleUrls: ['./keyboard.component.scss'],
+    selector: 'app-keyboard',
+    templateUrl: './keyboard.component.html',
+    styleUrls: ['./keyboard.component.scss'],
+    standalone: true,
 })
 export class KeyboardComponent implements OnInit, OnDestroy, AfterViewInit {
   private keyboardSub?: Subscription

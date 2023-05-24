@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common'
+import { DOCUMENT, NgIf, AsyncPipe, TitleCasePipe } from '@angular/common'
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ActivatedRoute, ParamMap } from '@angular/router'
@@ -19,17 +19,29 @@ import { Metrica } from './models/metrica'
 import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { KeyboardService } from './services/keyboard.service'
 import { SessionService } from './services/session.service'
+import { TerminalComponent } from './terminal/terminal.component';
+import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-session',
-  templateUrl: './session.component.html',
-  styleUrls: ['./session.component.scss'],
-  providers: [
-    {
-      provide: Document,
-      useValue: document,
-    },
-  ],
+    selector: 'app-session',
+    templateUrl: './session.component.html',
+    styleUrls: ['./session.component.scss'],
+    providers: [
+        {
+            provide: Document,
+            useValue: document,
+        },
+    ],
+    standalone: true,
+    imports: [
+        NgIf,
+        MatDividerModule,
+        MatLegacyTooltipModule,
+        TerminalComponent,
+        AsyncPipe,
+        TitleCasePipe,
+    ],
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private subsink = new Array<Subscription>()

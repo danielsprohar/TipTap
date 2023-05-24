@@ -10,14 +10,14 @@ import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-l
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
 
 @NgModule({
-  declarations: [LessonsComponent, LessonDetailComponent],
-  imports: [
-    CommonModule,
-    LessonsRoutingModule,
-    MatTabsModule,
-    MatDividerModule,
-    MatListModule,
-    MatCardModule,
-  ],
+    imports: [
+        CommonModule,
+        LessonsRoutingModule,
+        MatTabsModule,
+        MatDividerModule,
+        MatListModule,
+        MatCardModule,
+        LessonsComponent, LessonDetailComponent,
+    ],
 })
 export class LessonsModule {}

@@ -24,7 +24,7 @@ describe('AppComponent', () => {
     )
 
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule,
         NoopAnimationsModule,
         LayoutModule,
@@ -33,16 +33,16 @@ describe('AppComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: AuthService,
-          useValue: authSpy,
+            provide: AuthService,
+            useValue: authSpy,
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [AppComponent],
-    }).compileComponents()
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [AppComponent],
+}).compileComponents()
   })
 
   beforeEach(() => {

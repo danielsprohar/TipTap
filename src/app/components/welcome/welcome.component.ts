@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+import { NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 
 const FINGER_NAME_TO_COLOR_MAP = [
   { finger: 'Little (Pinky)', color: 'Yellow-Green', hexColorCode: '#befc75' },
@@ -9,9 +12,15 @@ const FINGER_NAME_TO_COLOR_MAP = [
 ]
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss'],
+    selector: 'app-welcome',
+    templateUrl: './welcome.component.html',
+    styleUrls: ['./welcome.component.scss'],
+    standalone: true,
+    imports: [
+        MatDividerModule,
+        RouterLink,
+        NgFor,
+    ],
 })
 export class WelcomeComponent implements OnInit {
   tableColumns = ['finger', 'color', 'hex']

@@ -10,19 +10,19 @@ describe('ResultsDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResultsDialogComponent],
-      providers: [
+    imports: [ResultsDialogComponent],
+    providers: [
         SessionService,
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {},
+            provide: MAT_DIALOG_DATA,
+            useValue: {},
         },
         {
-          provide: MatDialogRef,
-          useValue: {},
+            provide: MatDialogRef,
+            useValue: {},
         },
-      ],
-    }).compileComponents()
+    ],
+}).compileComponents()
   })
 
   beforeEach(() => {

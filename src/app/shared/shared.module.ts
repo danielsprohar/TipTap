@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common'
 import { DehyphenatePipe } from './pipes/dehyphenate.pipe'
 
 @NgModule({
-  declarations: [DehyphenatePipe],
-  imports: [CommonModule],
-  exports: [DehyphenatePipe],
+    imports: [CommonModule, DehyphenatePipe],
+    exports: [DehyphenatePipe],
 })
 export class SharedModule {}

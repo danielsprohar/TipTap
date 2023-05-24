@@ -9,9 +9,9 @@ describe('WelcomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WelcomeComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents()
+    imports: [WelcomeComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents()
   })
 
   beforeEach(() => {

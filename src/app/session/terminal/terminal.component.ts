@@ -13,11 +13,15 @@ import { Book } from 'src/app/models/book'
 import { KeyboardService } from '../services/keyboard.service'
 import { RandomWordGeneratorService } from '../services/random-word-generator.service'
 import { SessionService } from '../services/session.service'
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-terminal',
-  templateUrl: './terminal.component.html',
-  styleUrls: ['./terminal.component.scss'],
+    selector: 'app-terminal',
+    templateUrl: './terminal.component.html',
+    styleUrls: ['./terminal.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatLegacyCardModule],
 })
 export class TerminalComponent implements OnInit, OnDestroy {
   private subsink = new Array<Subscription>()

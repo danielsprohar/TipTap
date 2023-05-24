@@ -9,9 +9,9 @@ describe('LessonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LessonsComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents()
+    imports: [LessonsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents()
   })
 
   beforeEach(() => {
