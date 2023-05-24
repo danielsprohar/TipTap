@@ -11,7 +11,7 @@ import { HttpErrorResponseHandler } from './http-error-response-handler'
 export class BookService extends HttpErrorResponseHandler {
   private readonly url = environment.services.book.url
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     super()
   }
 
