@@ -1,17 +1,15 @@
-<ng-container *ngIf="lesson">
-  <mat-card>
-    <section class="container">
-      <h4>
-        <a routerLink="/session" [queryParams]="lesson">
-          {{ link | titlecase }}
-        </a>
-      </h4>
+<mat-card *ngIf="lesson">
+  <section class="container">
+    <h4>
+      <a routerLink="/session" [queryParams]="lesson">
+        {{ link | titlecase }}
+      </a>
+    </h4>
 
-      <div class="container keys">
-        <ng-container *ngIf="keys">
-          <kbd *ngFor="let key of keys">{{ key }}</kbd>
-        </ng-container>
-      </div>
-    </section>
-  </mat-card>
-</ng-container>
+    <div class="container keys">
+      <ng-container *ngIf="keys">
+        <kbd *ngFor="let key of keys">{{ key }}</kbd>
+      </ng-container>
+    </div>
+  </section>
+</mat-card>
