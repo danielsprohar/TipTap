@@ -1,42 +1,47 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
   Renderer2,
-  RendererStyleFlags2,
   ViewChild,
 } from '@angular/core'
-import { Subscription } from 'rxjs'
-import { KeyboardService } from '../services/keyboard.service'
+import { Subject, takeUntil } from 'rxjs'
 import Keyboard from 'src/assets/keyboard-keys.json'
+import { KeyboardService } from '../services/keyboard.service'
 
 @Component({
-    selector: 'app-keyboard',
-    templateUrl: './keyboard.component.html',
-    styleUrls: ['./keyboard.component.scss'],
-    standalone: true,
+  standalone: true,
+  selector: 'tiptap-keyboard',
+  templateUrl: './keyboard.component.html',
+  styleUrls: ['./keyboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeyboardComponent implements OnInit, OnDestroy, AfterViewInit {
-  private keyboardSub?: Subscription
-  private keyboardHintElements: HTMLElement[] = []
+  private readonly destroy$ = new Subject<void>()
+  private readonly keyboardHintElements: HTMLElement[] = []
   private readonly keyboardHintCSS = 'keyboard-hint'
 
   @ViewChild('keyboard', { static: true }) keyboardElementRef!: ElementRef
 
-  constructor(private renderer: Renderer2, private keyboard: KeyboardService) {}
+  constructor(
+    private readonly keyboard: KeyboardService,
+    private readonly renderer: Renderer2,
+    private readonly changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.keyboardSub = this.keyboard.highlightKey$.subscribe(
-      (key: string) => {
+    this.keyboard.highlightKey$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((key: string) => {
         this.clearHighlightedKeyElements()
         if (key) {
           this.handleAddKeyboardHint(key)
         }
-      }
-    )
+      })
   }
 
   ngAfterViewInit(): void {
@@ -44,9 +49,7 @@ export class KeyboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    if (this.keyboardSub) {
-      this.keyboardSub.unsubscribe()
-    }
+    this.destroy$.next()
   }
 
   // @HostListener('window:resize')
