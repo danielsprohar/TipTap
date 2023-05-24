@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
+import { Routes } from '@angular/router'
+import { environment } from '../environments/environment'
 import { NotFoundComponent } from './components/not-found/not-found.component'
 import { WelcomeComponent } from './components/welcome/welcome.component'
-import { environment } from '../environments/environment'
 
-const routes: Routes = [
+export const appRoutes: Routes = [
   {
     path: '',
     component: WelcomeComponent,
@@ -16,8 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'lessons',
-    loadChildren: () =>
-      import('./lessons/lessons.module').then((m) => m.LessonsModule),
+    loadComponent: () =>
+      import('./lessons/lessons.component').then((comp) => comp.LessonsComponent),
   },
   {
     path: 'session',
@@ -29,9 +28,3 @@ const routes: Routes = [
     component: NotFoundComponent,
   },
 ]
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { MatCardModule } from '@angular/material/card'
+import { MatListModule } from '@angular/material/list'
+import { MatTabsModule } from '@angular/material/tabs'
+import { LessonDetailComponent } from './lesson-detail/lesson-detail.component'
 import { Finger, Hand, Lesson, Level } from './models/lesson'
-import { MatLegacyListModule } from '@angular/material/legacy-list';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
-import { LessonDetailComponent } from './lesson-detail/lesson-detail.component';
-import { MatLegacyTabsModule } from '@angular/material/legacy-tabs';
 
+// TODO: Move to models
 export interface LessonData {
   level: Level
   hand: Hand
@@ -13,16 +14,12 @@ export interface LessonData {
 }
 
 @Component({
-    selector: 'app-lessons',
-    templateUrl: './lessons.component.html',
-    styleUrls: ['./lessons.component.scss'],
-    standalone: true,
-    imports: [
-        MatLegacyTabsModule,
-        LessonDetailComponent,
-        MatLegacyCardModule,
-        MatLegacyListModule,
-    ],
+  selector: 'app-lessons',
+  templateUrl: './lessons.component.html',
+  styleUrls: ['./lessons.component.scss'],
+  standalone: true,
+  imports: [LessonDetailComponent, MatCardModule, MatListModule, MatTabsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LessonsComponent implements OnInit {
   constructor() {}
