@@ -2,3 +2,11 @@ table {
   width: 100%;
   text-align: center;
 }
+
+.button-bar {
+  margin-top: 2em;
+  button {
+    transform: scale(1.25);
+    width: 100;
+  }
+}
