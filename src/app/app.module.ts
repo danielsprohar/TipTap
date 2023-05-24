@@ -7,7 +7,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component'
 import { WelcomeComponent } from './components/welcome/welcome.component'
 import { SnackbarComponent } from './components/snackbar/snackbar.component'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { SharedModule } from './shared/shared.module'
+
 import { AuthModule } from '@auth0/auth0-angular'
 import { AuthHttpInterceptor } from '@auth0/auth0-angular'
 import { environment } from 'src/environments/environment'
@@ -24,29 +24,28 @@ import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-m
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        SharedModule,
-        AuthModule.forRoot({
-            ...environment.auth,
-            httpInterceptor: {
-                ...environment.httpInterceptor,
-            },
-        }),
-        // Angular Material
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        LayoutModule,
-        MatSidenavModule,
-        MatListModule,
-        MatMenuModule,
-        NotFoundComponent,
-        WelcomeComponent,
-        SnackbarComponent,
-    ],
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    AuthModule.forRoot({
+        ...environment.auth,
+        httpInterceptor: {
+            ...environment.httpInterceptor,
+        },
+    }),
+    // Angular Material
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule,
+    MatMenuModule,
+    NotFoundComponent,
+    WelcomeComponent,
+    SnackbarComponent,
+],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     ],
