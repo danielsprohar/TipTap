@@ -12,6 +12,9 @@
           "changeDetection": "OnPush",
           "prefix": "tiptap"
         },
+        "@schematics/angular:directive": {
+          "standalone": true
+        },
         "@schematics/angular:application": {
           "strict": true
         }
