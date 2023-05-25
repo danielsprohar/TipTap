@@ -4,7 +4,7 @@ import {
   LayoutModule,
 } from '@angular/cdk/layout'
 import { OverlayContainer } from '@angular/cdk/overlay'
-import { AsyncPipe } from '@angular/common'
+import { AsyncPipe, NgIf } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -36,6 +36,7 @@ import { ThemeService } from './services/theme.service'
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
+    NgIf,
     RouterLink,
     RouterOutlet,
   ],

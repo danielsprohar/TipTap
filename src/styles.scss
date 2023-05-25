@@ -29,6 +29,7 @@ $dark-theme: mat.define-dark-theme(
 
 a {
   color: #1a73e8;
+  cursor: pointer !important;
 }
 
 .dark-theme {
@@ -68,6 +69,10 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.ml-1 {
+  margin-left: 1em !important;
 }
 
 .mt-1 {
