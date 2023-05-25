@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, share } from 'rxjs'
+import { BehaviorSubject, shareReplay } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
   private readonly _isDarkTheme$ = new BehaviorSubject<boolean>(false)
-  readonly isDarkTheme$ = this._isDarkTheme$.asObservable().pipe(share())
+  readonly isDarkTheme$ = this._isDarkTheme$.asObservable().pipe(shareReplay())
 
   constructor() {}
 
