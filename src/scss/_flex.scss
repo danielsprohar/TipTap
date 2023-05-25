@@ -1,38 +1,38 @@
 .flex {
-  display: flex;
+  display: flex !important;
 }
 
 .flex-centered {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .flex-column {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .column-gap-1 {
-  column-gap: 1em;
+  column-gap: 1em !important;
 }
 
 .row-gap-1 {
-  row-gap: 1em;
+  row-gap: 1em !important;
 }
 
 .justify-center {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .align-items-center {
-  align-items: center;
+  align-items: center !important;
 }
 
 .space-between {
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 
 .spacer {
-  flex: 1 1 auto;
+  flex: 1 1 auto !important;
 }

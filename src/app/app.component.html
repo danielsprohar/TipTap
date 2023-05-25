@@ -15,7 +15,12 @@
       </div>
     </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="lessons">Lessons</a>
+      <a mat-list-item routerLink="/" (click)="drawer.close()">
+        Home
+      </a>
+      <a mat-list-item routerLink="lessons" (click)="drawer.close()">
+        Lessons
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -26,6 +31,7 @@
       class="flex align-items-center full-width mat-elevation-z2"
     >
       <button
+        *ngIf="isHandset$ | async"
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
@@ -34,9 +40,11 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <a routerLink="/" class="app-name">Tip Tap</a>
-      <mat-nav-list *ngIf="!(isHandset$ | async)" class="ml-1">
-        <a routerLink="lessons" mat-list-item>Lessons</a>
-      </mat-nav-list>
+
+      <ng-container *ngIf="!(isHandset$ | async)">
+        <a routerLink="/" mat-button class="link ml-1">Home</a>
+        <a routerLink="lessons" mat-button class="link">Lessons</a>
+      </ng-container>
 
       <span class="spacer"></span>
 
