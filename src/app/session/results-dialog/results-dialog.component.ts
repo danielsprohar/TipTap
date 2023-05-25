@@ -1,18 +1,8 @@
 import { AsyncPipe, NgIf, PercentPipe } from '@angular/common'
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog'
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { RouterLink } from '@angular/router'
-import { Metrica } from '../models/metrica'
 import { MetricsService } from '../services/metrics.service'
 import { SessionService } from '../services/session.service'
 
@@ -23,25 +13,22 @@ import { SessionService } from '../services/session.service'
   templateUrl: './results-dialog.component.html',
   styleUrls: ['./results-dialog.component.scss'],
   imports: [
+    AsyncPipe,
+    MatButtonModule,
     MatDialogModule,
     NgIf,
-    MatButtonModule,
-    RouterLink,
     PercentPipe,
-    AsyncPipe,
+    RouterLink,
   ],
 })
-export class ResultsDialogComponent implements OnInit {
+export class ResultsDialogComponent {
   readonly metrics$ = this.metricsService.metrics$
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Metrica,
     private readonly sessionService: SessionService,
     private readonly dialogRef: MatDialogRef<ResultsDialogComponent>,
     private readonly metricsService: MetricsService
   ) {}
-
-  ngOnInit(): void {}
 
   resetSession() {
     this.sessionService.reset()
