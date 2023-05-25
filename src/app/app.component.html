@@ -15,9 +15,7 @@
       </div>
     </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/" (click)="drawer.close()">
-        Home
-      </a>
+      <a mat-list-item routerLink="/" (click)="drawer.close()"> Home </a>
       <a mat-list-item routerLink="lessons" (click)="drawer.close()">
         Lessons
       </a>
@@ -48,7 +46,12 @@
 
       <span class="spacer"></span>
 
-      <button mat-icon-button (click)="toggleTheme()">
+      <button
+        mat-icon-button
+        aria-label="Toggle theme"
+        title="Toggle theme"
+        (click)="toggleTheme()"
+      >
         <mat-icon>
           {{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}
         </mat-icon>
