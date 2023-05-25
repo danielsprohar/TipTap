@@ -27,16 +27,20 @@ $dark-theme: mat.define-dark-theme(
   )
 );
 
-.dark-theme {
-  // https://github.com/angular/components/blob/master/guides/duplicate-theming-styles.md
-  @include mat.all-component-colors($dark-theme);
-}
-
-@include mat.all-component-themes($light-theme);
-
 a {
   color: #1a73e8;
 }
+
+.dark-theme {
+  // https://github.com/angular/components/blob/master/guides/duplicate-theming-styles.md
+  @include mat.all-component-colors($dark-theme);
+
+  a {
+    color: #00bcd4;
+  }
+}
+
+@include mat.all-component-themes($light-theme);
 
 .centered {
   text-align: center;

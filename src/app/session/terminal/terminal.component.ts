@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common'
+import { AsyncPipe, NgIf } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,6 +15,7 @@ import { Subject, takeUntil, timer } from 'rxjs'
 import { CharacterSpaceBuilder } from 'src/app/lessons/builders/character-space-builder'
 import { Lesson } from 'src/app/lessons/models/lesson'
 import { Book } from 'src/app/models/book'
+import { ThemeService } from '../../services/theme.service'
 import { KeyboardService } from '../services/keyboard.service'
 import { MetricsService } from '../services/metrics.service'
 import { RandomWordGeneratorService } from '../services/random-word-generator.service'
@@ -26,12 +27,14 @@ import { SessionService } from '../services/session.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.scss'],
-  imports: [NgIf, MatCardModule, MatProgressSpinnerModule],
+  imports: [AsyncPipe, NgIf, MatCardModule, MatProgressSpinnerModule],
 })
 export class TerminalComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
   private readonly terminalFlashDuration$ = timer(100)
   private readonly wordCount = 1500
+
+  readonly isDarkTheme$ = this.themeService.isDarkTheme$
   queue = 'Click "Start" to begin'
   stack = ''
 
@@ -41,6 +44,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
   @ViewChild('terminal') terminal!: ElementRef
 
   constructor(
+    private readonly themeService: ThemeService,
     private readonly keyboardService: KeyboardService,
     private readonly metricsService: MetricsService,
     private readonly sessionService: SessionService,
