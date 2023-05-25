@@ -78,7 +78,12 @@ export class SessionComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.isSessionInProgress = false
         this.changeDetector.detectChanges()
+        this.openResultsDialog()
       })
+
+    this.sessionService.reset$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.sessionService.start()
+    })
   }
 
   ngOnDestroy(): void {
@@ -93,6 +98,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   @HostListener('document:keyup', ['$event'])
   handleKeydown(event: KeyboardEvent): void {
     if (!this.isSessionInProgress) return
+    if (event.key === 'Enter') return
     if (event.key === 'Shift') return
 
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
