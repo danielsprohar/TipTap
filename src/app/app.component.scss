@@ -29,15 +29,6 @@ main {
   margin: 0;
 }
 
-.topnav {
-  justify-content: space-between;
-}
-
-.lhs {
-  display: flex;
-  align-items: center;
-}
-
 .app-name {
   text-decoration: none;
   color: inherit;
@@ -58,20 +49,15 @@ main {
 
 .app-name {
   margin-top: 12px;
-  font-variant: small-caps;
-  font-family: 'Merriweather', serif;
+  font-size: 18px;
+  font-family: Pacifico, serif;
 }
 
-.mat-toolbar {
+#topnav {
   a.app-name {
+    margin-bottom: 8px;
     text-decoration: none;
     color: inherit;
-    margin-top: 4px;
+    cursor: pointer;
   }
-}
-
-.user-picture {
-  border-radius: 50%;
-  max-width: 100%;
-  height: auto;
 }

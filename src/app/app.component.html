@@ -18,19 +18,27 @@
       <a mat-list-item routerLink="/lessons">Lessons</a>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
-    <mat-toolbar class="topnav mat-elevation-z2">
-      <div class="lhs">
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
-        >
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <a routerLink="/" mat-list-item class="app-name">Tip Tap</a>
-      </div>
+    <!-- Top nav -->
+    <mat-toolbar id="topnav" class="flex align-items-center full-width mat-elevation-z2">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <a routerLink="/" mat-list-item class="app-name">Tip Tap</a>
+
+      <span class="spacer"></span>
+      
+      <button mat-icon-button (click)="toggleTheme()">
+          <mat-icon>
+            {{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode'}}
+          </mat-icon>
+      </button>
     </mat-toolbar>
 
     <!-- Add Content Here -->
