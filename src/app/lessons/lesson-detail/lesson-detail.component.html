@@ -1,15 +1,15 @@
 <mat-card *ngIf="lesson">
   <section class="container">
-    <h4>
+    <div role="heading" class="heading mb-1">
       <a routerLink="/session" [queryParams]="lesson">
         {{ link | titlecase }}
       </a>
-    </h4>
+    </div>
 
-    <div class="container keys">
-      <ng-container *ngIf="keys">
-        <kbd *ngFor="let key of keys">{{ key }}</kbd>
-      </ng-container>
+    <div class="container keys" *ngIf="keys">
+      <kbd *ngFor="let key of keys; trackBy: trackByKey">
+        {{ key }}
+      </kbd>
     </div>
   </section>
 </mat-card>

@@ -19,15 +19,15 @@ import { Lesson } from '../models/lesson'
   imports: [NgIf, MatCardModule, RouterLink, NgFor, TitleCasePipe],
 })
 export class LessonDetailComponent implements OnInit {
-  @Input({ required: true }) lesson!: Lesson
+  @Input({ required: true }) lesson?: Lesson
   keys?: string[]
   link?: string
 
   constructor() {}
 
   ngOnInit(): void {
-    if (!this.lesson) {
-      throw new Error('Lesson is required')
+    if (this.lesson === undefined) {
+      throw new Error('Lesson is undefined')
     }
 
     this.keys = new CharacterSpaceBuilder(this.lesson).build()
@@ -37,5 +37,9 @@ export class LessonDetailComponent implements OnInit {
     if (this.lesson.finger && this.lesson.finger !== 'all') {
       this.link += ` - ${this.lesson.finger} Finger`
     }
+  }
+
+  trackByKey(_index: number, key: string) {
+    return key
   }
 }
