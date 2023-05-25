@@ -26,10 +26,10 @@
 
 #cursor {
   min-height: 100%;
-  width: 2px;
+  min-width: 2px !important;
   background: #000;
-  animation: cursor-blink 1.5s steps(2) infinite;
-  -webkit-animation: cursor-blink 1.5s steps(2) infinite;
+  // animation: cursor-blink 1.5s steps(2) infinite;
+  // -webkit-animation: cursor-blink 1.5s steps(2) infinite;
 }
 
 .flash {
@@ -60,11 +60,11 @@
   }
 }
 
-@keyframes cursor-blink {
-  0% {
-    opacity: 0;
-  }
-}
+// @keyframes cursor-blink {
+//   0% {
+//     opacity: 0;
+//   }
+// }
 
 .dark-theme {
   #cursor {
