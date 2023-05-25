@@ -7,8 +7,7 @@ import {
   map,
   share,
   takeUntil,
-  tap,
-  timer,
+  timer
 } from 'rxjs'
 
 // In milliseconds
@@ -61,13 +60,9 @@ export class SessionService {
   }
 
   createTimer(): Observable<number> {
-    // return timer(ONE_MINUTE).pipe(finalize(() => this.destroy$.next()))
-    return timer(5000).pipe(
+    return timer(ONE_MINUTE).pipe(
       takeUntil(this.destroy$),
-      finalize(() => {
-        console.log('finalized: timer')
-        this._completed$.next()
-      })
+      finalize(() => this._completed$.next())
     )
   }
 
@@ -77,7 +72,6 @@ export class SessionService {
       takeUntil(timer$),
       map((time) => time + 1),
       share(),
-      tap((time) => console.log(time))
     )
   }
 }
