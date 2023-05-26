@@ -1,38 +1,36 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { KeyValuePipe, NgFor } from '@angular/common'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatListModule } from '@angular/material/list'
 import { MatTabsModule } from '@angular/material/tabs'
-import { Finger, Hand, Level } from '../enums'
+import { Hand, Level } from '../enums'
 import { Lesson } from '../models'
-import { LessonDetailComponent } from './lesson-detail/lesson-detail.component'
-
-// TODO: Hard code all the lessons?
-export interface LessonData {
-  level: Level
-  hand: Hand
-  finger?: Finger
-  isHomeKeys?: boolean
-}
+import { LessonsListComponent } from './components/lessons-list/lessons-list.component'
+import { lessonsGroupedByLevelThenHand } from './data/grouped-lessons'
+import { HandPipe } from './pipes/hand.pipe'
 
 @Component({
   selector: 'app-lessons',
   standalone: true,
   templateUrl: './lessons.component.html',
   styleUrls: ['./lessons.component.scss'],
-  imports: [LessonDetailComponent, MatCardModule, MatListModule, MatTabsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    HandPipe,
+    KeyValuePipe,
+    LessonsListComponent,
+    MatCardModule,
+    MatListModule,
+    MatTabsModule,
+    NgFor,
+  ],
 })
-export class LessonsComponent implements OnInit {
-  constructor() {}
+export class LessonsComponent {
+  readonly BOTH_HANDS = Hand.BOTH
 
-  ngOnInit(): void {}
+  readonly beginnerLessonsGroupedByHand: Map<Hand, Lesson[]> =
+    lessonsGroupedByLevelThenHand.get(Level.BEGINNER)!
 
-  createLesson(data: LessonData) {
-    return new Lesson({
-      level: data.level,
-      hand: data.hand,
-      finger: data.finger,
-      isHomeKeys: data.isHomeKeys,
-    })
-  }
+  readonly intermediateLessonsGroupedByHand: Map<Hand, Lesson[]> =
+    lessonsGroupedByLevelThenHand.get(Level.INTERMEDIATE)!
 }
