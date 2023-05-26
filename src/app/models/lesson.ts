@@ -1,14 +1,11 @@
 import { ParamMap, Params } from '@angular/router'
+import { Finger, Hand, Level } from '../enums'
 import { Book } from './book'
-
-export type Level = 'beginner' | 'intermediate' | 'advanced'
-export type Hand = 'left' | 'right' | 'both'
-export type Finger = 'pointy' | 'middle' | 'ring' | 'pinky' | 'all'
 
 export class Lesson {
   level!: Level
   hand!: Hand
-  finger: Finger = 'all'
+  finger: Finger = Finger.ALL
   isHomeKeys: boolean = false
   book: Book | null = null
 
@@ -22,7 +19,7 @@ export class Lesson {
     if (props) {
       this.level = props.level
       this.hand = props.hand
-      this.finger = props.finger || 'all'
+      this.finger = props.finger || Finger.ALL
       this.isHomeKeys = props.isHomeKeys || false
       this.book = props.book || null
     }
@@ -58,8 +55,9 @@ class LessonBuilder {
 
   setBook(book: Book): LessonBuilder {
     this.book = book
-    this.level = 'advanced'
-    this.hand = 'both'
+    this.level = Level.ADVANCED
+    this.hand = Hand.BOTH
+    this.finger = Finger.ALL
     return this
   }
 

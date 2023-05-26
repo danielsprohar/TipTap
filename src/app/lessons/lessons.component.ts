@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatListModule } from '@angular/material/list'
 import { MatTabsModule } from '@angular/material/tabs'
+import { Finger, Hand, Level } from '../enums'
+import { Lesson } from '../models'
 import { LessonDetailComponent } from './lesson-detail/lesson-detail.component'
-import { Finger, Hand, Lesson, Level } from '../models/lesson'
 
 // TODO: Hard code all the lessons?
 export interface LessonData {
@@ -15,9 +16,9 @@ export interface LessonData {
 
 @Component({
   selector: 'app-lessons',
+  standalone: true,
   templateUrl: './lessons.component.html',
   styleUrls: ['./lessons.component.scss'],
-  standalone: true,
   imports: [LessonDetailComponent, MatCardModule, MatListModule, MatTabsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
