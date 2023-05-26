@@ -5,20 +5,22 @@ import { BehaviorSubject, shareReplay } from 'rxjs'
   providedIn: 'root',
 })
 export class ThemeService {
-  private readonly _isDarkTheme$ = new BehaviorSubject<boolean>(false)
-  readonly isDarkTheme$ = this._isDarkTheme$.asObservable().pipe(shareReplay())
+  private readonly isDarkThemeSource = new BehaviorSubject<boolean>(false)
+  readonly isDarkTheme$ = this.isDarkThemeSource
+    .asObservable()
+    .pipe(shareReplay())
 
   constructor() {}
 
   setDarkTheme() {
-    this._isDarkTheme$.next(true)
+    this.isDarkThemeSource.next(true)
   }
 
   setLightTheme() {
-    this._isDarkTheme$.next(false)
+    this.isDarkThemeSource.next(false)
   }
 
   toggle() {
-    this._isDarkTheme$.next(!this._isDarkTheme$.value)
+    this.isDarkThemeSource.next(!this.isDarkThemeSource.value)
   }
 }

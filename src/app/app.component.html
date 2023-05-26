@@ -6,7 +6,7 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     mode="over"
   >
-    <mat-toolbar>
+    <mat-toolbar id="sidenavToolbar">
       <div class="logo-container">
         <a routerLink="/">
           <img src="assets\apple-touch-icon.png" alt="Home" class="app-logo" />
@@ -47,12 +47,13 @@
       <span class="spacer"></span>
 
       <button
+        data-test="toggle-theme"
         mat-icon-button
         aria-label="Toggle theme"
         title="Toggle theme"
         (click)="toggleTheme()"
       >
-        <mat-icon>
+        <mat-icon id="themeIcon">
           {{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}
         </mat-icon>
       </button>
