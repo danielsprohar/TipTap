@@ -12,7 +12,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subject, map, share, takeUntil } from 'rxjs'
-import { LessonBuilder } from '../lessons/builders/lesson-builder'
 import { Lesson } from '../lessons/models/lesson'
 import { Book } from '../models/book'
 import { MetricsComponent } from './metrics/metrics.component'
@@ -48,7 +47,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   )
 
   readonly lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
-    map((paramMap: ParamMap) => new LessonBuilder().buildFromParamMap(paramMap))
+    map((paramMap: ParamMap) => Lesson.builder().buildFromParamMap(paramMap))
   )
 
   isSessionInProgress = false

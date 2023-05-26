@@ -19,17 +19,13 @@ import { Lesson } from '../models/lesson'
   imports: [NgIf, MatCardModule, RouterLink, NgFor, TitleCasePipe],
 })
 export class LessonDetailComponent implements OnInit {
-  @Input({ required: true }) lesson?: Lesson
+  @Input({ required: true }) lesson!: Lesson
   keys?: string[]
   link?: string
 
   constructor() {}
 
   ngOnInit(): void {
-    if (this.lesson === undefined) {
-      throw new Error('Lesson is undefined')
-    }
-
     this.keys = new CharacterSpaceBuilder(this.lesson).build()
     this.link =
       this.lesson.hand + (this.lesson.hand === 'both' ? ' Hands' : ' Hand')
