@@ -1,7 +1,5 @@
+import Keyboard from '../../../assets/keyboard-keys.json'
 import { Finger, Hand, Lesson } from '../models/lesson'
-import Keyboard from 'src/assets/keyboard-keys.json'
-
-type CharacterSpace = string[]
 
 export class CharacterSpaceBuilder {
   private lesson: Lesson
@@ -235,11 +233,7 @@ export class CharacterSpaceBuilder {
     return keys
   }
 
-  buildAdvancedKeys(hand: Hand, finger: Finger) {
-    // TODO: Build the "Advanced" character space
-  }
-
-  build(): CharacterSpace {
+  build(): string[] {
     if (this.lesson.isHomeKeys) {
       return this.buildHomeKeys(this.lesson.hand, this.lesson.finger || 'all')
     }

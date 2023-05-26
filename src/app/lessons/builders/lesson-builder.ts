@@ -1,10 +1,7 @@
 import { ParamMap } from '@angular/router'
-import { Book } from 'src/app/models/book'
+import { Book } from '../../models/book'
 import { Finger, Hand, Lesson, Level } from '../models/lesson'
 
-/**
- * Build a new instance of a Lesson with the given ParamMap.
- */
 export class LessonBuilder {
   private level?: Level
   private hand?: Hand
