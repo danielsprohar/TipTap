@@ -12,9 +12,9 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil, timer } from 'rxjs'
-import { CharacterSpaceBuilder } from 'src/app/lessons/builders/character-space-builder'
-import { Lesson } from 'src/app/lessons/models/lesson'
-import { Book } from 'src/app/models/book'
+import { CharacterSpaceBuilder } from '../../lessons/builders/character-space-builder'
+import { Book } from '../../models/book'
+import { Lesson } from '../../models/lesson'
 import { ThemeService } from '../../services/theme.service'
 import { KeyboardService } from '../services/keyboard.service'
 import { MetricsService } from '../services/metrics.service'
@@ -39,6 +39,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
   stack = ''
 
   @Input() lesson?: Lesson
+  // TODO: Remove this
   @Input() book?: Book
 
   @ViewChild('terminal') terminal!: ElementRef

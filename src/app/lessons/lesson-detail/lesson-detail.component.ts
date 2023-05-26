@@ -8,7 +8,7 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { RouterLink } from '@angular/router'
 import { CharacterSpaceBuilder } from '../builders/character-space-builder'
-import { Lesson } from '../models/lesson'
+import { Lesson } from '../../models/lesson'
 
 @Component({
   standalone: true,

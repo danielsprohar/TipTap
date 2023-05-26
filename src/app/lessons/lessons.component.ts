@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatListModule } from '@angular/material/list'
 import { MatTabsModule } from '@angular/material/tabs'
 import { LessonDetailComponent } from './lesson-detail/lesson-detail.component'
-import { Finger, Hand, Lesson, Level } from './models/lesson'
+import { Finger, Hand, Lesson, Level } from '../models/lesson'
 
 // TODO: Hard code all the lessons?
 export interface LessonData {
