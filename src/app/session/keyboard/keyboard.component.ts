@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core'
-import { Subject, takeUntil } from 'rxjs'
+import { Subject } from 'rxjs'
 import Keyboard from 'src/assets/keyboard-keys.json'
 import { KeyboardService } from '../services/keyboard.service'
 
@@ -34,14 +34,14 @@ export class KeyboardComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.keyboard.highlightKey$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((key: string) => {
-        this.clearHighlightedKeyElements()
-        if (key) {
-          this.handleAddKeyboardHint(key)
-        }
-      })
+    // this.keyboard.highlightKey$
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((key: string) => {
+    //     this.clearHighlightedKeyElements()
+    //     if (key) {
+    //       this.handleAddKeyboardHint(key)
+    //     }
+    //   })
   }
 
   ngAfterViewInit(): void {

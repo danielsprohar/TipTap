@@ -7,7 +7,7 @@ import {
   map,
   share,
   takeUntil,
-  timer
+  timer,
 } from 'rxjs'
 
 // In milliseconds
@@ -18,51 +18,40 @@ const ONE_MINUTE = 60_000
 })
 export class SessionService {
   private readonly destroy$ = new Subject<void>()
-  private readonly _started$ = new Subject<void>()
-  private readonly _stopped$ = new Subject<void>()
-  private readonly _reset$ = new Subject<void>()
-  private readonly _completed$ = new Subject<void>()
+  private readonly startedSource = new Subject<void>()
+  private readonly stoppedSource = new Subject<void>()
+  private readonly resetSource = new Subject<void>()
+  private readonly completedSource = new Subject<void>()
   private _time$: Observable<number> = this.createInterval()
+
+  readonly started$ = this.startedSource.asObservable()
+  readonly stopped$ = this.stoppedSource.asObservable()
+  readonly reset$ = this.resetSource.asObservable()
+  readonly completed$ = this.completedSource.asObservable()
 
   get time$() {
     return this._time$
   }
 
-  get started$() {
-    return this._started$.asObservable()
-  }
-
-  get stopped$() {
-    return this._stopped$.asObservable()
-  }
-
-  get reset$() {
-    return this._reset$.asObservable()
-  }
-
-  get completed$() {
-    return this._completed$.asObservable()
-  }
-
   reset(): void {
     this.destroy$.next()
-    this._reset$.next()
+    this.resetSource.next()
     this._time$ = this.createInterval()
   }
 
   start(): void {
-    this._started$.next()
+    this.startedSource.next()
   }
 
   stop(): void {
-    this._stopped$.next()
+    this.stoppedSource.next()
     this.destroy$.next()
   }
 
   createTimer(): Observable<number> {
     return timer(ONE_MINUTE).pipe(
       takeUntil(this.destroy$),
-      finalize(() => this._completed$.next())
+      finalize(() => this.completedSource.next())
     )
   }
 
@@ -71,7 +60,7 @@ export class SessionService {
     return interval(1000).pipe(
       takeUntil(timer$),
       map((time) => time + 1),
-      share(),
+      share()
     )
   }
 }
