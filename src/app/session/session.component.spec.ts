@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { MatDialogModule } from '@angular/material/dialog'
 import { ActivatedRoute } from '@angular/router'
 import { of } from 'rxjs'
-import { ActivatedRouteStub } from 'src/testing/activated-route-stub'
+import { ActivatedRouteStub } from '../../testing/activated-route-stub'
+import { Finger, Hand, Level } from '../enums'
 import { Lesson } from '../models/lesson'
 import { Metrica } from './models/metrica'
 import { KeyboardService } from './services/keyboard.service'
@@ -20,9 +21,9 @@ describe('SessionComponent', () => {
 
   beforeEach(async () => {
     mockLesson = new Lesson({
-      level: 'beginner',
-      hand: 'left',
-      finger: 'pinky',
+      level: Level.BEGINNER,
+      hand: Hand.LEFT,
+      finger: Finger.PINKY,
     })
 
     sessionService = jasmine.createSpyObj(
@@ -37,23 +38,23 @@ describe('SessionComponent', () => {
     )
 
     await TestBed.configureTestingModule({
-    imports: [MatDialogModule, SessionComponent],
-    providers: [
+      imports: [MatDialogModule, SessionComponent],
+      providers: [
         {
-            provide: ActivatedRoute,
-            useValue: routeStub,
+          provide: ActivatedRoute,
+          useValue: routeStub,
         },
         {
-            provide: SessionService,
-            useValue: sessionService,
+          provide: SessionService,
+          useValue: sessionService,
         },
         {
-            provide: KeyboardService,
-            useValue: keyboardService,
+          provide: KeyboardService,
+          useValue: keyboardService,
         },
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-}).compileComponents()
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents()
   })
 
   beforeEach(() => {
