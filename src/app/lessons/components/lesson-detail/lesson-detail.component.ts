@@ -7,8 +7,9 @@ import {
 } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { RouterLink } from '@angular/router'
-import { CharacterSpaceBuilder } from '../builders/character-space-builder'
-import { Lesson } from '../../models/lesson'
+import { Finger, Hand } from '../../../enums'
+import { Lesson } from '../../../models/lesson'
+import { CharacterSpaceBuilder } from '../../builders/character-space-builder'
 
 @Component({
   standalone: true,
@@ -20,7 +21,7 @@ import { Lesson } from '../../models/lesson'
 })
 export class LessonDetailComponent implements OnInit {
   @Input({ required: true }) lesson!: Lesson
-  keys?: string[]
+  keys!: string[]
   link?: string
 
   constructor() {}
@@ -28,9 +29,9 @@ export class LessonDetailComponent implements OnInit {
   ngOnInit(): void {
     this.keys = new CharacterSpaceBuilder(this.lesson).build()
     this.link =
-      this.lesson.hand + (this.lesson.hand === 'both' ? ' Hands' : ' Hand')
+      this.lesson.hand + (this.lesson.hand === Hand.BOTH ? ' Hands' : ' Hand')
 
-    if (this.lesson.finger && this.lesson.finger !== 'all') {
+    if (this.lesson.finger && this.lesson.finger !== Finger.ALL) {
       this.link += ` - ${this.lesson.finger} Finger`
     }
   }
