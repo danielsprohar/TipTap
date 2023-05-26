@@ -15,9 +15,9 @@
       </div>
     </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/" (click)="drawer.close()"> Home </a>
+      <a mat-list-item routerLink="/" (click)="drawer.close()"> HOME </a>
       <a mat-list-item routerLink="lessons" (click)="drawer.close()">
-        Lessons
+        LESSONS
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -40,8 +40,8 @@
       <a routerLink="/" class="app-name">Tip Tap</a>
 
       <ng-container *ngIf="!(isHandset$ | async)">
-        <a routerLink="/" mat-button class="link ml-1">Home</a>
-        <a routerLink="lessons" mat-button class="link">Lessons</a>
+        <a routerLink="/" mat-button class="link ml-1">HOME</a>
+        <a routerLink="lessons" mat-button class="link">LESSONS</a>
       </ng-container>
 
       <span class="spacer"></span>
