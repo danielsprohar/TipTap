@@ -17,8 +17,8 @@
         <td>{{ sample.errorCount }}</td>
         <td>{{ sample.characterCount }}</td>
         <td>{{ sample.wordCount }}</td>
-        <td>{{ sample.wpm }}</td>
-        <td>{{ sample.cpm }}</td>
+        <td>{{ sample.wpm | number : '1:2' }}</td>
+        <td>{{ sample.cpm | number : '1:2' }}</td>
         <td>{{ sample.accuracy | percent }}</td>
       </tr>
     </tbody>
