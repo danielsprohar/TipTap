@@ -168,7 +168,6 @@ class CharacterSpaceBuilder {
 
   private buildIntermediateKeys(hand: Hand, finger: Finger): string[] {
     const keys = this.buildBeginnerKeys(hand, finger)
-
     if (hand === Hand.BOTH) {
       switch (finger) {
         case Finger.PINKY:
@@ -253,18 +252,17 @@ class CharacterSpaceBuilder {
       return new CharacterSpace(this.buildHomeKeys(this._hand, this._finger))
     }
 
-    if (this._level === Level.BEGINNER) {
-      return new CharacterSpace(
-        this.buildBeginnerKeys(this._hand, this._finger)
-      )
+    switch (this._level) {
+      case Level.BEGINNER:
+        return new CharacterSpace(
+          this.buildBeginnerKeys(this._hand, this._finger)
+        )
+      case Level.INTERMEDIATE:
+        return new CharacterSpace(
+          this.buildIntermediateKeys(this._hand, this._finger)
+        )
+      default:
+        return new CharacterSpace()
     }
-
-    if (this._level === Level.INTERMEDIATE) {
-      return new CharacterSpace(
-        this.buildIntermediateKeys(this._hand, this._finger)
-      )
-    }
-
-    return new CharacterSpace()
   }
 }
