@@ -8,7 +8,6 @@ const SECONDS_PER_MINUTE = 60
 export class MetricsService {
   private readonly samples: TimeSeriesSample[] = []
   readonly timeSeries$: Observable<TimeSeriesSample[]> = of(this.samples)
-
   private characterCount = 0
   private wordCount = 0
   private errorCount = 0
@@ -19,7 +18,10 @@ export class MetricsService {
       characterCount: this.characterCount,
       wordCount: this.wordCount,
       errorCount: this.errorCount,
-      accuracy: 1 - this.errorCount / this.characterCount,
+      accuracy:
+        this.characterCount === 0
+          ? 1
+          : 1 - this.errorCount / this.characterCount,
       wpm:
         deltaSeconds === 0
           ? 0
