@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
+import { MatDividerModule } from '@angular/material/divider'
 import { MetricsService } from '../../services'
 import { MetricsLineChartComponent } from '../metrics-line-chart/metrics-line-chart.component'
 import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
@@ -12,6 +13,7 @@ import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
   imports: [
     CommonModule,
     MatCardModule,
+    MatDividerModule,
     MetricsLineChartComponent,
     MetricsTableComponent,
   ],

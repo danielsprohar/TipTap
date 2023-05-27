@@ -44,6 +44,14 @@ a {
 
 @include mat.all-component-themes($light-theme);
 
+.relative {
+  position: relative !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
 .centered {
   text-align: center;
 }

@@ -1,48 +1,50 @@
-<div class="container centered mt-1">
-  <ng-container *ngIf="book$ | async as book">
-    <h2>
-      <i>{{ book.title | titlecase }}</i> by {{ book.author }}
-    </h2>
-    <h4>{{ book.chapter?.title | titlecase }}</h4>
-  </ng-container>
-
-  <h2 *ngIf="lesson$ | async as lesson">
-    {{ lesson.hand | titlecase }}
-    <ng-container *ngIf="lesson.isBothHands; else oneHand">
-      Hands
+<div class="relative container centered mt-1">
+  <div [class.invisible]="isSessionCompleted">
+    <ng-container *ngIf="book$ | async as book">
+      <h2>
+        <i>{{ book.title | titlecase }}</i> by {{ book.author }}
+      </h2>
+      <h4>{{ book.chapter?.title | titlecase }}</h4>
     </ng-container>
-    <ng-template #oneHand> Hand </ng-template>
-    &nbsp;
-    <span>&verbar;</span>
-    &nbsp;
-    {{ lesson.finger | titlecase }}
-  </h2>
-
-  <mat-divider></mat-divider>
-
-  <div class="flex-centered mt-1">
-    <tiptap-timer></tiptap-timer>
-  </div>
-
-  <tiptap-terminal
-    *ngIf="book$ | async as book"
-    [book]="book"
-  ></tiptap-terminal>
-
-  <tiptap-terminal
-    *ngIf="lesson$ | async as lesson"
-    [lesson]="lesson"
-  ></tiptap-terminal>
-
-  <div class="button-bar flex justify-center">
-    <button
-      *ngIf="!isSessionInProgress"
-      mat-raised-button
-      color="primary"
-      (click)="start()"
-    >
-      START
-    </button>
+  
+    <h2 *ngIf="lesson$ | async as lesson">
+      {{ lesson.hand | titlecase }}
+      <ng-container *ngIf="lesson.isBothHands; else oneHand">
+        Hands
+      </ng-container>
+      <ng-template #oneHand> Hand </ng-template>
+      &nbsp;
+      <span>&verbar;</span>
+      &nbsp;
+      {{ lesson.finger | titlecase }}
+    </h2>
+  
+    <mat-divider></mat-divider>
+  
+    <div class="flex-centered mt-1">
+      <tiptap-timer></tiptap-timer>
+    </div>
+  
+    <tiptap-terminal
+      *ngIf="book$ | async as book"
+      [book]="book"
+    ></tiptap-terminal>
+  
+    <tiptap-terminal
+      *ngIf="lesson$ | async as lesson"
+      [lesson]="lesson"
+    ></tiptap-terminal>
+  
+    <div class="button-bar flex justify-center">
+      <button
+        *ngIf="!isSessionInProgress"
+        mat-raised-button
+        color="primary"
+        (click)="start()"
+      >
+        START
+      </button>
+    </div>
   </div>
 
   <ng-container *ngIf="isSessionCompleted">

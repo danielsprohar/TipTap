@@ -98,11 +98,12 @@ export class SessionComponent implements OnInit, OnDestroy {
   @HostListener('document:keyup', ['$event'])
   handleKeydown(event: KeyboardEvent) {
     event.preventDefault()
-    if (!this.isSessionInProgress && event.ctrlKey && event.key === 'Enter') {
+
+    if (!this.isSessionInProgress && event.shiftKey && event.key === 'Enter') {
       this.start()
       return false
     }
-    
+
     if (!this.isSessionInProgress) return
     if (event.repeat) return
     if (event.key === 'Enter') return

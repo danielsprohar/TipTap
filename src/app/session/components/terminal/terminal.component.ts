@@ -37,7 +37,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
   private readonly wordCount = 1500
 
   readonly isDarkTheme$ = this.themeService.isDarkTheme$
-  queue = 'Ctrl + Enter to start'
+  queue = '"Shift" + "Enter" to start'
   stack = ''
 
   @Input() lesson?: Lesson

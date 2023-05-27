@@ -1,17 +1,30 @@
-<div
-  class="flex-column row-gap-1 my-1"
-  *ngIf="timeSeries$ | async as timeSeries"
->
-  <mat-card>
-    <mat-card-content>
-      <tiptap-metrics-line-chart
-        [timeSeries]="timeSeries"
-      ></tiptap-metrics-line-chart>
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content>
-      <tiptap-metrics-table [timeSeries]="timeSeries"></tiptap-metrics-table>
-    </mat-card-content>
-  </mat-card>
+<div class="dropback">
+  <div
+    class="flex-column row-gap-1 my-1"
+    *ngIf="timeSeries$ | async as timeSeries"
+  >
+  <h1>Session Metrics</h1>
+
+  <mat-divider></mat-divider>
+  <div>
+    <p>
+      <kbd>Shift</kbd> + <kbd>Enter</kbd>
+      to go again.
+    </p>
+  </div>  
+  <mat-divider></mat-divider>
+  
+    <mat-card>
+      <mat-card-content>
+        <tiptap-metrics-line-chart
+          [timeSeries]="timeSeries"
+        ></tiptap-metrics-line-chart>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <tiptap-metrics-table [timeSeries]="timeSeries"></tiptap-metrics-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
