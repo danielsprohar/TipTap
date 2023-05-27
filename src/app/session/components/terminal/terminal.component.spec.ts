@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { of } from 'rxjs'
-import { KeyboardService } from '../services/keyboard.service'
-import { RandomWordGeneratorService } from '../services/random-word-generator.service'
-import { SessionService } from '../services/session.service'
 
+import {
+  KeyboardService,
+  RandomWordGeneratorService,
+  SessionService,
+} from '../../services'
 import { TerminalComponent } from './terminal.component'
 
 describe('TerminalComponent', () => {

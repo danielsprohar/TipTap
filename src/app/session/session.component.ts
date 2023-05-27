@@ -11,12 +11,10 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subject, map, share, takeUntil } from 'rxjs'
-import { Book } from '../models/book'
-import { Lesson } from '../models/lesson'
+import { Book, Lesson } from '../models'
+import { TerminalComponent } from './components/terminal/terminal.component'
 import { MetricsComponent } from './metrics/metrics.component'
-import { KeyboardService } from './services/keyboard.service'
-import { SessionService } from './services/session.service'
-import { TerminalComponent } from './terminal/terminal.component'
+import { KeyboardService, SessionService } from './services'
 
 @Component({
   standalone: true,

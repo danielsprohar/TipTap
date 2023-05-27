@@ -42,7 +42,7 @@ export class MetricsComponent implements OnDestroy, OnInit {
         this.metricsService.reset()
         this.time$ = this.sessionService.time$.pipe(
           takeUntil(this.sessionService.stopped$),
-          tap((time) => this.metricsService.calcWordsPerMinute(time))
+          tap((time) => this.metricsService.sample(time))
         )
       })
   }

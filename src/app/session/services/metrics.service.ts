@@ -1,71 +1,54 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
-import { Metrica } from '../models/metrica'
+import { Observable, of } from 'rxjs'
+import { TimeSeriesSample } from '../models/time-series-sample'
 
-@Injectable({
-  providedIn: 'root',
-})
+const SECONDS_PER_MINUTE = 60
+
+@Injectable()
 export class MetricsService {
-  private readonly wordSize = 5
-  private readonly _metrica$ = new BehaviorSubject<Metrica>(new Metrica())
-  readonly metrics$ = this._metrica$.asObservable()
+  private readonly samples: TimeSeriesSample[] = []
+  readonly timeSeries$: Observable<TimeSeriesSample[]> = of(this.samples)
 
-  constructor() {}
+  private characterCount = 0
+  private wordCount = 0
+  private errorCount = 0
 
-  setMetrics(metrica: Metrica) {
-    this._metrica$.next(metrica)
-  }
+  sample(deltaSeconds: number) {
+    const sample: TimeSeriesSample = {
+      deltaSeconds,
+      characterCount: this.characterCount,
+      wordCount: this.wordCount,
+      errorCount: this.errorCount,
+      accuracy: 1 - this.errorCount / this.characterCount,
+      wpm:
+        deltaSeconds === 0
+          ? 0
+          : (this.wordCount / deltaSeconds) * SECONDS_PER_MINUTE,
+      cpm:
+        deltaSeconds === 0
+          ? 0
+          : (this.characterCount / deltaSeconds) * SECONDS_PER_MINUTE,
+    }
 
-  reset() {
-    this._metrica$.next(new Metrica())
-  }
-
-  /**
-   * Calculate the number of words per minute (WPM).
-   * @param deltaSeconds The time delta (in seconds)
-   */
-  calcWordsPerMinute(deltaSeconds: number) {
-    // https://www.speedtypingonline.com/typing-equations
-    if (deltaSeconds === 0) return
-
-    this._metrica$.next(
-      new Metrica({
-        ...this._metrica$.value,
-        wpm: Math.floor(
-          // words
-          this._metrica$.value.characterCount /
-            this.wordSize /
-            // over time
-            (deltaSeconds / 60)
-        ),
-      })
-    )
+    this.samples.push(sample)
   }
 
   incrementCharacterCount(value = 1) {
-    this._metrica$.next(
-      new Metrica({
-        ...this._metrica$.value,
-        characterCount: this._metrica$.value.characterCount + value,
-      })
-    )
+    this.characterCount += value
   }
 
   incrementWordCount(value = 1) {
-    this._metrica$.next(
-      new Metrica({
-        ...this._metrica$.value,
-        wordCount: this._metrica$.value.wordCount + value,
-      })
-    )
+    this.wordCount += value
   }
 
   incrementErrorCount(value = 1) {
-    this._metrica$.next(
-      new Metrica({
-        ...this._metrica$.value,
-        errorCount: this._metrica$.value.errorCount + value,
-      })
-    )
+    this.errorCount += value
+  }
+
+  reset() {
+    this.samples.length = 0
+    this.characterCount = 0
+    this.wordCount = 0
+    this.errorCount = 0
   }
 }

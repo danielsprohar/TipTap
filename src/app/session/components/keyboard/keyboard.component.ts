@@ -10,8 +10,8 @@ import {
   ViewChild,
 } from '@angular/core'
 import { Subject } from 'rxjs'
-import Keyboard from 'src/assets/keyboard-keys.json'
-import { KeyboardService } from '../services/keyboard.service'
+import { Keys } from '../../../keyboard/keys'
+import { KeyboardService } from '../../services/keyboard.service'
 
 @Component({
   standalone: true,
@@ -84,15 +84,15 @@ export class KeyboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isDigit(key: string): boolean {
-    return Keyboard.digits.includes(key)
+    return Keys.digits.includes(key)
   }
 
   isRightHandShiftKey(key: string): boolean {
-    return Keyboard.rightHandShiftKeys.includes(key)
+    return Keys.rightHandShiftKeys.includes(key)
   }
 
   isLeftHandShiftKey(key: string): boolean {
-    return Keyboard.leftHandShiftKeys.includes(key)
+    return Keys.leftHandShiftKeys.includes(key)
   }
 
   /**

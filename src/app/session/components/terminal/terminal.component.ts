@@ -12,14 +12,15 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil, timer } from 'rxjs'
-import { CharacterSpace } from '../../lessons/character-space'
-import { Book } from '../../models/book'
-import { Lesson } from '../../models/lesson'
-import { ThemeService } from '../../services/theme.service'
-import { KeyboardService } from '../services/keyboard.service'
-import { MetricsService } from '../services/metrics.service'
-import { RandomWordGeneratorService } from '../services/random-word-generator.service'
-import { SessionService } from '../services/session.service'
+import { CharacterSpace } from '../../../lessons/character-space'
+import { Book, Lesson } from '../../../models'
+import { ThemeService } from '../../../services/theme.service'
+import {
+  KeyboardService,
+  MetricsService,
+  RandomWordGeneratorService,
+  SessionService,
+} from '../../services'
 
 @Component({
   standalone: true,
