@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subject, map, share, takeUntil } from 'rxjs'
 import { Book, Lesson } from '../models'
+import { SessionMetricsComponent } from './components/session-metrics/session-metrics.component'
 import { TerminalComponent } from './components/terminal/terminal.component'
 import { TimerComponent } from './components/timer/timer.component'
 import { KeyboardService, MetricsService, SessionService } from './services'
@@ -37,6 +38,7 @@ import { KeyboardService, MetricsService, SessionService } from './services'
     MatButtonModule,
     MatDividerModule,
     NgIf,
+    SessionMetricsComponent,
     TerminalComponent,
     TimerComponent,
     TitleCasePipe,

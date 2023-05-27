@@ -24,7 +24,6 @@
     <tiptap-timer></tiptap-timer>
   </div>
 
-
   <tiptap-terminal
     *ngIf="book$ | async as book"
     [book]="book"
@@ -44,13 +43,9 @@
     >
       START
     </button>
-    <button
-      *ngIf="isSessionInProgress"
-      mat-raised-button
-      color="primary"
-      (click)="stop()"
-    >
-      STOP
-    </button>
   </div>
+
+  <ng-container *ngIf="isSessionCompleted">
+    <tiptap-session-metrics class="mt-1"></tiptap-session-metrics>
+  </ng-container>
 </div>
