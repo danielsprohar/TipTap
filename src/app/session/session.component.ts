@@ -8,14 +8,12 @@ import {
   OnInit,
 } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subject, map, share, takeUntil } from 'rxjs'
-import { Lesson } from '../models/lesson'
 import { Book } from '../models/book'
+import { Lesson } from '../models/lesson'
 import { MetricsComponent } from './metrics/metrics.component'
-import { ResultsDialogComponent } from './results-dialog/results-dialog.component'
 import { KeyboardService } from './services/keyboard.service'
 import { SessionService } from './services/session.service'
 import { TerminalComponent } from './terminal/terminal.component'
@@ -30,7 +28,6 @@ import { TerminalComponent } from './terminal/terminal.component'
   imports: [
     AsyncPipe,
     MatButtonModule,
-    MatDialogModule,
     MatDividerModule,
     MetricsComponent,
     NgIf,
@@ -57,7 +54,6 @@ export class SessionComponent implements OnInit, OnDestroy {
     private readonly sessionService: SessionService,
     private readonly keyboardService: KeyboardService,
     private readonly route: ActivatedRoute,
-    private readonly dialog: MatDialog,
     private readonly changeDetector: ChangeDetectorRef
   ) {}
 
@@ -78,7 +74,6 @@ export class SessionComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.isSessionInProgress = false
         this.changeDetector.detectChanges()
-        this.openResultsDialog()
       })
 
     this.sessionService.reset$.pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -125,9 +120,5 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   stop(): void {
     this.sessionService.stop()
-  }
-
-  openResultsDialog() {
-    this.dialog.open(ResultsDialogComponent)
   }
 }
