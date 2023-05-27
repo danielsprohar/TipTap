@@ -13,9 +13,7 @@ import {
 // In milliseconds
 const ONE_MINUTE = 60_000
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SessionService {
   private readonly destroy$ = new Subject<void>()
   private readonly startedSource = new Subject<void>()
@@ -50,7 +48,7 @@ export class SessionService {
 
   createTimer(): Observable<number> {
     return timer(ONE_MINUTE).pipe(
-      takeUntil(this.destroy$),
+      takeUntil(this.stoppedSource.asObservable()),
       finalize(() => this.completedSource.next())
     )
   }
@@ -60,7 +58,7 @@ export class SessionService {
     return interval(1000).pipe(
       takeUntil(timer$),
       map((time) => time + 1),
-      share()
+      share(),
     )
   }
 }

@@ -26,6 +26,7 @@ import { TerminalComponent } from './terminal/terminal.component'
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
+  providers: [KeyboardService, SessionService],
   imports: [
     AsyncPipe,
     MatButtonModule,
