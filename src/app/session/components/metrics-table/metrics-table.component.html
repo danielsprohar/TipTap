@@ -1,26 +1,46 @@
 <div class="mt-1">
-  <table class="full-width">
-    <thead>
-      <tr>
-        <th>Time (seconds)</th>
-        <th>Errors</th>
-        <th>Total Characters</th>
-        <th>Total Words</th>
-        <th>WPM</th>
-        <th>CPM</th>
-        <th>Accuracy (%)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let sample of timeSeries">
-        <td>{{ sample.deltaSeconds }}</td>
-        <td>{{ sample.errorCount }}</td>
-        <td>{{ sample.characterCount }}</td>
-        <td>{{ sample.wordCount }}</td>
-        <td>{{ sample.wpm | number : '1.2-2' }}</td>
-        <td>{{ sample.cpm | number : '1.2-2' }}</td>
-        <td>{{ sample.accuracy | percent }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <mat-table [dataSource]="timeSeries" class="full-width">
+    <ng-container matColumnDef="deltaSeconds">
+      <mat-header-cell *matHeaderCellDef> Time (seconds) </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.deltaSeconds }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cpm">
+      <mat-header-cell *matHeaderCellDef> CPM </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.cpm | number : '1.0-2' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="characterCount">
+      <mat-header-cell *matHeaderCellDef> Total Characters </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.characterCount }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="wpm">
+      <mat-header-cell *matHeaderCellDef> WPM </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.wpm | number : '1.0-2' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="wordCount">
+      <mat-header-cell *matHeaderCellDef> Total Words </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.wordCount }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="errorCount">
+      <mat-header-cell *matHeaderCellDef> Total Errors </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.errorCount }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="accuracy">
+      <mat-header-cell *matHeaderCellDef> Accuracy (%) </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.accuracy | percent }} </mat-cell>
+    </ng-container>
+
+    <!-- Header and Row Declarations -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
 </div>
