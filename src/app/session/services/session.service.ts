@@ -61,8 +61,8 @@ export class SessionService {
     return interval(1000).pipe(
       takeUntil(timer$),
       share(),
-      tap((timeSeconds) => this.metricsService.sample(timeSeconds)),
       map((timeSeconds) => timeSeconds + 1),
+      tap((timeSeconds) => this.metricsService.sample(timeSeconds)),
       finalize(() => this.completedSource.next())
     )
   }
