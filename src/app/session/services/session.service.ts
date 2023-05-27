@@ -12,7 +12,8 @@ import {
 } from 'rxjs'
 import { MetricsService } from './metrics.service'
 
-const SESSION_LENGTH_MS = 30_000
+// const SESSION_LENGTH_MS = 30_000
+const SESSION_LENGTH_MS = 5_000
 
 @Injectable()
 export class SessionService {
@@ -22,6 +23,7 @@ export class SessionService {
   private readonly completedSource = new Subject<void>()
   private readonly _lengthSeconds = SESSION_LENGTH_MS / 1000
   private _time$: Observable<number> = this.createInterval()
+  private _wordSize = 5
 
   readonly started$ = this.startedSource.asObservable().pipe(share())
   readonly reset$ = this.resetSource.asObservable().pipe(share())
@@ -62,7 +64,9 @@ export class SessionService {
       takeUntil(timer$),
       share(),
       map((timeSeconds) => timeSeconds + 1),
-      tap((timeSeconds) => this.metricsService.sample(timeSeconds)),
+      tap((timeSeconds) =>
+        this.metricsService.sample(timeSeconds, this._wordSize)
+      ),
       finalize(() => this.completedSource.next())
     )
   }

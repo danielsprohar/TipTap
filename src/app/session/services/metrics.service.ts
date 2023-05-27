@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { TimeSeriesSample } from '../models/time-series-sample'
 
-const SECONDS_PER_MINUTE = 60
-
 @Injectable()
 export class MetricsService {
   private readonly samples: TimeSeriesSample[] = []
@@ -12,24 +10,26 @@ export class MetricsService {
   private wordCount = 0
   private errorCount = 0
 
-  sample(deltaSeconds: number) {
+  sample(deltaSeconds: number, wordSize: number) {
+    let cpm = 0
+    let wpm = 0
+
+    if (deltaSeconds > 0) {
+      cpm = (this.characterCount / deltaSeconds) * 60
+      wpm = cpm / wordSize // [characters / min] *  [words / characters] = [words / min]
+    }
+
     const sample: TimeSeriesSample = {
       deltaSeconds,
       characterCount: this.characterCount,
       wordCount: this.wordCount,
       errorCount: this.errorCount,
+      cpm,
+      wpm,
       accuracy:
         this.characterCount === 0
           ? 1
           : 1 - this.errorCount / this.characterCount,
-      wpm:
-        deltaSeconds === 0
-          ? 0
-          : (this.wordCount / deltaSeconds) * SECONDS_PER_MINUTE,
-      cpm:
-        deltaSeconds === 0
-          ? 0
-          : (this.characterCount / deltaSeconds) * SECONDS_PER_MINUTE,
     }
 
     this.samples.push(sample)
