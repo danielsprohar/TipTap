@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
-import { MetricsService } from '../../services/metrics.service'
+import { MatCardModule } from '@angular/material/card'
+import { MetricsService } from '../../services'
+import { MetricsLineChartComponent } from '../metrics-line-chart/metrics-line-chart.component'
 import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
 
 @Component({
   selector: 'tiptap-session-metrics',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MetricsTableComponent],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MetricsLineChartComponent,
+    MetricsTableComponent,
+  ],
   templateUrl: './session-metrics.component.html',
   styleUrls: ['./session-metrics.component.scss'],
 })

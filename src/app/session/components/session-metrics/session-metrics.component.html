@@ -1,3 +1,17 @@
-<div class="mt-1" *ngIf="timeSeries$ | async as timeSeries">
-  <tiptap-metrics-table [timeSeries]="timeSeries"></tiptap-metrics-table>
+<div
+  class="flex-column row-gap-1 my-1"
+  *ngIf="timeSeries$ | async as timeSeries"
+>
+  <mat-card>
+    <mat-card-content>
+      <tiptap-metrics-line-chart
+        [timeSeries]="timeSeries"
+      ></tiptap-metrics-line-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <tiptap-metrics-table [timeSeries]="timeSeries"></tiptap-metrics-table>
+    </mat-card-content>
+  </mat-card>
 </div>
