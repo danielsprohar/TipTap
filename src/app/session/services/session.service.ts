@@ -12,18 +12,20 @@ import {
 } from 'rxjs'
 import { MetricsService } from './metrics.service'
 
+const SESSION_LENGTH_MS = 30_000
+
 @Injectable()
 export class SessionService {
   private readonly startedSource = new Subject<void>()
   private readonly stoppedSource = new Subject<void>()
   private readonly resetSource = new Subject<void>()
   private readonly completedSource = new Subject<void>()
-  private readonly _lengthSeconds = 30
+  private readonly _lengthSeconds = SESSION_LENGTH_MS / 1000
   private _time$: Observable<number> = this.createInterval()
 
-  readonly started$ = this.startedSource.asObservable()
-  readonly reset$ = this.resetSource.asObservable()
-  readonly completed$ = this.completedSource.asObservable()
+  readonly started$ = this.startedSource.asObservable().pipe(share())
+  readonly reset$ = this.resetSource.asObservable().pipe(share())
+  readonly completed$ = this.completedSource.asObservable().pipe(share())
 
   constructor(private readonly metricsService: MetricsService) {}
 
@@ -37,10 +39,12 @@ export class SessionService {
 
   reset(): void {
     this.resetSource.next()
+    this.metricsService.reset()
     this._time$ = this.createInterval()
   }
 
   start(): void {
+    this.metricsService.reset()
     this.startedSource.next()
   }
 
@@ -49,19 +53,17 @@ export class SessionService {
   }
 
   createTimer(): Observable<number> {
-    return timer(31_000).pipe(
-      takeUntil(this.stoppedSource.asObservable()),
-      finalize(() => this.completedSource.next())
-    )
+    return timer(SESSION_LENGTH_MS + 1000).pipe()
   }
 
   createInterval(): Observable<number> {
     const timer$ = this.createTimer()
     return interval(1000).pipe(
       takeUntil(timer$),
-      map((time) => time + 1),
-      tap((time) => this.metricsService.sample(time)),
-      share()
+      share(),
+      tap((timeSeconds) => this.metricsService.sample(timeSeconds)),
+      map((timeSeconds) => timeSeconds + 1),
+      finalize(() => this.completedSource.next())
     )
   }
 }
