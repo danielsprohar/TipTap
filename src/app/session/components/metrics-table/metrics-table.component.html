@@ -1,0 +1,26 @@
+<div class="mt-1">
+  <table class="full-width">
+    <thead>
+      <tr>
+        <th>Time (seconds)</th>
+        <th>Errors</th>
+        <th>Total Characters</th>
+        <th>Total Words</th>
+        <th>WPM</th>
+        <th>CPM</th>
+        <th>Accuracy (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sample of timeSeries">
+        <td>{{ sample.deltaSeconds }}</td>
+        <td>{{ sample.errorCount }}</td>
+        <td>{{ sample.characterCount }}</td>
+        <td>{{ sample.wordCount }}</td>
+        <td>{{ sample.wpm }}</td>
+        <td>{{ sample.cpm }}</td>
+        <td>{{ sample.accuracy | percent }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
