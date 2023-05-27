@@ -7,32 +7,35 @@ import {
   map,
   share,
   takeUntil,
+  tap,
   timer,
 } from 'rxjs'
-
-// In milliseconds
-const ONE_MINUTE = 60_000
+import { MetricsService } from './metrics.service'
 
 @Injectable()
 export class SessionService {
-  private readonly destroy$ = new Subject<void>()
   private readonly startedSource = new Subject<void>()
   private readonly stoppedSource = new Subject<void>()
   private readonly resetSource = new Subject<void>()
   private readonly completedSource = new Subject<void>()
+  private readonly _lengthSeconds = 30
   private _time$: Observable<number> = this.createInterval()
 
   readonly started$ = this.startedSource.asObservable()
-  readonly stopped$ = this.stoppedSource.asObservable()
   readonly reset$ = this.resetSource.asObservable()
   readonly completed$ = this.completedSource.asObservable()
+
+  constructor(private readonly metricsService: MetricsService) {}
+
+  get lengthSeconds() {
+    return this._lengthSeconds
+  }
 
   get time$() {
     return this._time$
   }
 
   reset(): void {
-    this.destroy$.next()
     this.resetSource.next()
     this._time$ = this.createInterval()
   }
@@ -43,11 +46,10 @@ export class SessionService {
 
   stop(): void {
     this.stoppedSource.next()
-    this.destroy$.next()
   }
 
   createTimer(): Observable<number> {
-    return timer(ONE_MINUTE).pipe(
+    return timer(31_000).pipe(
       takeUntil(this.stoppedSource.asObservable()),
       finalize(() => this.completedSource.next())
     )
@@ -58,7 +60,8 @@ export class SessionService {
     return interval(1000).pipe(
       takeUntil(timer$),
       map((time) => time + 1),
-      share(),
+      tap((time) => this.metricsService.sample(time)),
+      share()
     )
   }
 }

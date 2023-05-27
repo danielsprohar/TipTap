@@ -1,3 +1,12 @@
+/**
+ * References:
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/ctrlKey
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/altKey
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey
+ */
+
 import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common'
 import {
   ChangeDetectionStrategy,
@@ -13,8 +22,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subject, map, share, takeUntil } from 'rxjs'
 import { Book, Lesson } from '../models'
 import { TerminalComponent } from './components/terminal/terminal.component'
-import { MetricsComponent } from './metrics/metrics.component'
-import { KeyboardService, SessionService } from './services'
+import { TimerComponent } from './components/timer/timer.component'
+import { KeyboardService, MetricsService, SessionService } from './services'
 
 @Component({
   standalone: true,
@@ -22,14 +31,14 @@ import { KeyboardService, SessionService } from './services'
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
-  providers: [KeyboardService, SessionService],
+  providers: [KeyboardService, SessionService, MetricsService],
   imports: [
     AsyncPipe,
     MatButtonModule,
     MatDividerModule,
-    MetricsComponent,
     NgIf,
     TerminalComponent,
+    TimerComponent,
     TitleCasePipe,
   ],
 })
@@ -55,17 +64,16 @@ export class SessionComponent implements OnInit, OnDestroy {
     private readonly changeDetector: ChangeDetectorRef
   ) {}
 
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
+    this.sessionService.stop()
+  }
+
   ngOnInit(): void {
     this.sessionService.started$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.isSessionInProgress = true))
-
-    this.sessionService.stopped$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.isSessionInProgress = false
-        this.changeDetector.detectChanges()
-      })
 
     this.sessionService.completed$
       .pipe(takeUntil(this.destroy$))
@@ -79,34 +87,15 @@ export class SessionComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next()
-  }
-
-  /**
-   *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent#instance_properties
-   * @param event The KeyboardEvent
-   */
   @HostListener('document:keyup', ['$event'])
   handleKeydown(event: KeyboardEvent): void {
     if (!this.isSessionInProgress) return
     if (event.key === 'Enter') return
     if (event.key === 'Shift') return
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
     if (event.repeat) return
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/ctrlKey
     if (event.ctrlKey) return
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/altKey
     if (event.altKey) return
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey
     if (event.metaKey) return
-
-    // Ignore function keys
     if (event.key.length > 1 && event.key.charAt(0) === 'F') return
 
     this.keyboardService.setKeyPressed(event.key)

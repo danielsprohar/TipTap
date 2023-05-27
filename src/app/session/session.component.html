@@ -20,7 +20,10 @@
 
   <mat-divider></mat-divider>
 
-  <tiptap-metrics></tiptap-metrics>
+  <div class="flex-centered mt-1">
+    <tiptap-timer></tiptap-timer>
+  </div>
+
 
   <tiptap-terminal
     *ngIf="book$ | async as book"
