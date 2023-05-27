@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { environment } from 'src/environments/environment'
+import { CharacterSpace } from '../../lessons/character-space'
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +22,12 @@ export class RandomWordGeneratorService {
    * @returns A random sequence of characters.
    */
   createRandomWord(
-    characterSpace: string[],
+    characterSpace: CharacterSpace,
     n: number = this.defaultWordSize
   ): string {
-    const max = characterSpace.length
-    const sequence = []
+    const max = characterSpace.size
+    const characterSpaceArray: string[] = Array.from(characterSpace)
+    const characters: string[] = []
 
     // indices
     let i = 0
@@ -35,11 +37,11 @@ export class RandomWordGeneratorService {
       // Randomly select an index in the range [0, n-1]
       j = Math.floor(Math.random() * max)
       // Get a character from the character space
-      sequence.push(characterSpace[j])
+      characters.push(characterSpaceArray[j])
       i++
     }
 
-    return sequence.join('')
+    return characters.join('')
   }
 
   /**
@@ -53,37 +55,16 @@ export class RandomWordGeneratorService {
    * @returns A word list with random words.
    */
   createRandomWords(
-    characterSpace: string[],
+    characterSpace: CharacterSpace,
     wordCount: number = this.defaultWordCount,
     wordSize: number = this.defaultWordSize
   ): string[] {
-    const words = []
+    const words: string[] = []
 
     for (let i = 0; i < wordCount; i++) {
       words.push(this.createRandomWord(characterSpace, wordSize))
-      words.push(' ')
     }
 
-    // Pop the last ' ' character.
-    words.pop()
-
     return words
-  }
-
-  /**
-   * Creates the text that will be used in a typing session.
-   *
-   * @param characterSpace The character space
-   * @param wordCount The number of words to generate
-   * @param wordSize The number of characters in each word
-   * @returns A string that created from joining all the words in the generated word list.
-   */
-  createSessionText(
-    characterSpace: string[],
-    wordCount: number = this.defaultWordCount,
-    wordSize: number = this.defaultWordSize
-  ): string {
-    const words = this.createRandomWords(characterSpace, wordCount, wordSize)
-    return words.join('')
   }
 }

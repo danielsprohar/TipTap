@@ -12,7 +12,6 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil, timer } from 'rxjs'
-import { CharacterSpaceBuilder } from '../../lessons/builders/character-space-builder'
 import { Book } from '../../models/book'
 import { Lesson } from '../../models/lesson'
 import { ThemeService } from '../../services/theme.service'
@@ -20,6 +19,7 @@ import { KeyboardService } from '../services/keyboard.service'
 import { MetricsService } from '../services/metrics.service'
 import { RandomWordGeneratorService } from '../services/random-word-generator.service'
 import { SessionService } from '../services/session.service'
+import { CharacterSpace } from '../../lessons/character-space'
 
 @Component({
   standalone: true,
@@ -55,7 +55,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.lesson === undefined && this.book === undefined) {
-      throw new Error()
+      throw new Error('Lesson or book must be provided')
     }
 
     this.keyboardService.keyPressed$
@@ -79,8 +79,8 @@ export class TerminalComponent implements OnInit, OnDestroy {
     this.reset()
 
     if (this.lesson) {
-      const charSpace = new CharacterSpaceBuilder(this.lesson!).build()
-      this.queue = this.rwg.createSessionText(charSpace, this.wordCount)
+      const characterSpace = CharacterSpace.fromLesson(this.lesson)
+      this.queue = this.rwg.createRandomWords(characterSpace, this.wordCount).join(' ')
     } else if (this.book && this.book.chapter) {
       this.queue = this.book.chapter.text
     }

@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card'
 import { RouterLink } from '@angular/router'
 import { Finger, Hand } from '../../../enums'
 import { Lesson } from '../../../models/lesson'
-import { CharacterSpaceBuilder } from '../../builders/character-space-builder'
+import { CharacterSpace } from '../../character-space'
 
 @Component({
   standalone: true,
@@ -21,13 +21,14 @@ import { CharacterSpaceBuilder } from '../../builders/character-space-builder'
 })
 export class LessonDetailComponent implements OnInit {
   @Input({ required: true }) lesson!: Lesson
-  keys!: string[]
+  characterSpace?: CharacterSpace
   link?: string
 
   constructor() {}
 
   ngOnInit(): void {
-    this.keys = new CharacterSpaceBuilder(this.lesson).build()
+    this.characterSpace = CharacterSpace.fromLesson(this.lesson)
+
     this.link =
       this.lesson.hand + (this.lesson.hand === Hand.BOTH ? ' Hands' : ' Hand')
 

@@ -7,8 +7,8 @@
     </div>
 
     <div class="container keys">
-      <kbd *ngFor="let key of keys; trackBy: trackByKey">
-        {{ key }}
+      <kbd *ngFor="let element of characterSpace; trackBy: trackByKey">
+        {{ element }}
       </kbd>
     </div>
   </section>
