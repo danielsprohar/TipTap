@@ -56,6 +56,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   )
 
   isSessionInProgress = false
+  isSessionCompleted = false
 
   constructor(
     private readonly sessionService: SessionService,
@@ -73,12 +74,17 @@ export class SessionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sessionService.started$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.isSessionInProgress = true))
+      .subscribe(() => {
+        this.isSessionInProgress = true
+        this.isSessionCompleted = false
+        this.changeDetector.detectChanges()
+      })
 
     this.sessionService.completed$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.isSessionInProgress = false
+        this.isSessionCompleted = true
         this.changeDetector.detectChanges()
       })
 
@@ -88,17 +94,24 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keyup', ['$event'])
-  handleKeydown(event: KeyboardEvent): void {
+  handleKeydown(event: KeyboardEvent) {
+    event.preventDefault()
+    if (!this.isSessionInProgress && event.ctrlKey && event.key === 'Enter') {
+      this.start()
+      return false
+    }
+    
     if (!this.isSessionInProgress) return
+    if (event.repeat) return
     if (event.key === 'Enter') return
     if (event.key === 'Shift') return
-    if (event.repeat) return
-    if (event.ctrlKey) return
-    if (event.altKey) return
+    if (event.key === 'Control') return
+    if (event.key === 'Alt') return
     if (event.metaKey) return
     if (event.key.length > 1 && event.key.charAt(0) === 'F') return
 
     this.keyboardService.setKeyPressed(event.key)
+    return false
   }
 
   start(): void {
