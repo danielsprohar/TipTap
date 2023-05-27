@@ -12,6 +12,7 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil, timer } from 'rxjs'
+import { CharacterSpace } from '../../lessons/character-space'
 import { Book } from '../../models/book'
 import { Lesson } from '../../models/lesson'
 import { ThemeService } from '../../services/theme.service'
@@ -19,7 +20,6 @@ import { KeyboardService } from '../services/keyboard.service'
 import { MetricsService } from '../services/metrics.service'
 import { RandomWordGeneratorService } from '../services/random-word-generator.service'
 import { SessionService } from '../services/session.service'
-import { CharacterSpace } from '../../lessons/character-space'
 
 @Component({
   standalone: true,
@@ -28,6 +28,7 @@ import { CharacterSpace } from '../../lessons/character-space'
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.scss'],
   imports: [AsyncPipe, NgIf, MatCardModule, MatProgressSpinnerModule],
+  providers: [RandomWordGeneratorService],
 })
 export class TerminalComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
@@ -80,7 +81,9 @@ export class TerminalComponent implements OnInit, OnDestroy {
 
     if (this.lesson) {
       const characterSpace = CharacterSpace.fromLesson(this.lesson)
-      this.queue = this.rwg.createRandomWords(characterSpace, this.wordCount).join(' ')
+      this.queue = this.rwg
+        .createRandomWords(characterSpace, this.wordCount)
+        .join(' ')
     } else if (this.book && this.book.chapter) {
       this.queue = this.book.chapter.text
     }

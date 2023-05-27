@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core'
 import { environment } from 'src/environments/environment'
 import { CharacterSpace } from '../../lessons/character-space'
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class RandomWordGeneratorService {
   private readonly defaultWordCount = environment.rwg.defaults.wordCount
   private readonly defaultWordSize = environment.rwg.defaults.wordSize
