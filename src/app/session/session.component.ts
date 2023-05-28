@@ -35,7 +35,7 @@ import { KeyboardService, MetricsService, SessionService } from './services'
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
-  readonly lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
+  lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
     map((paramMap: ParamMap) => Lesson.builder().buildFromParamMap(paramMap)),
     tap((lesson) => this.sessionService.setLesson(lesson))
   )

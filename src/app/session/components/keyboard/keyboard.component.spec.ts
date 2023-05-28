@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { KeyboardService } from '../services/keyboard.service'
 
 import { KeyboardComponent } from './keyboard.component'
 
@@ -9,9 +8,8 @@ describe('KeyboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [KeyboardComponent],
-    providers: [KeyboardService],
-}).compileComponents()
+      imports: [KeyboardComponent],
+    }).compileComponents()
   })
 
   beforeEach(() => {
