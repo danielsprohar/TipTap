@@ -12,8 +12,7 @@ import {
 } from 'rxjs'
 import { MetricsService } from './metrics.service'
 
-// const SESSION_LENGTH_MS = 30_000
-const SESSION_LENGTH_MS = 5_000
+const SESSION_LENGTH_MS = 300_000
 
 @Injectable()
 export class SessionService {
@@ -55,7 +54,7 @@ export class SessionService {
   }
 
   createTimer(): Observable<number> {
-    return timer(SESSION_LENGTH_MS + 1000).pipe()
+    return timer(SESSION_LENGTH_MS + 1000).pipe(takeUntil(this.stoppedSource))
   }
 
   createInterval(): Observable<number> {

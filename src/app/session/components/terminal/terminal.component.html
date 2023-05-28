@@ -1,9 +1,11 @@
 <section class="container mt-1">
-  <mat-card *ngIf="lesson || book; else loading">
-    <div #terminal id="terminal" [class.dark-theme]="isDarkTheme$ | async">
-      <div #stack id="stack"></div>
-      <div id="cursor"></div>
-      <div id="queue">{{ queue }}</div>
+  <mat-card *ngIf="lesson; else loading">
+    <div class="terminal-wrapper">
+      <div
+        #terminal
+        id="terminal"
+        [class.dark-theme]="isDarkTheme$ | async"
+      ></div>
     </div>
   </mat-card>
   <ng-template #loading>

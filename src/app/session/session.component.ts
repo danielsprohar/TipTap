@@ -99,18 +99,19 @@ export class SessionComponent implements OnInit, OnDestroy {
 
     if (!this.isSessionInProgress && event.shiftKey && event.key === 'Enter') {
       this.sessionService.start()
-      return
+      return false
     }
 
-    if (!this.isSessionInProgress) return
-    if (event.repeat) return
-    if (event.key === 'Enter') return
-    if (event.key === 'Shift') return
-    if (event.key === 'Control') return
-    if (event.key === 'Alt') return
-    if (event.metaKey) return
-    if (event.key.length > 1 && event.key.charAt(0) === 'F') return
+    if (!this.isSessionInProgress) return false
+    if (event.repeat) return false
+    if (event.key === 'Enter') return false
+    if (event.key === 'Shift') return false
+    if (event.key === 'Control') return false
+    if (event.key === 'Alt') return false
+    if (event.metaKey) return false
+    if (event.key.length > 1 && event.key.charAt(0) === 'F') return false
 
     this.keyboardService.setKeyPressed(event.key)
+    return false
   }
 }
