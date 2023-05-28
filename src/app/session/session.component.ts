@@ -16,7 +16,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subject, map, share, takeUntil } from 'rxjs'
@@ -35,7 +34,6 @@ import { KeyboardService, MetricsService, SessionService } from './services'
   providers: [KeyboardService, SessionService, MetricsService],
   imports: [
     AsyncPipe,
-    MatButtonModule,
     MatDividerModule,
     NgIf,
     SessionMetricsComponent,
