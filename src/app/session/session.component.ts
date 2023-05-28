@@ -98,8 +98,8 @@ export class SessionComponent implements OnInit, OnDestroy {
     event.preventDefault()
 
     if (!this.isSessionInProgress && event.shiftKey && event.key === 'Enter') {
-      this.start()
-      return false
+      this.sessionService.start()
+      return
     }
 
     if (!this.isSessionInProgress) return
@@ -112,14 +112,5 @@ export class SessionComponent implements OnInit, OnDestroy {
     if (event.key.length > 1 && event.key.charAt(0) === 'F') return
 
     this.keyboardService.setKeyPressed(event.key)
-    return false
-  }
-
-  start(): void {
-    this.sessionService.start()
-  }
-
-  stop(): void {
-    this.sessionService.stop()
   }
 }
