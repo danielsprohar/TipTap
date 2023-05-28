@@ -24,6 +24,10 @@ export class MetricsService {
     return this._totalErrors
   }
 
+  setErrorCount(value: number) {
+    this._errorCount = value
+  }
+
   sample(timeSeconds: number, wordSize: number) {
     let cpm = 0
     let rawWPM = 0
@@ -31,7 +35,7 @@ export class MetricsService {
 
     if (timeSeconds > 0) {
       cpm = (this._characterCount / timeSeconds) * 60
-      rawWPM = cpm / wordSize // [characters / min] *  [words / characters] = [words / min]
+      rawWPM = cpm / wordSize
       netWPM = rawWPM - this._errorCount / (timeSeconds / 60)
     }
 
@@ -46,16 +50,28 @@ export class MetricsService {
     this._errorCount = 0
   }
 
-  incrementCharacterCount(value = 1) {
-    this._characterCount += value
+  decrementWordCount() {
+    this._wordCount--
   }
 
-  incrementWordCount(value = 1) {
-    this._wordCount += value
+  decrementCharacterCount() {
+    this._characterCount--
   }
 
-  incrementErrorCount(value = 1) {
-    this._errorCount += value
+  decrementErrorCount() {
+    this._errorCount--
+  }
+
+  incrementCharacterCount() {
+    this._characterCount++
+  }
+
+  incrementWordCount() {
+    this._wordCount++
+  }
+
+  incrementErrorCount() {
+    this._errorCount++
   }
 
   reset() {
