@@ -1,7 +1,12 @@
 import { CommonModule, DecimalPipe } from '@angular/common'
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
 import { MatTableModule } from '@angular/material/table'
-import { TimeSeriesSample } from '../../models/time-series-sample'
+import { SessionResults } from '../../models/session-results'
 
 @Component({
   selector: 'tiptap-metrics-table',
@@ -11,15 +16,19 @@ import { TimeSeriesSample } from '../../models/time-series-sample'
   styleUrls: ['./metrics-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MetricsTableComponent {
-  @Input({ required: true }) timeSeries!: TimeSeriesSample[]
+export class MetricsTableComponent implements OnInit {
+  @Input({ required: true }) sessionResults!: SessionResults
+  readonly dataSource: SessionResults[] = []
   readonly displayedColumns: string[] = [
-    "deltaSeconds",
-    "cpm",
-    "characterCount",
-    "wordCount",
-    "wpm",
-    "errorCount",
-    "accuracy"
+    'accuracy',
+    'rawWPM',
+    'netWPM',
+    'totalWords',
+    'totalWordsWithErrors',
+    'totalCharacters',
   ]
+
+  ngOnInit(): void {
+    this.dataSource.push(this.sessionResults)
+  }
 }

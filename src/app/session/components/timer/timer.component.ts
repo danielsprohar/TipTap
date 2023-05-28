@@ -12,7 +12,7 @@ import { SessionService } from '../../services'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit {
-  readonly sessionLengthSeconds = this.sessionService.lengthSeconds
+  readonly sessionLengthSeconds = this.sessionService.getDurationSeconds()
   readonly time$ = this.sessionService.started$.pipe(
     switchMap(() => this.sessionService.time$)
   )

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
-import { MatDividerModule } from '@angular/material/divider'
-import { MetricsService } from '../../services'
+import { concatMap, of } from 'rxjs'
+import { SessionResults } from '../../models/session-results'
+import { MetricsService, SessionService } from '../../services'
 import { MetricsLineChartComponent } from '../metrics-line-chart/metrics-line-chart.component'
 import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
 
@@ -13,7 +14,6 @@ import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
   imports: [
     CommonModule,
     MatCardModule,
-    MatDividerModule,
     MetricsLineChartComponent,
     MetricsTableComponent,
   ],
@@ -21,7 +21,27 @@ import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
   styleUrls: ['./session-metrics.component.scss'],
 })
 export class SessionMetricsComponent {
-  readonly timeSeries$ = this.metricsService.timeSeries$
+  readonly timeSeries$ = this.metrics.timeSeries$
+  readonly sessionResults$ = this.session.completed$.pipe(
+    concatMap(() => of(this.calcSessionResults()))
+  )
 
-  constructor(private readonly metricsService: MetricsService) {}
+  constructor(
+    private readonly metrics: MetricsService,
+    private readonly session: SessionService
+  ) {}
+
+  calcSessionResults() {
+    return SessionResults.builder()
+      .lesson(this.session.getLesson()!)
+      .errors(this.metrics.getTotalErrors())
+      .totalCharacters(this.metrics.getTotalCharacters())
+      .totalWords(this.metrics.getTotalWords())
+      .totalWordsWithErrors(this.metrics.getTotalWordsWithErrors())
+      .accuracy(this.metrics.getAccuracy())
+      .startedAt(this.session.getStartedAt()!)
+      .completedAt(this.session.getCompletedAt()!)
+      .durationSeconds(this.session.getDurationSeconds())
+      .build()
+  }
 }
