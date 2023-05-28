@@ -1,32 +1,19 @@
 import { Lesson } from '../../models'
 
 export class SessionResults {
-  private readonly _rawWPM: number
-  private readonly _netWPM: number
-
   constructor(
     public readonly lesson: Lesson,
+    public readonly rawWPM: number,
+    public readonly netWPM: number,
     public readonly errors: number,
     public readonly totalCharacters: number,
+    public readonly totalWords: number,
+    public readonly totalWordsWithErrors: number,
     public readonly accuracy: number,
-    public readonly duration: number,
+    public readonly durationSeconds: number,
     public readonly startedAt: Date,
     public readonly completedAt: Date
-  ) {
-    // Calculate the raw WPM
-    this._rawWPM = this.totalCharacters / 5 / (this.duration / 60)
-
-    // Calculate the net WPM
-    this._netWPM = this._rawWPM - this.errors / (this.duration / 60)
-  }
-
-  get rawWPM() {
-    return this._rawWPM
-  }
-
-  get netWPM() {
-    return this._netWPM
-  }
+  ) {}
 
   static builder(): SessionResultsBuilder {
     return new SessionResultsBuilder()
@@ -37,8 +24,10 @@ class SessionResultsBuilder {
   private _lesson?: Lesson
   private _errors?: number
   private _totalCharacters?: number
+  private _totalWords?: number
+  private _totalWordsWithErrors?: number
   private _accuracy?: number
-  private _duration?: number
+  private _durationSeconds?: number
   private _startedAt?: Date
   private _completedAt?: Date
 
@@ -52,13 +41,28 @@ class SessionResultsBuilder {
     return this
   }
 
+  totalCharacters(totalCharacters: number) {
+    this._totalCharacters = totalCharacters
+    return this
+  }
+
+  totalWords(totalWords: number) {
+    this._totalWords = totalWords
+    return this
+  }
+
+  totalWordsWithErrors(totalWordsWithErrors: number) {
+    this._totalWordsWithErrors = totalWordsWithErrors
+    return this
+  }
+
   accuracy(accuracy: number) {
     this._accuracy = accuracy
     return this
   }
 
-  duration(duration: number) {
-    this._duration = duration
+  durationSeconds(duration: number) {
+    this._durationSeconds = duration
     return this
   }
 
@@ -85,11 +89,19 @@ class SessionResultsBuilder {
       throw new Error('Total characters is required')
     }
 
+    if (this._totalWords === undefined) {
+      throw new Error('Total words is required')
+    }
+
+    if (this._totalWordsWithErrors === undefined) {
+      throw new Error('Total words with errors is required')
+    }
+
     if (this._accuracy === undefined) {
       throw new Error('Accuracy is required')
     }
 
-    if (this._duration === undefined) {
+    if (this._durationSeconds === undefined) {
       throw new Error('Duration is required')
     }
 
@@ -101,12 +113,19 @@ class SessionResultsBuilder {
       throw new Error('Completed at is required')
     }
 
+    const rawWPM = this._totalCharacters / 5 / (this._durationSeconds / 60)
+    const netWPM = rawWPM - this._errors / (this._durationSeconds / 60)
+
     return new SessionResults(
       this._lesson,
+      rawWPM,
+      netWPM,
       this._errors,
       this._totalCharacters,
+      this._totalWords,
+      this._totalWordsWithErrors,
       this._accuracy,
-      this._duration,
+      this._durationSeconds,
       this._startedAt,
       this._completedAt
     )

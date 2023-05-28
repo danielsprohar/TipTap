@@ -8,20 +8,44 @@ export class MetricsService {
   private _wordCount = 0
   private _errorCount = 0
   private _totalErrors = 0
+  private _wordsAttemptedCount = 0
+  private _wordsWithErrorsCount = 0
 
   private readonly _samples: TimeSeriesSample[] = []
   readonly timeSeries$: Observable<TimeSeriesSample[]> = of(this._samples)
 
-  get totalCharacters() {
+  getTotalCharacters() {
     return this._characterCount
   }
 
-  get totalWords() {
+  getTotalWords() {
     return this._wordCount
   }
 
-  get totalErrors() {
+  getTotalErrors() {
     return this._totalErrors
+  }
+
+  getTotalWordsWithErrors() {
+    return this._wordsWithErrorsCount
+  }
+
+  getTotalWordsAttempted() {
+    return this._wordsAttemptedCount
+  }
+
+  getAccuracy() {
+    return this._characterCount > 0
+      ? (this._characterCount - this._totalErrors) / this._characterCount
+      : 0
+  }
+
+  setWordsAttemptedCount(value: number) {
+    this._wordsAttemptedCount = value
+  }
+
+  setWordsErrorCount(value: number) {
+    this._wordsWithErrorsCount = value
   }
 
   setErrorCount(value: number) {
@@ -72,6 +96,7 @@ export class MetricsService {
 
   incrementErrorCount() {
     this._errorCount++
+    this._totalErrors++
   }
 
   reset() {

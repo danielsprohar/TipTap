@@ -1,12 +1,3 @@
-/**
- * References:
- * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
- * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
- * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/ctrlKey
- * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/altKey
- * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey
- */
-
 import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common'
 import {
   ChangeDetectionStrategy,
@@ -18,8 +9,8 @@ import {
 } from '@angular/core'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import { Observable, Subject, map, share, takeUntil } from 'rxjs'
-import { Book, Lesson } from '../models'
+import { Observable, Subject, map, takeUntil, tap } from 'rxjs'
+import { Lesson } from '../models'
 import { SessionMetricsComponent } from './components/session-metrics/session-metrics.component'
 import { TerminalComponent } from './components/terminal/terminal.component'
 import { TimerComponent } from './components/timer/timer.component'
@@ -44,15 +35,9 @@ import { KeyboardService, MetricsService, SessionService } from './services'
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
-  readonly book$: Observable<Book> = this.route.data.pipe(
-    map((data) => {
-      return data['book'] as Book
-    }),
-    share()
-  )
-
   readonly lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
-    map((paramMap: ParamMap) => Lesson.builder().buildFromParamMap(paramMap))
+    map((paramMap: ParamMap) => Lesson.builder().buildFromParamMap(paramMap)),
+    tap((lesson) => this.sessionService.setLesson(lesson))
   )
 
   isSessionInProgress = false

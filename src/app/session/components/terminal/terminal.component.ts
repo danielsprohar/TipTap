@@ -13,7 +13,7 @@ import {
 } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { Subject, takeUntil, timer } from 'rxjs'
+import { Subject, takeUntil } from 'rxjs'
 import { CharacterSpace } from '../../../lessons/character-space'
 import { Lesson } from '../../../models'
 import { ThemeService } from '../../../services/theme.service'
@@ -35,9 +35,8 @@ import {
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
-  private readonly terminalFlashDuration$ = timer(100)
+  private readonly wordCount = 200
   private isInitialRender = true
-  private readonly wordCount = 250
 
   readonly isDarkTheme$ = this.themeService.isDarkTheme$
   @Input({ required: true }) lesson!: Lesson
@@ -87,7 +86,35 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.isInitialRender = false
+        this.calcMetrics()
       })
+  }
+
+  calcMetrics() {
+    const wordsWithErrors: Set<Element> = this.getWordsWithErrors()
+    const wordsAttempted: NodeListOf<Element> = this.getWordsAttempted()
+    const errors: NodeListOf<Element> = this.getAllErrors()
+
+    this.metricsService.setWordsAttemptedCount(wordsAttempted.length)
+    this.metricsService.setWordsErrorCount(wordsWithErrors.size)
+    this.metricsService.setErrorCount(errors.length)
+  }
+
+  getAllErrors(): NodeListOf<Element> {
+    const terminal: Element = this.terminalRef.nativeElement
+    return terminal.querySelectorAll('.error')
+  }
+
+  getWordsAttempted(): NodeListOf<Element> {
+    const terminal: Element = this.terminalRef.nativeElement
+    return terminal.querySelectorAll('[data-word="attempted"]')
+  }
+
+  getWordsWithErrors() {
+    const errors = this.getAllErrors()
+    const badWords = new Set<Element>()
+    errors.forEach((err) => badWords.add(err.parentElement!))
+    return badWords
   }
 
   render() {
@@ -137,17 +164,11 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     terminal.innerHTML = ''
   }
 
-  flashTerminal() {
-    const terminalElement = this.terminalRef.nativeElement as HTMLElement
-    terminalElement.classList.add('flash')
-    this.terminalFlashDuration$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      terminalElement.classList.remove('flash')
-    })
-  }
-
   handleKey(key: string) {
     const terminal: Element = this.terminalRef.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
+    // This helps us calculate the WPM after the session is complete
+    this.renderer.setAttribute(currentLetter, 'data-key', 'attempted')
 
     if (key !== currentLetter.textContent) {
       this.metricsService.incrementErrorCount()
@@ -159,10 +180,8 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
       this.renderer.addClass(currentLetter, 'correct')
     }
 
-    // Get the next letter
     let nextLetter: Element | null = currentLetter.nextElementSibling
     if (nextLetter === null) {
-      // Go to the next word
       const currentWord: Element = currentLetter.parentElement!
       const nextWord: Element | null = currentWord.nextElementSibling
       if (nextWord === null) {
@@ -172,14 +191,15 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
 
       nextLetter = nextWord.firstElementChild
       this.metricsService.incrementWordCount()
+      // This helps us calculate the WPM after the session is complete
+      this.renderer.setAttribute(nextWord, 'data-word', 'attempted')
     }
 
     // Move the cursor to the next letter
     this.renderer.removeClass(currentLetter, 'cursor')
     this.renderer.addClass(nextLetter, 'cursor')
-
     this.metricsService.incrementCharacterCount()
-    if (this.metricsService.totalCharacters % 10 === 0) {
+    if (this.metricsService.getTotalCharacters() % 5 === 0) {
       nextLetter?.scrollIntoView()
     }
 
