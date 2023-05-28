@@ -7,6 +7,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
@@ -45,6 +46,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
   @Input() book?: Book
 
   @ViewChild('terminal') terminal!: ElementRef
+  @ViewChild('stack') stackRef?: ElementRef
 
   constructor(
     private readonly themeService: ThemeService,
@@ -52,7 +54,8 @@ export class TerminalComponent implements OnInit, OnDestroy {
     private readonly metricsService: MetricsService,
     private readonly sessionService: SessionService,
     private readonly rwg: RandomWordGeneratorService,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +74,14 @@ export class TerminalComponent implements OnInit, OnDestroy {
     this.sessionService.started$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.init())
+
+    this.sessionService.completed$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        // Cound how many child nodes of the stack element have the error class
+        const stackElement = this.stackRef!.nativeElement as HTMLElement
+        const errorCount = stackElement.querySelectorAll('.error').length
+      })
   }
 
   ngOnDestroy(): void {
@@ -115,32 +126,52 @@ export class TerminalComponent implements OnInit, OnDestroy {
   }
 
   handleKey(key: string) {
+    const stackElement = this.stackRef!.nativeElement as HTMLElement
+    let child: HTMLElement | null = null
+
+    if (this.queue.charAt(0) === ' ') {
+      child = this.renderer.createElement('pre') as HTMLPreElement
+      child.innerHTML = '&nbsp;'
+    } else {
+      child = this.renderer.createElement('span') as HTMLSpanElement
+      child.innerText = this.queue.charAt(0)
+    }
+
     if (key !== this.queue[0]) {
       this.flashTerminal()
       this.metricsService.incrementErrorCount()
-    } else {
-      this.stack += this.queue[0]
-      this.queue = this.queue.substring(1)
-
-      if (this.queue.length && this.queue.charAt(0) === ' ') {
-        this.metricsService.incrementWordCount()
-      } else {
-        this.metricsService.incrementCharacterCount()
-      }
-
-      this.changeDetector.detectChanges()
+      child.classList.add('error')
     }
+
+    this.queue = this.queue.substring(1)
+    if (this.queue.length && this.queue.charAt(0) === ' ') {
+      this.metricsService.incrementWordCount()
+    } else {
+      this.metricsService.incrementCharacterCount()
+    }
+
+    stackElement.innerHTML = child.outerHTML + stackElement.innerHTML
+    this.changeDetector.detectChanges()
   }
 
   handleBackspace() {
-    if (this.stack.length === 0) return
+    const stackElement = this.stackRef!.nativeElement as HTMLElement
+    if (stackElement.childElementCount === 0) return
+    
     if (this.queue.charAt(0) === ' ') {
       this.metricsService.incrementWordCount(-1)
     }
 
-    const popped = this.stack.charAt(this.stack.length - 1)
-    this.queue = popped + this.queue
-    this.stack = this.stack.substring(0, this.stack.length - 1)
+    const child = stackElement.firstElementChild as HTMLElement
+    if (child) {
+      // stackElement.removeChild(child)
+      this.renderer.removeChild(stackElement, child)
+    }
+
+    this.queue = child.innerText + this.queue
+    this.stack = this.stack.substring(1)
     this.metricsService.incrementCharacterCount(-1)
+
+    this.changeDetector.detectChanges()
   }
 }

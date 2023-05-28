@@ -5,6 +5,7 @@
   padding: 16px 8px;
   overflow: hidden;
   border-radius: 6px;
+  max-height: 64px;
 }
 
 #stack,
@@ -29,8 +30,8 @@
   min-height: 100%;
   min-width: 2px !important;
   background: #000;
-  // animation: cursor-blink 1.5s steps(2) infinite;
-  // -webkit-animation: cursor-blink 1.5s steps(2) infinite;
+  animation: cursor-blink 1s steps(2) infinite;
+  -webkit-animation: cursor-blink 1s steps(2) infinite;
 }
 
 .flash {
@@ -61,14 +62,22 @@
   }
 }
 
-// @keyframes cursor-blink {
-//   0% {
-//     opacity: 0;
-//   }
-// }
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
+}
+
+.error {
+  color: #cc0000;
+}
 
 .dark-theme {
   #cursor {
     background: #00bcd4;
+  }
+
+  .error {
+    color: #f44336;
   }
 }
