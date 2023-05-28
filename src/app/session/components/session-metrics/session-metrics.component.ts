@@ -31,7 +31,7 @@ export class SessionMetricsComponent {
     private readonly session: SessionService
   ) {}
 
-  calcSessionResults() {
+  private calcSessionResults() {
     return SessionResults.builder()
       .lesson(this.session.getLesson()!)
       .errors(this.metrics.getTotalErrors())
