@@ -4,53 +4,64 @@ import { TimeSeriesSample } from '../models/time-series-sample'
 
 @Injectable()
 export class MetricsService {
-  private readonly samples: TimeSeriesSample[] = []
-  readonly timeSeries$: Observable<TimeSeriesSample[]> = of(this.samples)
-  private characterCount = 0
-  private wordCount = 0
-  private errorCount = 0
+  private _characterCount = 0
+  private _wordCount = 0
+  private _errorCount = 0
+  private _totalErrors = 0
 
-  sample(deltaSeconds: number, wordSize: number) {
+  private readonly _samples: TimeSeriesSample[] = []
+  readonly timeSeries$: Observable<TimeSeriesSample[]> = of(this._samples)
+
+  get totalCharacters() {
+    return this._characterCount
+  }
+
+  get totalWords() {
+    return this._wordCount
+  }
+
+  get totalErrors() {
+    return this._totalErrors
+  }
+
+  sample(timeSeconds: number, wordSize: number) {
     let cpm = 0
-    let wpm = 0
+    let rawWPM = 0
+    let netWPM = 0
 
-    if (deltaSeconds > 0) {
-      cpm = (this.characterCount / deltaSeconds) * 60
-      wpm = cpm / wordSize // [characters / min] *  [words / characters] = [words / min]
+    if (timeSeconds > 0) {
+      cpm = (this._characterCount / timeSeconds) * 60
+      rawWPM = cpm / wordSize // [characters / min] *  [words / characters] = [words / min]
+      netWPM = rawWPM - this._errorCount / (timeSeconds / 60)
     }
 
     const sample: TimeSeriesSample = {
-      deltaSeconds,
-      characterCount: this.characterCount,
-      wordCount: this.wordCount,
-      errorCount: this.errorCount,
-      cpm,
-      wpm,
-      accuracy:
-        this.characterCount === 0
-          ? 1
-          : 1 - this.errorCount / this.characterCount,
+      timeSeconds,
+      errors: this._errorCount,
+      rawWPM,
+      netWPM,
     }
 
-    this.samples.push(sample)
+    this._samples.push(sample)
+    this._errorCount = 0
   }
 
   incrementCharacterCount(value = 1) {
-    this.characterCount += value
+    this._characterCount += value
   }
 
   incrementWordCount(value = 1) {
-    this.wordCount += value
+    this._wordCount += value
   }
 
   incrementErrorCount(value = 1) {
-    this.errorCount += value
+    this._errorCount += value
   }
 
   reset() {
-    this.samples.length = 0
-    this.characterCount = 0
-    this.wordCount = 0
-    this.errorCount = 0
+    this._samples.length = 0
+    this._characterCount = 0
+    this._wordCount = 0
+    this._errorCount = 0
   }
 }

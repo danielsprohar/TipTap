@@ -42,6 +42,9 @@ export class MetricsLineChartComponent
   private readonly cyan = '#00bcd4'
   private readonly lightGrey = '#e0e0e0'
   private readonly darkGrey = '#303030'
+  private readonly red = '#ff0000'
+  private readonly blue = '#0000ff'
+  private readonly green = '#00ff00'
 
   @Input({ required: true }) timeSeries!: TimeSeriesSample[]
   @ViewChild('canvas', { static: true }) canvas?: ElementRef
@@ -108,12 +111,25 @@ export class MetricsLineChartComponent
     this.chart = new Chart(canvasElement, {
       type: 'line',
       data: {
-        labels: this.timeSeries.map((samples) => samples.deltaSeconds),
+        labels: this.timeSeries.map((samples) => samples.timeSeconds),
         datasets: [
           {
-            label: 'WPM by second',
-            data: this.timeSeries.map((samples) => samples.wpm),
-            borderColor: this.cyan,
+            label: 'Net WPM',
+            data: this.timeSeries.map((samples) => samples.netWPM),
+            borderColor: this.blue,
+            yAxisID: 'y',
+          },
+          {
+            label: 'Errors',
+            data: this.timeSeries.map((samples) => samples.errors),
+            borderColor: this.red,
+            yAxisID: 'y1',
+          },
+          {
+            label: 'Raw WPM',
+            data: this.timeSeries.map((samples) => samples.rawWPM),
+            borderColor: this.green,
+            yAxisID: 'y2',
           },
         ],
       },
@@ -129,9 +145,29 @@ export class MetricsLineChartComponent
           },
           y: {
             display: true,
+            position: 'left',
             title: {
               display: true,
               text: 'Words per minute',
+            },
+          },
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            title: {
+              display: true,
+              text: 'Errors',
+            },
+            grid: {
+              drawOnChartArea: false, // only want the grid lines for one axis to show up
+            },
+          },
+          y2: {
+            type: 'linear',
+            display: false,
+            grid: {
+              drawOnChartArea: false, // only want the grid lines for one axis to show up
             },
           },
         },
@@ -143,6 +179,10 @@ export class MetricsLineChartComponent
           tooltip: {
             enabled: true,
             usePointStyle: true,
+          },
+          legend: {
+            display: true,
+            position: 'top',
           },
         },
       },
