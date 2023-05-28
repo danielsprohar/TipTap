@@ -14,7 +14,7 @@ import {
 import { Lesson } from '../../models'
 import { MetricsService } from './metrics.service'
 
-const SESSION_LENGTH_MS = 5_000
+export const SESSION_DURATION_MILLISECONDS = 30_000
 
 @Injectable()
 export class SessionService {
@@ -22,7 +22,7 @@ export class SessionService {
   private readonly stoppedSource = new Subject<void>()
   private readonly resetSource = new Subject<void>()
   private readonly completedSource = new Subject<void>()
-  private readonly _durationSeconds = SESSION_LENGTH_MS / 1000
+  private _durationSeconds = SESSION_DURATION_MILLISECONDS / 1000
   private _lesson: Lesson | null = null
   private _startedAt: Date | null = null
   private _completedAt: Date | null = null
@@ -78,7 +78,9 @@ export class SessionService {
   }
 
   createTimer(): Observable<number> {
-    return timer(SESSION_LENGTH_MS + 1000).pipe(takeUntil(this.stoppedSource))
+    return timer(SESSION_DURATION_MILLISECONDS + 1000).pipe(
+      takeUntil(this.stoppedSource)
+    )
   }
 
   createInterval(): Observable<number> {

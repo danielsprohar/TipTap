@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { switchMap } from 'rxjs'
 import { SessionService } from '../../services'
 
@@ -11,13 +11,11 @@ import { SessionService } from '../../services'
   styleUrls: ['./timer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimerComponent implements OnInit {
+export class TimerComponent {
   readonly sessionLengthSeconds = this.sessionService.getDurationSeconds()
   readonly time$ = this.sessionService.started$.pipe(
     switchMap(() => this.sessionService.time$)
   )
 
   constructor(private readonly sessionService: SessionService) {}
-
-  ngOnInit(): void {}
 }
