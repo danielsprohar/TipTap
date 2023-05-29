@@ -1,16 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { Lesson } from '../../../models'
+import { DecimalPipe, PercentPipe } from '@angular/common'
 import { SessionResults } from '../../models/session-results'
 import { MetricsTableComponent } from './metrics-table.component'
-import { DecimalPipe, PercentPipe } from '@angular/common'
 
 describe('MetricsTableComponent', () => {
   let component: MetricsTableComponent
   let fixture: ComponentFixture<MetricsTableComponent>
   const sessionResults: SessionResults = SessionResults.builder()
-    .lesson({} as Lesson)
-    .errors(2)
+    .totalErrors(2)
     .totalCharacters(25)
     .totalWords(5)
     .totalWordsWithErrors(2)

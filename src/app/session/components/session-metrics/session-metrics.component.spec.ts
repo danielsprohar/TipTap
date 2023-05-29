@@ -10,7 +10,6 @@ describe('SessionMetricsComponent', () => {
   const sessionService = new SessionService(metricsService)
 
   sessionService.setLesson({} as any)
-  metricsService.setErrorCount(2)
   metricsService.incrementCharacterCount()
   metricsService.incrementCharacterCount()
   metricsService.incrementCharacterCount()
