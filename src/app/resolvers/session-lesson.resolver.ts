@@ -6,9 +6,11 @@ import {
   RouterStateSnapshot,
 } from '@angular/router'
 import { EMPTY, of } from 'rxjs'
+import { CharacterSpace } from '../lessons/character-space'
 import { Lesson } from '../models'
+import { RandomWordGeneratorService } from '../session/services'
 
-export const lessonResolver: ResolveFn<Lesson> = (
+export const sessionLessonResolver: ResolveFn<string[]> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
@@ -17,7 +19,14 @@ export const lessonResolver: ResolveFn<Lesson> = (
     router.navigateByUrl('/lessons')
     return EMPTY
   }
-
+  const rwg = inject(RandomWordGeneratorService)
+  const wordSize = 5
+  
   const lesson = Lesson.builder().buildFromParamMap(route.queryParamMap)
-  return of(lesson)
+  const words = rwg.createRandomWords(
+    CharacterSpace.fromLesson(lesson),
+    wordSize
+  )
+
+  return of(words)
 }

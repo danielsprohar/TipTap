@@ -6,8 +6,8 @@ import {
   RouterTestingHarness,
   RouterTestingModule,
 } from '@angular/router/testing'
-import { Lesson } from '../models'
-import { lessonResolver } from './lesson.resolver'
+import { RandomWordGeneratorService } from '../session/services'
+import { sessionLessonResolver } from './session-lesson.resolver'
 
 @Component({ template: '' })
 class LessonsComponent {}
@@ -15,14 +15,15 @@ class LessonsComponent {}
 @Component({ template: '' })
 class SessionComponent {}
 
-describe('lessonResolver', () => {
+describe('sessionLessonResolver', () => {
   let harness: RouterTestingHarness
 
-  const executeResolver: ResolveFn<Lesson | null> = (...params) =>
-    TestBed.runInInjectionContext(() => lessonResolver(...params))
+  const executeResolver: ResolveFn<string[]> = (...params) =>
+    TestBed.runInInjectionContext(() => sessionLessonResolver(...params))
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      providers: [RandomWordGeneratorService],
       imports: [
         RouterTestingModule.withRoutes([
           {
@@ -32,7 +33,7 @@ describe('lessonResolver', () => {
           {
             path: 'session',
             component: SessionComponent,
-            resolve: { lesson: lessonResolver },
+            resolve: { lesson: sessionLessonResolver },
           },
         ]),
       ],
