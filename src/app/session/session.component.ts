@@ -7,9 +7,8 @@ import {
   OnInit,
 } from '@angular/core'
 import { MatDividerModule } from '@angular/material/divider'
-import { ActivatedRoute, ParamMap } from '@angular/router'
-import { Observable, Subject, map, takeUntil, tap } from 'rxjs'
-import { Lesson } from '../models'
+import { ActivatedRoute } from '@angular/router'
+import { Subject, map, takeUntil } from 'rxjs'
 import { SessionMetricsComponent } from './components/session-metrics/session-metrics.component'
 import { TerminalComponent } from './components/terminal/terminal.component'
 import { TimerComponent } from './components/timer/timer.component'
@@ -34,9 +33,8 @@ import { MetricsService, SessionService } from './services'
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
-  lesson$: Observable<Lesson> = this.route.queryParamMap.pipe(
-    map((paramMap: ParamMap) => Lesson.builder().buildFromParamMap(paramMap)),
-    tap((lesson) => this.sessionService.setLesson(lesson))
+  readonly words$ = this.route.data.pipe(
+    map((data) => (data['words'] as string[]) ?? [])
   )
 
   isSessionInProgress = false

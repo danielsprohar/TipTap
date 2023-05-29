@@ -1,27 +1,12 @@
 <div class="container centered mt-1">
   <div>
-    <h1 *ngIf="lesson$ | async as lesson">
-      {{ lesson.hand | titlecase }}
-      <ng-container *ngIf="lesson.isBothHands; else oneHand">
-        Hands
-      </ng-container>
-      <ng-template #oneHand> Hand </ng-template>
-      &nbsp;
-      <span>&verbar;</span>
-      &nbsp;
-      {{ lesson.finger | titlecase }}
-    </h1>
-
-    <mat-divider></mat-divider>
-
     <div class="flex-centered mt-1">
       <tiptap-timer></tiptap-timer>
     </div>
 
-    <tiptap-terminal
-      *ngIf="lesson$ | async as lesson"
-      [lesson]="lesson"
-    ></tiptap-terminal>
+    <ng-container *ngIf="words$ | async as words">
+      <tiptap-terminal [words]="words"></tiptap-terminal>
+    </ng-container>
 
     <p *ngIf="!isSessionInProgress">
       <kbd>Shift</kbd>
