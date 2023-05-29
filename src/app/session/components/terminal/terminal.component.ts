@@ -15,14 +15,8 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil } from 'rxjs'
-import { CharacterSpace } from '../../../lessons/character-space'
-import { Lesson } from '../../../models'
 import { ThemeService } from '../../../services/theme.service'
-import {
-  MetricsService,
-  RandomWordGeneratorService,
-  SessionService,
-} from '../../services'
+import { MetricsService, SessionService } from '../../services'
 
 @Component({
   standalone: true,
@@ -31,23 +25,20 @@ import {
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.scss'],
   imports: [AsyncPipe, NgIf, MatCardModule, MatProgressSpinnerModule],
-  providers: [RandomWordGeneratorService],
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
-  private readonly wordCount = 200
   private isSessionInProgress = false
   private isInitialRender = true
-
   readonly isDarkTheme$ = this.themeService.isDarkTheme$
-  @Input({ required: true }) lesson!: Lesson
+
+  @Input({ required: true }) words!: string[]
   @ViewChild('terminal') terminalRef!: ElementRef
 
   constructor(
     private readonly themeService: ThemeService,
     private readonly metricsService: MetricsService,
     private readonly sessionService: SessionService,
-    private readonly rwg: RandomWordGeneratorService,
     private readonly changeDetector: ChangeDetectorRef,
     private readonly renderer: Renderer2
   ) {}
@@ -108,13 +99,9 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   render() {
-    const characterSpace = CharacterSpace.fromLesson(this.lesson)
-    const words: string[] = this.rwg.createRandomWords(
-      characterSpace,
-      this.wordCount
-    )
-
+    const words: string[] = this.words
     const terminal: Element = this.terminalRef.nativeElement
+
     for (const word of words) {
       const wordElement: HTMLElement = this.renderer.createElement('span')
       wordElement.classList.add('word')
