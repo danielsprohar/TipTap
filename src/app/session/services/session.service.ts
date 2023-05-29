@@ -14,7 +14,7 @@ import {
 import { Lesson } from '../../models'
 import { MetricsService } from './metrics.service'
 
-export const SESSION_DURATION_MILLISECONDS = 30_000
+export const SESSION_DURATION_MILLISECONDS = 3_000
 
 @Injectable()
 export class SessionService {
@@ -37,6 +37,10 @@ export class SessionService {
 
   get time$() {
     return this._time$
+  }
+
+  getWordSize(): number {
+    return this._wordSize
   }
 
   getDurationSeconds() {

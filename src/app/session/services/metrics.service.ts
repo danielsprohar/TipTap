@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { SessionSample } from '../models/time-series-sample'
+import { MathUtil } from '../utils/math-util'
 
 @Injectable()
 export class MetricsService {
   private _characterCount = 0
   private _wordCount = 0
-  private _errorCount = 0
   private _totalErrors = 0
   private _wordsAttemptedCount = 0
   private _wordsWithErrorsCount = 0
@@ -48,31 +48,30 @@ export class MetricsService {
     this._wordsWithErrorsCount = value
   }
 
-  setErrorCount(value: number) {
-    this._errorCount = value
-  }
-
   sample(timeSeconds: number, wordSize: number) {
     let cpm = 0
     let rawWPM = 0
     let netWPM = 0
 
     if (timeSeconds > 0) {
-      cpm = (this._characterCount / timeSeconds) * 60
-      rawWPM = cpm / wordSize
-      netWPM = rawWPM - (this._errorCount / (timeSeconds * 60))
+      cpm = MathUtil.calulateCPM(this._characterCount, timeSeconds)
+      rawWPM = MathUtil.calculateRawWPMFromCPM(cpm, wordSize)
+      netWPM = MathUtil.calculateNetWPMFromRawWPM(
+        rawWPM,
+        this._totalErrors,
+        timeSeconds
+      )
     }
 
     const sample: SessionSample = {
       timeSeconds,
-      errors: this._errorCount,
+      errors: this._totalErrors,
       cpm,
       rawWPM,
       netWPM,
     }
 
     this._samples.push(sample)
-    this._errorCount = 0
   }
 
   decrementWordCount() {
@@ -84,7 +83,7 @@ export class MetricsService {
   }
 
   decrementErrorCount() {
-    this._errorCount--
+    this._totalErrors--
   }
 
   incrementCharacterCount() {
@@ -96,7 +95,7 @@ export class MetricsService {
   }
 
   incrementErrorCount() {
-    this._errorCount++
+    this._totalErrors++
     this._totalErrors++
   }
 
@@ -104,6 +103,6 @@ export class MetricsService {
     this._samples.length = 0
     this._characterCount = 0
     this._wordCount = 0
-    this._errorCount = 0
+    this._totalErrors = 0
   }
 }

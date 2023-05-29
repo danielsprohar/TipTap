@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core'
@@ -14,7 +13,7 @@ import { Lesson } from '../models'
 import { SessionMetricsComponent } from './components/session-metrics/session-metrics.component'
 import { TerminalComponent } from './components/terminal/terminal.component'
 import { TimerComponent } from './components/timer/timer.component'
-import { KeyboardService, MetricsService, SessionService } from './services'
+import { MetricsService, SessionService } from './services'
 
 @Component({
   standalone: true,
@@ -22,7 +21,7 @@ import { KeyboardService, MetricsService, SessionService } from './services'
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
-  providers: [KeyboardService, SessionService, MetricsService],
+  providers: [SessionService, MetricsService],
   imports: [
     AsyncPipe,
     MatDividerModule,
@@ -45,7 +44,6 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly sessionService: SessionService,
-    private readonly keyboardService: KeyboardService,
     private readonly route: ActivatedRoute,
     private readonly changeDetector: ChangeDetectorRef
   ) {}
@@ -73,30 +71,6 @@ export class SessionComponent implements OnInit, OnDestroy {
         this.changeDetector.detectChanges()
       })
 
-    this.sessionService.reset$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.sessionService.start()
-    })
-  }
-
-  @HostListener('document:keyup', ['$event'])
-  handleKeydown(event: KeyboardEvent) {
-    event.preventDefault()
-
-    if (!this.isSessionInProgress && event.shiftKey && event.key === 'Enter') {
-      this.sessionService.start()
-      return false
-    }
-
-    if (!this.isSessionInProgress) return false
-    if (event.repeat) return false
-    if (event.key === 'Enter') return false
-    if (event.key === 'Shift') return false
-    if (event.key === 'Control') return false
-    if (event.key === 'Alt') return false
-    if (event.metaKey) return false
-    if (event.key.length > 1 && event.key.charAt(0) === 'F') return false
-
-    this.keyboardService.setKeyPressed(event.key)
-    return false
+    this.changeDetector.detectChanges()
   }
 }

@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing'
 
-import { MetricsService } from './metrics.service'
 import { SessionSample } from '../models/time-series-sample'
+import { MathUtil } from '../utils/math-util'
+import { MetricsService } from './metrics.service'
 
 describe('MetricsService', () => {
   let service: MetricsService
@@ -70,9 +71,16 @@ describe('MetricsService', () => {
 
         expect(sample.errors).withContext('Number of errors').toEqual(1)
 
-        const cpm = (service.getTotalCharacters() / timeSeconds) * 60
-        const raw = cpm / wordSize
-        const wpm = raw - (sample.errors / (timeSeconds * 60))
+        const cpm = MathUtil.calulateCPM(service.getTotalCharacters(), timeSeconds)
+        const raw = MathUtil.calculateRawWPMFromCPM(
+          cpm,
+          wordSize
+        )
+        const wpm = MathUtil.calculateNetWPMFromRawWPM(
+          raw,
+          service.getTotalErrors(),
+          wordSize,
+        )
 
         expect(sample.cpm).withContext('CPM').toEqual(cpm)
         expect(sample.rawWPM).withContext('Raw WPM').toEqual(raw)

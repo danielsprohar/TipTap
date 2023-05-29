@@ -1,8 +1,9 @@
-import { Lesson } from '../../models'
+import { MathUtil } from '../utils/math-util'
 
 export class SessionResults {
   constructor(
-    public readonly lesson: Lesson,
+    public readonly wordSize: number,
+    public readonly cpm: number,
     public readonly rawWPM: number,
     public readonly netWPM: number,
     public readonly errors: number,
@@ -21,23 +22,18 @@ export class SessionResults {
 }
 
 class SessionResultsBuilder {
-  private _lesson?: Lesson
-  private _errors?: number
+  private _totalErrors?: number
   private _totalCharacters?: number
   private _totalWords?: number
   private _totalWordsWithErrors?: number
   private _accuracy?: number
   private _durationSeconds?: number
+  private _wordSize?: number
   private _startedAt?: Date
   private _completedAt?: Date
 
-  lesson(lesson: Lesson) {
-    this._lesson = lesson
-    return this
-  }
-
-  errors(errors: number) {
-    this._errors = errors
+  totalErrors(errors: number) {
+    this._totalErrors = errors
     return this
   }
 
@@ -66,6 +62,11 @@ class SessionResultsBuilder {
     return this
   }
 
+  wordSize(value: number) {
+    this._wordSize = value
+    return this
+  }
+
   startedAt(startedAt: Date) {
     this._startedAt = startedAt
     return this
@@ -77,11 +78,7 @@ class SessionResultsBuilder {
   }
 
   build() {
-    if (this._lesson === undefined) {
-      throw new Error('Lesson is required')
-    }
-
-    if (this._errors === undefined) {
+    if (this._totalErrors === undefined) {
       throw new Error('Errors is required')
     }
 
@@ -105,6 +102,10 @@ class SessionResultsBuilder {
       throw new Error('Duration is required')
     }
 
+    if (this._wordSize === undefined) {
+      throw new Error('Word Size is required')
+    }
+
     if (this._startedAt === undefined) {
       throw new Error('Started at is required')
     }
@@ -113,14 +114,25 @@ class SessionResultsBuilder {
       throw new Error('Completed at is required')
     }
 
-    const rawWPM = this._totalCharacters / 5 / (this._durationSeconds / 60)
-    const netWPM = rawWPM - this._errors / (this._durationSeconds / 60)
+    const cpm = MathUtil.calulateCPM(this._totalCharacters, this._durationSeconds)
+    const rawWPM = MathUtil.calculateRawWPM(
+      this._totalCharacters,
+      this._wordSize,
+      this._durationSeconds
+    )
+    const netWPM = MathUtil.calculateNetWPM(
+      this._totalCharacters,
+      this._totalErrors,
+      this._wordSize,
+      this._durationSeconds
+    )
 
     return new SessionResults(
-      this._lesson,
+      this._wordSize,
+      cpm,
       rawWPM,
       netWPM,
-      this._errors,
+      this._totalErrors,
       this._totalCharacters,
       this._totalWords,
       this._totalWordsWithErrors,

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
-import { concatMap, of } from 'rxjs'
+import { of, switchMap } from 'rxjs'
 import { SessionResults } from '../../models/session-results'
 import { MetricsService, SessionService } from '../../services'
 import { MetricsLineChartComponent } from '../metrics-line-chart/metrics-line-chart.component'
@@ -23,7 +23,7 @@ import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
 export class SessionMetricsComponent {
   readonly timeSeries$ = this.metrics.timeSeries$
   readonly sessionResults$ = this.session.completed$.pipe(
-    concatMap(() => of(this.calcSessionResults()))
+    switchMap(() => of(this.calcSessionResults()))
   )
 
   constructor(
@@ -33,8 +33,8 @@ export class SessionMetricsComponent {
 
   private calcSessionResults() {
     return SessionResults.builder()
-      .lesson(this.session.getLesson()!)
-      .errors(this.metrics.getTotalErrors())
+      .wordSize(this.session.getWordSize())
+      .totalErrors(this.metrics.getTotalErrors())
       .totalCharacters(this.metrics.getTotalCharacters())
       .totalWords(this.metrics.getTotalWords())
       .totalWordsWithErrors(this.metrics.getTotalWordsWithErrors())

@@ -23,17 +23,16 @@
       [lesson]="lesson"
     ></tiptap-terminal>
 
-    <div *ngIf="!isSessionInProgress">
-      <p>
-        <kbd>Shift</kbd>
-        +
-        <kbd>Enter</kbd>
-        to begin
-      </p>
-    </div>
-  </div>
+    <p *ngIf="!isSessionInProgress">
+      <kbd>Shift</kbd>
+      +
+      <kbd>Enter</kbd>
+      to begin
+    </p>
 
-  <ng-container *ngIf="isSessionCompleted">
-    <tiptap-session-metrics class="mt-1"></tiptap-session-metrics>
-  </ng-container>
+    <tiptap-session-metrics
+      *ngIf="isSessionCompleted"
+      class="mt-1"
+    ></tiptap-session-metrics>
+  </div>
 </div>

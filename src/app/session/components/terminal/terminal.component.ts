@@ -5,6 +5,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -18,7 +19,6 @@ import { CharacterSpace } from '../../../lessons/character-space'
 import { Lesson } from '../../../models'
 import { ThemeService } from '../../../services/theme.service'
 import {
-  KeyboardService,
   MetricsService,
   RandomWordGeneratorService,
   SessionService,
@@ -36,6 +36,7 @@ import {
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
   private readonly wordCount = 200
+  private isSessionInProgress = false
   private isInitialRender = true
 
   readonly isDarkTheme$ = this.themeService.isDarkTheme$
@@ -44,7 +45,6 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
 
   constructor(
     private readonly themeService: ThemeService,
-    private readonly keyboardService: KeyboardService,
     private readonly metricsService: MetricsService,
     private readonly sessionService: SessionService,
     private readonly rwg: RandomWordGeneratorService,
@@ -62,19 +62,10 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.keyboardService.keyPressed$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((key: string) => {
-        if (key === 'Backspace') {
-          this.handleBackspace()
-        } else {
-          this.handleKey(key)
-        }
-      })
-
     this.sessionService.started$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
+        this.isSessionInProgress = true
         if (!this.isInitialRender) {
           this.clearTerminal()
           this.render()
@@ -85,6 +76,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     this.sessionService.completed$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
+        this.isSessionInProgress = false
         this.isInitialRender = false
         this.calcMetrics()
       })
@@ -93,11 +85,9 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   calcMetrics() {
     const wordsWithErrors: Set<Element> = this.getWordsWithErrors()
     const wordsAttempted: NodeListOf<Element> = this.getWordsAttempted()
-    const errors: NodeListOf<Element> = this.getAllErrors()
 
     this.metricsService.setWordsAttemptedCount(wordsAttempted.length)
     this.metricsService.setWordsErrorCount(wordsWithErrors.size)
-    this.metricsService.setErrorCount(errors.length)
   }
 
   getAllErrors(): NodeListOf<Element> {
@@ -144,9 +134,6 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
 
       whitespaceContainerElement.classList.add('whitespace')
       const whitespaceElement: HTMLElement = this.renderer.createElement('pre')
-
-      // Render a dot on the screen for whitespace
-      // whitespaceElement.innerHTML = '&nbsp;'
       whitespaceElement.innerHTML = ' '
       whitespaceContainerElement.appendChild(whitespaceElement)
       terminal.appendChild(whitespaceContainerElement)
@@ -162,6 +149,32 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   clearTerminal() {
     const terminal: HTMLElement = this.terminalRef.nativeElement!
     terminal.innerHTML = ''
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeydown(event: KeyboardEvent) {
+    event.preventDefault()
+
+    if (!this.isSessionInProgress && event.shiftKey && event.key === 'Enter') {
+      this.sessionService.start()
+      return false
+    }
+
+    if (!this.isSessionInProgress) return false
+    if (event.repeat) return false
+    if (event.key === 'Enter') return false
+    if (event.key === 'Shift') return false
+    if (event.key === 'Control') return false
+    if (event.key === 'Alt') return false
+    if (event.metaKey) return false
+    if (event.key.length > 1 && event.key.charAt(0) === 'F') return false
+    if (event.key === 'Backspace') {
+      this.handleBackspace()
+    } else {
+      this.handleKey(event.key)
+    }
+
+    return false
   }
 
   handleKey(key: string) {
