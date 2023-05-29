@@ -71,15 +71,15 @@ describe('MetricsService', () => {
 
         expect(sample.errors).withContext('Number of errors').toEqual(1)
 
-        const cpm = MathUtil.calulateCPM(service.getTotalCharacters(), timeSeconds)
-        const raw = MathUtil.calculateRawWPMFromCPM(
-          cpm,
-          wordSize
+        const cpm = MathUtil.calulateCPM(
+          service.getTotalCharacters(),
+          timeSeconds
         )
+        const raw = MathUtil.calculateRawWPMFromCPM(cpm)
         const wpm = MathUtil.calculateNetWPMFromRawWPM(
           raw,
           service.getTotalErrors(),
-          wordSize,
+          timeSeconds
         )
 
         expect(sample.cpm).withContext('CPM').toEqual(cpm)

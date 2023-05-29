@@ -33,7 +33,6 @@ export class SessionMetricsComponent {
 
   private calcSessionResults() {
     return SessionResults.builder()
-      .wordSize(this.session.getWordSize())
       .totalErrors(this.metrics.getTotalErrors())
       .totalCharacters(this.metrics.getTotalCharacters())
       .totalWords(this.metrics.getTotalWords())

@@ -49,7 +49,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.render()
+    if (this.terminalRef) this.render()
   }
 
   ngOnInit(): void {

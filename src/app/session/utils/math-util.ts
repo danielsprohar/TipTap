@@ -1,3 +1,5 @@
+import { Constants } from '../../constants/constants'
+
 /**
  * @see https://www.speedtypingonline.com/typing-equations
  */
@@ -6,9 +8,11 @@ export class MathUtil {
     totalCharacters: number,
     totalErrors: number
   ): number {
-    return totalCharacters > 0
-      ? (totalCharacters - totalErrors) / totalCharacters
-      : 0
+    if (totalCharacters === 0) {
+      return 0
+    }
+
+    return 1 - totalErrors / totalCharacters
   }
 
   /**
@@ -18,7 +22,8 @@ export class MathUtil {
    * @returns
    */
   static calulateCPM(totalCharacters: number, timeSeconds: number): number {
-    return (totalCharacters / timeSeconds) * 60
+    const mins = timeSeconds / 60
+    return totalCharacters / mins
   }
 
   /**
@@ -28,16 +33,12 @@ export class MathUtil {
    * @param wordSize
    * @returns
    */
-  static calculateRawWPM(
-    totalCharacters: number,
-    wordSize: number,
-    timeSeconds: number
-  ): number {
-    return this.calulateCPM(totalCharacters, timeSeconds) / wordSize
+  static calculateRawWPM(totalCharacters: number, timeSeconds: number): number {
+    return this.calulateCPM(totalCharacters, timeSeconds) / Constants.WORD_SIZE
   }
 
-  static calculateRawWPMFromCPM(cpm: number, wordSize: number): number {
-    return cpm / wordSize
+  static calculateRawWPMFromCPM(cpm: number): number {
+    return cpm / Constants.WORD_SIZE
   }
 
   /**
@@ -51,10 +52,9 @@ export class MathUtil {
   static calculateNetWPM(
     totalCharacters: number,
     totalErrors: number,
-    wordSize: number,
     timeSeconds: number
   ): number {
-    const raw = this.calculateRawWPM(totalCharacters, wordSize, timeSeconds)
+    const raw = this.calculateRawWPM(totalCharacters, timeSeconds)
     const mins = timeSeconds / 60
     const errorRate = totalErrors / mins
     return raw - errorRate

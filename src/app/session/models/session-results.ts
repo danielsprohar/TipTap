@@ -2,7 +2,6 @@ import { MathUtil } from '../utils/math-util'
 
 export class SessionResults {
   constructor(
-    public readonly wordSize: number,
     public readonly cpm: number,
     public readonly rawWPM: number,
     public readonly netWPM: number,
@@ -28,7 +27,6 @@ class SessionResultsBuilder {
   private _totalWordsWithErrors?: number
   private _accuracy?: number
   private _durationSeconds?: number
-  private _wordSize: number = 5
   private _startedAt?: Date
   private _completedAt?: Date
 
@@ -59,11 +57,6 @@ class SessionResultsBuilder {
 
   durationSeconds(duration: number) {
     this._durationSeconds = duration
-    return this
-  }
-
-  wordSize(value: number) {
-    this._wordSize = value
     return this
   }
 
@@ -102,10 +95,6 @@ class SessionResultsBuilder {
       throw new Error('Duration is required')
     }
 
-    if (this._wordSize === undefined) {
-      throw new Error('Word Size is required')
-    }
-
     if (this._startedAt === undefined) {
       throw new Error('Started at is required')
     }
@@ -114,21 +103,21 @@ class SessionResultsBuilder {
       throw new Error('Completed at is required')
     }
 
-    const cpm = MathUtil.calulateCPM(this._totalCharacters, this._durationSeconds)
+    const cpm = MathUtil.calulateCPM(
+      this._totalCharacters,
+      this._durationSeconds
+    )
     const rawWPM = MathUtil.calculateRawWPM(
       this._totalCharacters,
-      this._wordSize,
       this._durationSeconds
     )
     const netWPM = MathUtil.calculateNetWPM(
       this._totalCharacters,
       this._totalErrors,
-      this._wordSize,
       this._durationSeconds
     )
 
     return new SessionResults(
-      this._wordSize,
       cpm,
       rawWPM,
       netWPM,

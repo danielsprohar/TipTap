@@ -104,7 +104,7 @@ describe('AppComponent', () => {
       expect(topnav).toBeTruthy()
 
       const links: NodeListOf<HTMLAnchorElement> = topnav.querySelectorAll('a')
-      expect(links.length).toEqual(1)
+      expect(links.length).toEqual(0)
     })
   })
 

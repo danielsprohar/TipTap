@@ -1,17 +1,30 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { importProvidersFrom } from '@angular/core'
+import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { RouterModule } from '@angular/router'
+import {
+  RouterTestingHarness,
+  RouterTestingModule,
+} from '@angular/router/testing'
 import { LessonsComponent } from './lessons.component'
 
 describe('LessonsComponent', () => {
   let component: LessonsComponent
   let fixture: ComponentFixture<LessonsComponent>
+  let harness: RouterTestingHarness
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [LessonsComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-}).compileComponents()
+      imports: [
+        LessonsComponent,
+        NoopAnimationsModule,
+        RouterTestingModule.withRoutes([]),
+      ],
+      providers: [importProvidersFrom(RouterModule)],
+    }).compileComponents()
+
+    harness = await RouterTestingHarness.create()
   })
 
   beforeEach(() => {

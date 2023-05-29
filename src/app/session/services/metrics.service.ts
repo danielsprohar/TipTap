@@ -35,9 +35,7 @@ export class MetricsService {
   }
 
   getAccuracy() {
-    return this._characterCount > 0
-      ? (this._characterCount - this._totalErrors) / this._characterCount
-      : 0
+    return MathUtil.calculateAccuracy(this._characterCount, this._totalErrors)
   }
 
   setWordsAttemptedCount(value: number) {
@@ -55,7 +53,7 @@ export class MetricsService {
 
     if (timeSeconds > 0) {
       cpm = MathUtil.calulateCPM(this._characterCount, timeSeconds)
-      rawWPM = MathUtil.calculateRawWPMFromCPM(cpm, wordSize)
+      rawWPM = MathUtil.calculateRawWPMFromCPM(cpm)
       netWPM = MathUtil.calculateNetWPMFromRawWPM(
         rawWPM,
         this._totalErrors,
@@ -95,7 +93,6 @@ export class MetricsService {
   }
 
   incrementErrorCount() {
-    this._totalErrors++
     this._totalErrors++
   }
 
