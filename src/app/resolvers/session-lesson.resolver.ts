@@ -12,7 +12,7 @@ import { RandomWordGeneratorService } from '../session/services'
 
 export const sessionLessonResolver: ResolveFn<string[]> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  _state: RouterStateSnapshot
 ) => {
   const router = inject(Router)
   if (route.queryParamMap.keys.length === 0) {
