@@ -4,9 +4,6 @@ import { KeyboardService } from './keyboard.service'
 
 describe('KeyboardService', () => {
   let service: KeyboardService
-  const mockEvent = new KeyboardEvent('keydown', {
-    key: 'a',
-  })
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,5 +14,15 @@ describe('KeyboardService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy()
+  })
+
+  it('should set the key pressed', (done: DoneFn) => {
+    const subscription = service.keyPressed$.subscribe((key) => {
+      expect(key).toEqual('a')
+      done()
+    })
+
+    service.setKeyPressed('a')
+    subscription.unsubscribe()
   })
 })

@@ -21,7 +21,7 @@ import {
 } from 'chart.js'
 import { Subject, takeUntil } from 'rxjs'
 import { ThemeService } from '../../../services/theme.service'
-import { TimeSeriesSample } from '../../models/time-series-sample'
+import { SessionSample } from '../../models/time-series-sample'
 
 @Component({
   selector: 'tiptap-metrics-line-chart',
@@ -46,7 +46,7 @@ export class MetricsLineChartComponent
   private readonly blue = '#0000ff'
   private readonly green = '#00ff00'
 
-  @Input({ required: true }) timeSeries!: TimeSeriesSample[]
+  @Input({ required: true }) samples!: SessionSample[]
   @ViewChild('canvas', { static: true }) canvas?: ElementRef
 
   constructor(
@@ -111,23 +111,23 @@ export class MetricsLineChartComponent
     this.chart = new Chart(canvasElement, {
       type: 'line',
       data: {
-        labels: this.timeSeries.map((samples) => samples.timeSeconds),
+        labels: this.samples.map((samples) => samples.timeSeconds),
         datasets: [
           {
             label: 'Net WPM',
-            data: this.timeSeries.map((samples) => samples.netWPM),
+            data: this.samples.map((samples) => samples.netWPM),
             borderColor: this.blue,
             yAxisID: 'y',
           },
           {
             label: 'Errors',
-            data: this.timeSeries.map((samples) => samples.errors),
+            data: this.samples.map((samples) => samples.errors),
             borderColor: this.red,
             yAxisID: 'y1',
           },
           {
             label: 'Raw WPM',
-            data: this.timeSeries.map((samples) => samples.rawWPM),
+            data: this.samples.map((samples) => samples.rawWPM),
             borderColor: this.green,
             yAxisID: 'y2',
           },

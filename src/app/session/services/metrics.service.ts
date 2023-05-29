@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import { TimeSeriesSample } from '../models/time-series-sample'
+import { SessionSample } from '../models/time-series-sample'
 
 @Injectable()
 export class MetricsService {
@@ -11,8 +11,8 @@ export class MetricsService {
   private _wordsAttemptedCount = 0
   private _wordsWithErrorsCount = 0
 
-  private readonly _samples: TimeSeriesSample[] = []
-  readonly timeSeries$: Observable<TimeSeriesSample[]> = of(this._samples)
+  private readonly _samples: SessionSample[] = []
+  readonly timeSeries$: Observable<SessionSample[]> = of(this._samples)
 
   getTotalCharacters() {
     return this._characterCount
@@ -60,12 +60,13 @@ export class MetricsService {
     if (timeSeconds > 0) {
       cpm = (this._characterCount / timeSeconds) * 60
       rawWPM = cpm / wordSize
-      netWPM = rawWPM - this._errorCount / (timeSeconds / 60)
+      netWPM = rawWPM - (this._errorCount / (timeSeconds * 60))
     }
 
-    const sample: TimeSeriesSample = {
+    const sample: SessionSample = {
       timeSeconds,
       errors: this._errorCount,
+      cpm,
       rawWPM,
       netWPM,
     }

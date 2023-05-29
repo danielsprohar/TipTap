@@ -60,6 +60,8 @@ export class SessionService {
   }
 
   reset(): void {
+    this._startedAt = null
+    this._completedAt = null
     this.resetSource.next()
     this.metricsService.reset()
     this._time$ = this.createInterval()
