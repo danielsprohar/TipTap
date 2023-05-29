@@ -28,7 +28,7 @@ class SessionResultsBuilder {
   private _totalWordsWithErrors?: number
   private _accuracy?: number
   private _durationSeconds?: number
-  private _wordSize?: number
+  private _wordSize: number = 5
   private _startedAt?: Date
   private _completedAt?: Date
 
