@@ -8,9 +8,7 @@
   >
     <mat-toolbar id="sidenavToolbar">
       <div class="logo-container">
-        <a routerLink="/">
-          <img src="assets\apple-touch-icon.png" alt="Home" class="app-logo" />
-        </a>
+        <img src="assets\apple-touch-icon.png" alt="Home" class="app-logo" />
         <span class="app-name">Tip Tap</span>
       </div>
     </mat-toolbar>
@@ -37,11 +35,12 @@
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a routerLink="/" class="app-name">Tip Tap</a>
 
       <ng-container *ngIf="!(isHandset$ | async)">
-        <a routerLink="/" mat-button class="link ml-1">HOME</a>
-        <a routerLink="lessons" mat-button class="link">LESSONS</a>
+        <a routerLink="/" class="app-name">Tip Tap</a>
+        <a routerLink="lessons" mat-button class="link ml-1">LESSONS</a>
+        <a routerLink="/" mat-button class="link">RANDOM</a>
+        <a routerLink="/about" mat-button class="link">ABOUT</a>
       </ng-container>
 
       <span class="spacer"></span>

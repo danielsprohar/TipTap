@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router'
-import { NotFoundComponent } from './components/not-found/not-found.component'
+import { NotFoundComponent } from './not-found/not-found.component'
 import { sessionLessonResolver, sessionResolver } from './resolvers'
 import { SessionComponent } from './session/session.component'
 
@@ -10,6 +10,13 @@ export const appRoutes: Routes = [
     resolve: {
       words: sessionResolver,
     },
+  },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./about/about.component').then(
+        (component) => component.AboutComponent
+      ),
   },
   {
     path: 'lessons',
