@@ -1,51 +1,43 @@
-<div
-  class="flex-column flex-centered my-1"
-  [class.dark-theme]="isDarkTheme$ | async"
->
-  <section class="container">
-    <h1>Welcome to Tip Tap</h1>
-    <mat-divider></mat-divider>
-    <div class="my-1">
-      <h2>Introduction</h2>
-      <p>
-        Practice typing using the
-        <a href="https://en.wikipedia.org/wiki/QWERTY" target="_blank">
-          QWERTY
-        </a>
-        layout.
-      </p>
-      <p>
-        The Beginner and Intermediate <a routerLink="lessons">lessons</a> are
-        composed from the English alphabet. Each lesson is 60 seconds in
-        duration. Your are graded on a
-        <a
-          href="https://en.wikipedia.org/wiki/Words_per_minute"
-          target="_blank"
-        >
-          Words per minute (wpm)
-        </a>
-        scale. In this context, a word is a random sequence of 5 characters from
-        a given character set (e.g. <code>[a, q, z]</code>).
-      </p>
-      <h2>Finger Placement</h2>
+<div class="flex-column my-1" [class.dark-theme]="isDarkTheme$ | async">
+  <h1>Welcome to Tip Tap</h1>
 
-      <p>
-        Your index fingers, both left and right, should always find their way
-        back to <kbd>F</kbd> and <kbd>J</kbd>. The <kbd>F</kbd> and
-        <kbd>J</kbd> keys have small bumps on each key to easily identify them
-        without looking down at your keyboard.
-      </p>
-    </div>
+  <section class="container my-1">
+    <p>
+      Use Tip Tap to practice typing using the
+      <a href="https://en.wikipedia.org/wiki/QWERTY" target="_blank">
+        QWERTY
+      </a>
+      keyboard layout.
+    </p>
+    <p>
+      The Beginner and Intermediate <a routerLink="lessons">lessons</a> are
+      composed from the English alphabet. Each lesson is 60 seconds in duration.
+      Your are graded on a
+      <a href="https://en.wikipedia.org/wiki/Words_per_minute" target="_blank">
+        Words per minute (wpm)
+      </a>
+      scale. In this context, a word is a random sequence of 5 characters from a
+      given character set (e.g. <code>[a, q, z]</code>).
+    </p>
+    <h2>Finger Placement</h2>
+
+    <p>
+      Your index fingers, both left and right, should always find their way back
+      to <kbd>F</kbd> and <kbd>J</kbd>. The <kbd>F</kbd> and <kbd>J</kbd> keys
+      have small bumps on each key to easily identify them without looking down
+      at your keyboard.
+    </p>
   </section>
 
-  <section class="container centered">
+  <section class="container my-1">
     <img
-      width="512"
+      class="full-width"
       alt="Typing-colour for-finger-positions"
       src="../../../assets/images/512px-Typing-colour_for-finger-positions.svg.png"
     />
 
     <div>
+      <span>Attribution:</span>&nbsp;
       <a
         data-tooltip="Wikimedia"
         href="https://commons.wikimedia.org/wiki/File:Typing-colour_for-finger-positions.svg"
@@ -61,7 +53,6 @@
       >
         CC BY-SA 3.0
       </a>
-      , via Wikimedia Commons
     </div>
   </section>
 
@@ -80,5 +71,38 @@
         </tr>
       </tbody>
     </table>
+  </section>
+
+  <section class="container my-1">
+    <h2>Calculations</h2>
+    <p>
+      The following calculations are used to determine your score for each
+      lesson.
+    </p>
+
+    <div id="maths">
+      <section>
+        <h3>Raw WPM</h3>
+        <p>Raw WPM does not account for the errors you made.</p>
+        <blockquote class="math-container">
+          <p class="math">
+            <code> Raw WPM = (total characters / 5) / (time / 60) </code>
+          </p>
+        </blockquote>
+      </section>
+
+      <section>
+        <h3>Net WPM</h3>
+        <p>
+          Net WPM <em>does</em> account for the errors you made by subtracting
+          the error rate from your raw WPM score.
+        </p>
+        <blockquote class="math-container">
+          <p class="math">
+            <code> New WPM = Raw WPM - (total errors / total characters) </code>
+          </p>
+        </blockquote>
+      </section>
+    </div>
   </section>
 </div>
