@@ -13,11 +13,13 @@ import {
 import {
   CategoryScale,
   Chart,
+  Legend,
   LineController,
   LineElement,
   LinearScale,
   PointElement,
   Title,
+  Tooltip,
 } from 'chart.js'
 import { Subject, takeUntil } from 'rxjs'
 import { ThemeService } from '../../../services/theme.service'
@@ -39,7 +41,6 @@ export class MetricsLineChartComponent
 {
   private readonly destroy$ = new Subject<void>()
   private chart?: Chart
-  private readonly cyan = '#00bcd4'
   private readonly lightGrey = '#e0e0e0'
   private readonly darkGrey = '#303030'
   private readonly red = '#ff0000'
@@ -56,12 +57,16 @@ export class MetricsLineChartComponent
 
   ngOnDestroy(): void {
     Chart.unregister(
+      // Required for Line chart
       LineController,
       LineElement,
       PointElement,
+      // Extras
       LinearScale,
       CategoryScale,
-      Title
+      Title,
+      Tooltip,
+      Legend
     )
 
     this.destroy$.next()
@@ -78,8 +83,14 @@ export class MetricsLineChartComponent
       // Extras
       LinearScale,
       CategoryScale,
-      Title
+      Title,
+      Tooltip,
+      Legend
     )
+
+    Chart.defaults.font.family = 'Roboto, "Helvetica Neue", sans-serif'
+    Chart.defaults.font.size = 16
+    Chart.defaults.font.weight = 'normal'
 
     this.themeService.isDarkTheme$
       .pipe(takeUntil(this.destroy$))
@@ -99,7 +110,6 @@ export class MetricsLineChartComponent
       throw new Error('Canvas is undefined')
     }
     this.render()
-    this.changeDetector.detectChanges()
   }
 
   render() {
@@ -124,6 +134,7 @@ export class MetricsLineChartComponent
             data: this.samples.map((samples) => samples.errors),
             borderColor: this.red,
             yAxisID: 'y1',
+            showLine: false,
           },
           {
             label: 'Raw WPM',
@@ -135,12 +146,31 @@ export class MetricsLineChartComponent
       },
       options: {
         responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Typing Session',
+          },
+          tooltip: {
+            enabled: true,
+            usePointStyle: true,
+            callbacks: {
+              title(tooltipItems) {
+                return `t = ${tooltipItems[0].label}`
+              },
+            },
+          },
+          legend: {
+            display: true,
+            position: 'top',
+          },
+        },
         scales: {
           x: {
             display: true,
             title: {
               display: true,
-              text: 'Seconds',
+              text: 'Time (seconds)',
             },
           },
           y: {
@@ -155,6 +185,7 @@ export class MetricsLineChartComponent
             type: 'linear',
             display: true,
             position: 'right',
+            min: 0,
             title: {
               display: true,
               text: 'Errors',
@@ -171,21 +202,9 @@ export class MetricsLineChartComponent
             },
           },
         },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Typing Session',
-          },
-          tooltip: {
-            enabled: true,
-            usePointStyle: true,
-          },
-          legend: {
-            display: true,
-            position: 'top',
-          },
-        },
       },
     })
+
+    this.changeDetector.detectChanges()
   }
 }

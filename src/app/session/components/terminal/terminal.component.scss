@@ -2,7 +2,8 @@ $light-theme-error: #cc0000;
 $dark-theme-error: #ff7595;
 
 .terminal-wrapper {
-  padding: 16px 8px;
+  padding: 16px;
+  overflow: auto;
 }
 
 #terminal {
@@ -13,10 +14,7 @@ $dark-theme-error: #ff7595;
   font-weight: 400;
   font-family: monospace;
   border-radius: 6px;
-  max-height: 450px;
-  overflow: auto;
-  padding-top: 2px;
-  padding-left: 2px;
+  max-height: 500px;
 }
 
 .word {

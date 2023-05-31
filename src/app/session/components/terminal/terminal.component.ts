@@ -209,10 +209,8 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   handleBackspace() {
     const terminal: Element = this.terminalRef.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
-    currentLetter.className = ''
-
     let previousLetter: Element | null = currentLetter.previousElementSibling
-
+    
     if (previousLetter === null) {
       const currentWord: Element = currentLetter.parentElement!
       const previousWord = currentWord.previousElementSibling
