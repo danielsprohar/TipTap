@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil } from 'rxjs'
 import { ThemeService } from '../../../services/theme.service'
-import { MetricsService, SessionService } from '../../services'
+import { KeyboardService, MetricsService, SessionService } from '../../services'
 
 @Component({
   standalone: true,
@@ -40,6 +40,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     private readonly metricsService: MetricsService,
     private readonly sessionService: SessionService,
     private readonly changeDetector: ChangeDetectorRef,
+    private readonly keyboardService: KeyboardService,
     private readonly renderer: Renderer2
   ) {}
 
@@ -49,7 +50,9 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if (this.terminalRef) this.render()
+    if (this.terminalRef) {
+      this.render()
+    }
   }
 
   ngOnInit(): void {
@@ -141,6 +144,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   @HostListener('document:keyup', ['$event'])
   handleKeydown(event: KeyboardEvent) {
     event.preventDefault()
+    event.stopPropagation()
 
     if (!this.isSessionInProgress && event.shiftKey && event.key === 'Enter') {
       this.sessionService.start()
@@ -158,6 +162,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     if (event.key === 'Backspace') {
       this.handleBackspace()
     } else {
+      this.keyboardService.keyUp(event.key)
       this.handleKey(event.key)
     }
 
@@ -170,14 +175,11 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     // This helps us calculate the WPM after the session is complete
     this.renderer.setAttribute(currentLetter, 'data-key', 'attempted')
 
-    if (key !== currentLetter.textContent) {
+    if (key === currentLetter.textContent) {
+      this.renderer.addClass(currentLetter, 'correct')
+    } else {
       this.metricsService.incrementErrorCount()
       this.renderer.addClass(currentLetter, 'error')
-    } else {
-      if (currentLetter.classList.contains('error')) {
-        this.renderer.removeClass(currentLetter, 'error')
-      }
-      this.renderer.addClass(currentLetter, 'correct')
     }
 
     let nextLetter: Element | null = currentLetter.nextElementSibling
@@ -199,18 +201,14 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     this.renderer.removeClass(currentLetter, 'cursor')
     this.renderer.addClass(nextLetter, 'cursor')
     this.metricsService.incrementCharacterCount()
-    if (this.metricsService.getTotalCharacters() % 5 === 0) {
-      nextLetter?.scrollIntoView()
-    }
-
-    this.changeDetector.detectChanges()
+    nextLetter?.scrollIntoView()
   }
 
   handleBackspace() {
     const terminal: Element = this.terminalRef.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
     let previousLetter: Element | null = currentLetter.previousElementSibling
-    
+
     if (previousLetter === null) {
       const currentWord: Element = currentLetter.parentElement!
       const previousWord = currentWord.previousElementSibling
@@ -234,6 +232,5 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.metricsService.decrementCharacterCount()
     previousLetter.scrollIntoView()
-    this.changeDetector.detectChanges()
   }
 }

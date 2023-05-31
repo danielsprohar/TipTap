@@ -12,7 +12,7 @@ import { Subject, map, takeUntil } from 'rxjs'
 import { SessionMetricsComponent } from './components/session-metrics/session-metrics.component'
 import { TerminalComponent } from './components/terminal/terminal.component'
 import { TimerComponent } from './components/timer/timer.component'
-import { MetricsService, SessionService } from './services'
+import { KeyboardService, MetricsService, SessionService } from './services'
 
 @Component({
   standalone: true,
@@ -20,7 +20,7 @@ import { MetricsService, SessionService } from './services'
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
-  providers: [SessionService, MetricsService],
+  providers: [SessionService, MetricsService, KeyboardService],
   imports: [
     AsyncPipe,
     MatDividerModule,
@@ -33,6 +33,7 @@ import { MetricsService, SessionService } from './services'
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
+  readonly keyPressed$ = this.keyboardService.key$
   readonly words$ = this.route.data.pipe(
     map((data) => (data['words'] as string[]) ?? [])
   )
@@ -43,7 +44,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly route: ActivatedRoute,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly keyboardService: KeyboardService
   ) {}
 
   ngOnDestroy(): void {

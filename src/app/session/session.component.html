@@ -1,7 +1,11 @@
 <div class="container centered mt-1">
   <div>
-    <div class="flex-centered mt-1">
+    <div class="flex align-items-center mt-1">
       <tiptap-timer></tiptap-timer>
+      <span class="spacer"></span>
+      <p class="key-pressed">
+        {{ keyPressed$ | async }}
+      </p>
     </div>
 
     <ng-container *ngIf="words$ | async as words">

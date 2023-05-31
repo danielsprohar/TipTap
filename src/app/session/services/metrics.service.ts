@@ -10,6 +10,7 @@ export class MetricsService {
   private _totalErrors = 0
   private _wordsAttemptedCount = 0
   private _wordsWithErrorsCount = 0
+  private _errorsBetweenSamples = 0
 
   private readonly _samples: SessionSample[] = []
   readonly timeSeries$: Observable<SessionSample[]> = of(this._samples)
@@ -63,13 +64,14 @@ export class MetricsService {
 
     const sample: SessionSample = {
       timeSeconds,
-      errors: this._totalErrors,
+      errors: this._errorsBetweenSamples,
       cpm,
       rawWPM,
       netWPM,
     }
 
     this._samples.push(sample)
+    this._errorsBetweenSamples = 0
   }
 
   decrementWordCount() {
@@ -82,6 +84,7 @@ export class MetricsService {
 
   decrementErrorCount() {
     this._totalErrors--
+    this._errorsBetweenSamples--
   }
 
   incrementCharacterCount() {
@@ -94,6 +97,7 @@ export class MetricsService {
 
   incrementErrorCount() {
     this._totalErrors++
+    this._errorsBetweenSamples++
   }
 
   reset() {
