@@ -3,17 +3,23 @@
   *ngIf="timeSeries$ | async as timeSeries"
 >
   <h1 class="text-3xl font-semibold mb-2">Session Metrics</h1>
-  <mat-card>
-    <mat-card-content>
-      <tiptap-metrics-line-chart
-        [samples]="timeSeries"
-      ></tiptap-metrics-line-chart>
-    </mat-card-content>
-  </mat-card>
 
-  <mat-card class="mb-2" *ngIf="sessionResults$ | async as data">
-    <mat-card-content>
-      <tiptap-metrics-table [sessionResults]="data"></tiptap-metrics-table>
-    </mat-card-content>
-  </mat-card>
+  <div class="flex flex-col gap-y-4">
+    <mat-card>
+      <mat-card-content>
+        <tiptap-metrics-line-chart
+          [samples]="timeSeries"
+        ></tiptap-metrics-line-chart>
+      </mat-card-content>
+    </mat-card>
+
+    <div>
+      <h2 class="text-2xl mb-2">Tabulated Statistics</h2>
+      <mat-card *ngIf="sessionResults$ | async as data">
+        <mat-card-content>
+          <tiptap-metrics-table [sessionResults]="data"></tiptap-metrics-table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </section>
