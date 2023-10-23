@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "tip-tap-e5cf7"
+  },
+  "targets": {
+    "tip-tap-e5cf7": {
+      "hosting": {
+        "tip-tap": [
+          "tip-tap-e5cf7"
+        ]
+      }
+    }
   }
 }
