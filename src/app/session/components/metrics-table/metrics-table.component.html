@@ -1,41 +1,39 @@
-<div class="mt-1">
-  <mat-table [dataSource]="dataSource" class="full-width">
-    <ng-container matColumnDef="accuracy">
-      <mat-header-cell *matHeaderCellDef> Accuracy (%) </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.accuracy | percent }} </mat-cell>
-    </ng-container>
+<mat-table [dataSource]="dataSource" class="w-full">
+  <ng-container matColumnDef="accuracy">
+    <mat-header-cell *matHeaderCellDef> Accuracy (%) </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.accuracy | percent }} </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="rawWPM">
-      <mat-header-cell *matHeaderCellDef> Raw WPM </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        {{ row.rawWPM | number : '1.0-2' }}
-      </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="rawWPM">
+    <mat-header-cell *matHeaderCellDef> Raw WPM </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{ row.rawWPM | number : '1.0-2' }}
+    </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="netWPM">
-      <mat-header-cell *matHeaderCellDef> Net WPM </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        {{ row.netWPM | number : '1.0-2' }}
-      </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="netWPM">
+    <mat-header-cell *matHeaderCellDef> Net WPM </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{ row.netWPM | number : '1.0-2' }}
+    </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="totalWords">
-      <mat-header-cell *matHeaderCellDef> Words </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.totalWords }} </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="totalWords">
+    <mat-header-cell *matHeaderCellDef> Words </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.totalWords }} </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="totalWordsWithErrors">
-      <mat-header-cell *matHeaderCellDef> Words with Errors </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.totalWordsWithErrors }} </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="totalWordsWithErrors">
+    <mat-header-cell *matHeaderCellDef> Words with Errors </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.totalWordsWithErrors }} </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="totalCharacters">
-      <mat-header-cell *matHeaderCellDef> Total Characters </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.totalCharacters }} </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="totalCharacters">
+    <mat-header-cell *matHeaderCellDef> Total Characters </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.totalCharacters }} </mat-cell>
+  </ng-container>
 
-    <!-- Header and Row Declarations -->
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </mat-table>
-</div>
+  <!-- Header and Row Declarations -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
