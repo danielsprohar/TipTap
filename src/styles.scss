@@ -2,6 +2,10 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 $light-theme-primary: mat.define-palette(mat.$cyan-palette, 700);
 $light-theme-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
 $light-theme-warn: mat.define-palette(mat.$red-palette);
@@ -44,26 +48,6 @@ a {
 
 @include mat.all-component-themes($light-theme);
 
-.relative {
-  position: relative !important;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.centered {
-  text-align: center;
-}
-
-.container {
-  max-width: 960px !important;
-}
-
-.full-width {
-  width: 100%;
-}
-
 *,
 *::after,
 *::before {
@@ -78,65 +62,4 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-.ml-1 {
-  margin-left: 1em !important;
-}
-
-.mt-1 {
-  margin-top: 1rem;
-}
-
-.mt-2 {
-  margin-top: 2rem;
-}
-
-.mb-1 {
-  margin-bottom: 1rem;
-}
-
-.mb-2 {
-  margin-bottom: 2rem;
-}
-
-.my-1 {
-  margin-top: 1rem !important;
-  margin-bottom: 1rem !important;
-}
-
-.my-2 {
-  margin-top: 2rem !important;
-  margin-bottom: 2rem !important;
-}
-
-.pt-1 {
-  padding-top: 1rem;
-}
-
-.pt-2 {
-  padding-top: 2rem;
-}
-
-.pb-1 {
-  padding-bottom: 1rem;
-}
-
-.pb-2 {
-  padding-bottom: 2rem;
-}
-
-.py-1 {
-  padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
-}
-
-.py-2 {
-  padding-top: 2rem !important;
-  padding-bottom: 2rem !important;
-}
-
-.px-1 {
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
 }
