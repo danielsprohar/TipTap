@@ -2,7 +2,7 @@
   class="flex flex-col gap-y-4 py-4"
   [class.dark-theme]="isDarkTheme$ | async"
 >
-  <div>
+  <section>
     <h1 class="text-3xl mb-2">Welcome to Tip Tap</h1>
     <p>
       Use Tip Tap to practice typing using the
@@ -18,20 +18,20 @@
     <p>
       The Beginner and Intermediate
       <a routerLink="lessons" class="hover:underline">lessons</a> are composed
-      from the English alphabet. Each lesson is 60 seconds in duration. Your are
+      from the English alphabet. Each lesson is 60 seconds in duration. You are
       graded on a
       <a
         href="https://en.wikipedia.org/wiki/Words_per_minute"
         target="_blank"
         class="hover:underline"
       >
-        Words per minute (wpm)
+        words per minute (wpm)
       </a>
       scale. In this context, a word is a random sequence of 5 characters from a
       given character set (e.g.
-      <code class="font-mono bg-mat-dark-gray">[a, q, z]</code>).
+      <code>[a, q, z]</code>).
     </p>
-  </div>
+  </section>
 
   <div>
     <h2 class="text-2xl mb-2">Finger Placement</h2>
@@ -47,12 +47,12 @@
 
   <div>
     <img
-      class="w-full max-h-96"
+      class="w-full max-h-96 max-w-3xl mx-auto"
       alt="Typing-colour for-finger-positions"
       src="../../../assets/images/512px-Typing-colour_for-finger-positions.svg.png"
     />
 
-    <div class="text-sm">
+    <div class="text-sm mt-1">
       <span>Attribution:</span>&nbsp;
       <a
         data-tooltip="Wikimedia"

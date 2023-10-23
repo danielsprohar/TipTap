@@ -1,8 +1,8 @@
-<div
-  class="flex-column row-gap-1 my-1"
+<section
+  class="flex flex-col gap-x-4 my-1"
   *ngIf="timeSeries$ | async as timeSeries"
 >
-  <h1>Session Metrics</h1>
+  <h1 class="text-3xl font-semibold mb-2">Session Metrics</h1>
   <mat-card>
     <mat-card-content>
       <tiptap-metrics-line-chart
@@ -16,4 +16,4 @@
       <tiptap-metrics-table [sessionResults]="data"></tiptap-metrics-table>
     </mat-card-content>
   </mat-card>
-</div>
+</section>

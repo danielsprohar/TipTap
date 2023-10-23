@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router'
 import { HomeComponent } from './home/home.component'
 import { NotFoundComponent } from './not-found/not-found.component'
-import { sessionLessonResolver } from './resolvers'
+import { sessionLessonResolver, randomLessonResolver } from './resolvers'
 
 export const appRoutes: Routes = [
   {
@@ -23,6 +23,16 @@ export const appRoutes: Routes = [
       ),
     resolve: {
       words: sessionLessonResolver,
+    },
+  },
+  {
+    path: 'random',
+    loadComponent: () =>
+      import('./session/session.component').then(
+        (component) => component.SessionComponent
+      ),
+    resolve: {
+      words: randomLessonResolver,
     },
   },
   {

@@ -8,7 +8,6 @@ import { SessionService } from '../../services'
   standalone: true,
   imports: [CommonModule],
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent {

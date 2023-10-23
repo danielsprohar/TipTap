@@ -31,7 +31,7 @@ import { SessionSample } from '../../models/time-series-sample'
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="full-width">
+    <div class="w-full">
       <canvas #canvas></canvas>
     </div>
   `,
@@ -88,7 +88,7 @@ export class MetricsLineChartComponent
       Legend
     )
 
-    Chart.defaults.font.family = 'Roboto, "Helvetica Neue", sans-serif'
+    Chart.defaults.font.family = 'Roboto Mono, "Helvetica Neue", sans-serif'
     Chart.defaults.font.size = 16
     Chart.defaults.font.weight = 'normal'
 

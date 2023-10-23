@@ -8,7 +8,6 @@ import { LessonDetailComponent } from '../lesson-detail/lesson-detail.component'
   standalone: true,
   imports: [CommonModule, LessonDetailComponent],
   templateUrl: './lessons-list.component.html',
-  styleUrls: ['./lessons-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LessonsListComponent {

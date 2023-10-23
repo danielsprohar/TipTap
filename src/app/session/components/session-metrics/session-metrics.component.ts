@@ -18,7 +18,6 @@ import { MetricsTableComponent } from '../metrics-table/metrics-table.component'
     MetricsTableComponent,
   ],
   templateUrl: './session-metrics.component.html',
-  styleUrls: ['./session-metrics.component.scss'],
 })
 export class SessionMetricsComponent {
   readonly timeSeries$ = this.metrics.timeSeries$

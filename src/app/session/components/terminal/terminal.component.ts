@@ -141,7 +141,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     terminal.innerHTML = ''
   }
 
-  @HostListener('document:keyup', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeydown(event: KeyboardEvent) {
     event.preventDefault()
     event.stopPropagation()

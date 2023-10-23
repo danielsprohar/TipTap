@@ -13,7 +13,6 @@ import { HandPipe } from './pipes/hand.pipe'
   selector: 'app-lessons',
   standalone: true,
   templateUrl: './lessons.component.html',
-  styleUrls: ['./lessons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     HandPipe,

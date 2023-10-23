@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing'
 import { ResolveFn } from '@angular/router'
 
-import { sessionResolver } from './session.resolver'
+import { randomLessonResolver } from './random-lesson.resolver'
 
-describe('sessionResolver', () => {
+describe('randomLessonResolver', () => {
   const executeResolver: ResolveFn<string[]> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() =>
-      sessionResolver(...resolverParameters)
+      randomLessonResolver(...resolverParameters)
     )
 
   beforeEach(() => {

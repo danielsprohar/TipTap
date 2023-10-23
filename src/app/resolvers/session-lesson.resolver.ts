@@ -20,11 +20,13 @@ export const sessionLessonResolver: ResolveFn<string[]> = (
     return EMPTY
   }
   const rwg = inject(RandomWordGeneratorService)
+  const wordCount = 1_000
   const wordSize = 5
-  
+
   const lesson = Lesson.builder().buildFromParamMap(route.queryParamMap)
   const words = rwg.createRandomWords(
     CharacterSpace.fromLesson(lesson),
+    wordCount,
     wordSize
   )
 

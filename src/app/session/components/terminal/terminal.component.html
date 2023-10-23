@@ -1,9 +1,10 @@
-<section class="container mt-1">
+<div class="my-4">
   <mat-card *ngIf="words; else loading">
-    <div class="terminal-wrapper">
+    <div class="py-3 pl-3 overflow-y-auto">
       <div
         #terminal
         id="terminal"
+        class="flex flex-wrap text-xl font-mono rounded-md max-h-96"
         [class.dark-theme]="isDarkTheme$ | async"
       ></div>
     </div>
@@ -11,4 +12,4 @@
   <ng-template #loading>
     <mat-progress-spinner></mat-progress-spinner>
   </ng-template>
-</section>
+</div>

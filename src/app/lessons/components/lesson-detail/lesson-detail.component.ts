@@ -15,7 +15,6 @@ import { CharacterSpace } from '../../character-space'
   standalone: true,
   selector: 'tiptap-lesson-detail',
   templateUrl: './lesson-detail.component.html',
-  styleUrls: ['./lesson-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, MatCardModule, RouterLink, NgFor, TitleCasePipe],
 })

@@ -1,14 +1,7 @@
-import {
-  ActivatedRouteSnapshot,
-  ResolveFn,
-  RouterStateSnapshot,
-} from '@angular/router'
+import { ResolveFn } from '@angular/router'
 import dataSource from '../../assets/data/word-data.json'
 
-export const sessionResolver: ResolveFn<string[]> = (
-  _route: ActivatedRouteSnapshot,
-  _state: RouterStateSnapshot
-) => {
+export const randomLessonResolver: ResolveFn<string[]> = () => {
   const data: string[][] = dataSource
   const randomIndex = Math.floor(Math.random() * data.length)
   const randomElement = data[randomIndex]

@@ -1,6 +1,6 @@
-<div class="timer-container">
-  <span class="label">Time</span>
-  <p class="time">
+<div>
+  <span class="uppercase font-semibold">Time</span>
+  <p class="text-3xl font-mono">
     <ng-container *ngIf="time$ | async as time; else idle">
       {{ sessionLengthSeconds - time }}
     </ng-container>

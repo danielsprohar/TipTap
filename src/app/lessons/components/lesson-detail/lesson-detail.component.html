@@ -1,13 +1,16 @@
 <mat-card *ngIf="lesson">
-  <section class="container">
-    <div role="heading" class="heading mb-1">
+  <section class="px-4 py-3">
+    <div role="heading" class="text-xl mb-1">
       <a routerLink="/session" [queryParams]="lesson">
         {{ link | titlecase }}
       </a>
     </div>
 
-    <div class="container keys">
-      <kbd *ngFor="let element of characterSpace; trackBy: trackByKey">
+    <div class="flex flex-wrap gap-4">
+      <kbd
+        class="px-3 py-2 text-xl"
+        *ngFor="let element of characterSpace; trackBy: trackByKey"
+      >
         {{ element }}
       </kbd>
     </div>

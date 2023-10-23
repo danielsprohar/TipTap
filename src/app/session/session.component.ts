@@ -19,7 +19,6 @@ import { KeyboardService, MetricsService, SessionService } from './services'
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'tiptap-session',
   templateUrl: './session.component.html',
-  styleUrls: ['./session.component.scss'],
   providers: [SessionService, MetricsService, KeyboardService],
   imports: [
     AsyncPipe,

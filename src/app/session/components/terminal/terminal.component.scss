@@ -1,22 +1,6 @@
 $light-theme-error: #cc0000;
 $dark-theme-error: #ff7595;
 
-.terminal-wrapper {
-  padding: 16px;
-  overflow: auto;
-}
-
-#terminal {
-  display: flex;
-  row-gap: 16px;
-  flex-wrap: wrap;
-  font-size: 1.5rem;
-  font-weight: 400;
-  font-family: monospace;
-  border-radius: 6px;
-  max-height: 500px;
-}
-
 .word {
   display: flex;
   align-items: center;
