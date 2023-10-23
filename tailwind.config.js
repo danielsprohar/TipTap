@@ -2,7 +2,15 @@
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'mat-dark-gray': '#303030',
+        'mat-dark-grey': '#303030',
+      },
+      fontFamily: {
+        mono: ['Roboto Mono', 'monospace'],
+      }
+    },
   },
   plugins: [],
 }

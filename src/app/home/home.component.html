@@ -1,42 +1,58 @@
-<div class="flex-column my-1" [class.dark-theme]="isDarkTheme$ | async">
-  <h1>Welcome to Tip Tap</h1>
-
-  <section class="container my-1">
+<div
+  class="flex flex-col gap-y-4 py-4"
+  [class.dark-theme]="isDarkTheme$ | async"
+>
+  <div>
+    <h1 class="text-3xl mb-2">Welcome to Tip Tap</h1>
     <p>
       Use Tip Tap to practice typing using the
-      <a href="https://en.wikipedia.org/wiki/QWERTY" target="_blank">
+      <a
+        href="https://en.wikipedia.org/wiki/QWERTY"
+        target="_blank"
+        class="hover:underline"
+      >
         QWERTY
       </a>
       keyboard layout.
     </p>
     <p>
-      The Beginner and Intermediate <a routerLink="lessons">lessons</a> are
-      composed from the English alphabet. Each lesson is 60 seconds in duration.
-      Your are graded on a
-      <a href="https://en.wikipedia.org/wiki/Words_per_minute" target="_blank">
+      The Beginner and Intermediate
+      <a routerLink="lessons" class="hover:underline">lessons</a> are composed
+      from the English alphabet. Each lesson is 60 seconds in duration. Your are
+      graded on a
+      <a
+        href="https://en.wikipedia.org/wiki/Words_per_minute"
+        target="_blank"
+        class="hover:underline"
+      >
         Words per minute (wpm)
       </a>
       scale. In this context, a word is a random sequence of 5 characters from a
-      given character set (e.g. <code>[a, q, z]</code>).
+      given character set (e.g.
+      <code class="font-mono bg-mat-dark-gray">[a, q, z]</code>).
     </p>
-    <h2>Finger Placement</h2>
+  </div>
+
+  <div>
+    <h2 class="text-2xl mb-2">Finger Placement</h2>
 
     <p>
       Your index fingers, both left and right, should always find their way back
-      to <kbd>F</kbd> and <kbd>J</kbd>. The <kbd>F</kbd> and <kbd>J</kbd> keys
+      to <kbd class="px-2 py-1">F</kbd> and <kbd class="px-2 py-1">J</kbd>. The
+      <kbd class="px-2 py-1">F</kbd> and <kbd class="px-2 py-1">J</kbd> keys
       have small bumps on each key to easily identify them without looking down
       at your keyboard.
     </p>
-  </section>
+  </div>
 
-  <section class="container my-1">
+  <div>
     <img
-      class="full-width"
+      class="w-full max-h-96"
       alt="Typing-colour for-finger-positions"
       src="../../../assets/images/512px-Typing-colour_for-finger-positions.svg.png"
     />
 
-    <div>
+    <div class="text-sm">
       <span>Attribution:</span>&nbsp;
       <a
         data-tooltip="Wikimedia"
@@ -54,55 +70,57 @@
         CC BY-SA 3.0
       </a>
     </div>
-  </section>
+  </div>
 
-  <section class="container full-width my-1">
-    <table>
+  <div class="flex">
+    <table class="w-full text-center border-spacing-0">
       <thead>
-        <th>Finger</th>
-        <th>Color</th>
-        <th>Preview</th>
+        <tr class="border-b border-gray-500">
+          <th>Finger</th>
+          <th>Color</th>
+          <th>Preview</th>
+        </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let datum of dataSource">
+        <tr *ngFor="let datum of dataSource" class="border-b border-gray-500">
           <td>{{ datum.finger }}</td>
           <td>{{ datum.color }}</td>
           <td [style.background]="datum.hexColorCode"></td>
         </tr>
       </tbody>
     </table>
-  </section>
+  </div>
 
-  <section class="container my-1">
-    <h2>Calculations</h2>
+  <div>
+    <h2 class="text-2xl mb-2">Calculations</h2>
     <p>
       The following calculations are used to determine your score for each
       lesson.
     </p>
 
-    <div id="maths">
+    <div id="maths" class="flex flex-col gap-y-4 mt-4">
       <section>
-        <h3>Raw WPM</h3>
+        <h3 class="text-xl mb-2">Raw WPM</h3>
         <p>Raw WPM does not account for the errors you made.</p>
-        <blockquote class="math-container">
-          <p class="math">
+        <div class="rounded-md p-2 mx-0 mt-1 bg-gray-400 text-black">
+          <p class="text-center">
             <code> Raw WPM = (total characters / 5) / (time / 60) </code>
           </p>
-        </blockquote>
+        </div>
       </section>
 
       <section>
-        <h3>Net WPM</h3>
+        <h3 class="text-xl mb-2">Net WPM</h3>
         <p>
           Net WPM <em>does</em> account for the errors you made by subtracting
           the error rate from your raw WPM score.
         </p>
-        <blockquote class="math-container">
-          <p class="math">
+        <div class="rounded-md p-2 mx-0 mt-1 bg-gray-400 text-black">
+          <p class="text-center">
             <code> New WPM = Raw WPM - (total errors / total characters) </code>
           </p>
-        </blockquote>
+        </div>
       </section>
     </div>
-  </section>
+  </div>
 </div>

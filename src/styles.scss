@@ -48,6 +48,13 @@ a {
 
 @include mat.all-component-themes($light-theme);
 
+@layer base {
+  kbd {
+    @apply font-mono uppercase text-white rounded shadow-sm;
+    background-color: #212121;
+  }
+}
+
 *,
 *::after,
 *::before {
@@ -61,5 +68,5 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Playpen Sans', cursive;
 }

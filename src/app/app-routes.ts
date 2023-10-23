@@ -1,22 +1,12 @@
 import { Routes } from '@angular/router'
+import { HomeComponent } from './home/home.component'
 import { NotFoundComponent } from './not-found/not-found.component'
-import { sessionLessonResolver, sessionResolver } from './resolvers'
-import { SessionComponent } from './session/session.component'
+import { sessionLessonResolver } from './resolvers'
 
 export const appRoutes: Routes = [
   {
     path: '',
-    component: SessionComponent,
-    resolve: {
-      words: sessionResolver,
-    },
-  },
-  {
-    path: 'about',
-    loadComponent: () =>
-      import('./about/about.component').then(
-        (component) => component.AboutComponent
-      ),
+    component: HomeComponent,
   },
   {
     path: 'lessons',

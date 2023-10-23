@@ -17,14 +17,13 @@ const FINGER_NAME_TO_COLOR_MAP = [
 ]
 
 @Component({
-  selector: 'tiptap-about',
+  selector: 'tiptap-home',
   standalone: true,
   imports: [AsyncPipe, MatDividerModule, RouterLink, NgFor],
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
+  templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent {
+export class HomeComponent {
   readonly tableColumns = ['finger', 'color', 'hex']
   readonly dataSource = FINGER_NAME_TO_COLOR_MAP
   readonly isDarkTheme$ = this.themeService.isDarkTheme$
