@@ -77,14 +77,14 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   calcMetrics() {
-    const wordsWithErrors: Set<Element> = this.getWordsWithErrors()
+    const wordsWithErrors: Set<Element> = this.getElementsWithErrors()
     const wordsAttempted: NodeListOf<Element> = this.getWordsAttempted()
 
     this.metricsService.setWordsAttemptedCount(wordsAttempted.length)
     this.metricsService.setWordsErrorCount(wordsWithErrors.size)
   }
 
-  getAllErrors(): NodeListOf<Element> {
+  getAllElementsErrors(): NodeListOf<Element> {
     const terminal: Element = this.terminalRef.nativeElement
     return terminal.querySelectorAll('.error')
   }
@@ -94,14 +94,14 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     return terminal.querySelectorAll('[data-word="attempted"]')
   }
 
-  getWordsWithErrors() {
-    const errors = this.getAllErrors()
-    const badWords = new Set<Element>()
-    errors.forEach((err) => badWords.add(err.parentElement!))
-    return badWords
+  getElementsWithErrors(): Set<Element> {
+    const elements = this.getAllElementsErrors()
+    const errors = new Set<Element>()
+    elements.forEach((err) => errors.add(err.parentElement!))
+    return errors
   }
 
-  render() {
+  render(): void {
     const words: string[] = this.words
     const terminal: Element = this.terminalRef.nativeElement
 
@@ -142,7 +142,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown', ['$event'])
-  handleKeydown(event: KeyboardEvent) {
+  handleKeydown(event: KeyboardEvent): boolean {
     event.preventDefault()
     event.stopPropagation()
 
@@ -169,7 +169,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     return false
   }
 
-  handleKey(key: string) {
+  handleKey(key: string): void {
     const terminal: Element = this.terminalRef.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
     // This helps us calculate the WPM after the session is complete
@@ -204,7 +204,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     nextLetter?.scrollIntoView()
   }
 
-  handleBackspace() {
+  handleBackspace(): void {
     const terminal: Element = this.terminalRef.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
     let previousLetter: Element | null = currentLetter.previousElementSibling
