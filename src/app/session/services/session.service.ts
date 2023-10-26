@@ -18,10 +18,10 @@ export const SESSION_DURATION_MILLISECONDS = 60_000
 
 @Injectable()
 export class SessionService {
-  private readonly startedSource = new Subject<void>()
-  private readonly stoppedSource = new Subject<void>()
-  private readonly resetSource = new Subject<void>()
-  private readonly completedSource = new Subject<void>()
+  private readonly startedSubject = new Subject<void>()
+  private readonly stoppedSubject = new Subject<void>()
+  private readonly resetSubject = new Subject<void>()
+  private readonly completedSubject = new Subject<void>()
   private _durationSeconds = SESSION_DURATION_MILLISECONDS / 1000
   private _lesson: Lesson | null = null
   private _startedAt: Date | null = null
@@ -29,9 +29,9 @@ export class SessionService {
   private _time$: Observable<number> = this.createInterval()
   private _wordSize = 5
 
-  readonly started$ = this.startedSource.asObservable().pipe(shareReplay())
-  readonly reset$ = this.resetSource.asObservable().pipe(shareReplay())
-  readonly completed$ = this.completedSource.asObservable().pipe(shareReplay())
+  readonly started$ = this.startedSubject.asObservable().pipe(shareReplay())
+  readonly reset$ = this.resetSubject.asObservable().pipe(shareReplay())
+  readonly completed$ = this.completedSubject.asObservable().pipe(shareReplay())
 
   constructor(private readonly metricsService: MetricsService) {}
 
@@ -66,7 +66,7 @@ export class SessionService {
   reset(): void {
     this._startedAt = null
     this._completedAt = null
-    this.resetSource.next()
+    this.resetSubject.next()
     this.metricsService.reset()
     this._time$ = this.createInterval()
   }
@@ -74,18 +74,18 @@ export class SessionService {
   start(): void {
     this._startedAt = new Date()
     this.metricsService.reset()
-    this.startedSource.next()
+    this.startedSubject.next()
   }
 
   stop(): void {
     this._completedAt = new Date()
-    this.stoppedSource.next()
-    this.completedSource.next()
+    this.stoppedSubject.next()
+    this.completedSubject.next()
   }
 
   createTimer(): Observable<number> {
     return timer(SESSION_DURATION_MILLISECONDS + 1000).pipe(
-      takeUntil(this.stoppedSource)
+      takeUntil(this.stoppedSubject)
     )
   }
 
@@ -93,6 +93,7 @@ export class SessionService {
     const timer$ = this.createTimer()
     return interval(1000).pipe(
       takeUntil(timer$),
+      takeUntil(this.stoppedSubject),
       share(),
       map((timeSeconds) => timeSeconds + 1),
       tap((timeSeconds) =>

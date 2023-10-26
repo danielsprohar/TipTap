@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { ActivatedRoute } from '@angular/router'
 import { Subject, map, takeUntil } from 'rxjs'
@@ -22,6 +23,7 @@ import { KeyboardService, MetricsService, SessionService } from './services'
   providers: [SessionService, MetricsService, KeyboardService],
   imports: [
     AsyncPipe,
+    MatButtonModule,
     MatDividerModule,
     NgIf,
     SessionMetricsComponent,
@@ -71,5 +73,13 @@ export class SessionComponent implements OnInit, OnDestroy {
       })
 
     this.changeDetector.detectChanges()
+  }
+
+  startSession() {
+    this.sessionService.start()
+  }
+
+  stopSession() {
+    this.sessionService.stop()
   }
 }

@@ -1,10 +1,14 @@
 <div class="max-w-4xl flex flex-col">
-  <div class="flex items-center mt-4 mb-2">
+  <div class="mt-4 mb-2 flex items-center justify-between">
     <tiptap-timer></tiptap-timer>
-    <span class="flex-1"></span>
-    <p class="font-mono text-xl">
-      {{ keyPressed$ | async }}
-    </p>
+    <ng-container *ngIf="isSessionInProgress; else idle">
+      <button mat-raised-button color="warn" (click)="stopSession()">
+        Stop
+      </button>
+    </ng-container>
+    <ng-template #idle>
+      <button mat-stroked-button (click)="startSession()">Start</button>
+    </ng-template>
   </div>
 
   <tiptap-terminal
