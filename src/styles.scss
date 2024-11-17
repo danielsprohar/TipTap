@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @include mat.core();
 
 @tailwind base;
@@ -26,7 +26,8 @@ $light-theme: mat.define-theme(
 );
 
 html {
-  // Apply the dark theme by default
+  color-scheme: light dark;
+
   @include mat.core-theme($dark-theme);
   @include mat.all-component-themes($dark-theme);
 
@@ -34,12 +35,9 @@ html {
     color: #00e2ff;
   }
 
-  // Apply the light theme only when the user prefers light themes.
   @media (prefers-color-scheme: light) {
-    // Use the `-color` mixins to only apply color styles without reapplying the same
-    // typography and density styles.
     @include mat.core-color($light-theme);
-    @include mat.all-component-themes($light-theme);
+    @include mat.all-component-colors($light-theme);
 
     a {
       color: blue;
@@ -69,5 +67,5 @@ body {
 
 body {
   margin: 0;
-  font-family: 'Playpen Sans', cursive;
+  font-family: "Playpen Sans", cursive;
 }
