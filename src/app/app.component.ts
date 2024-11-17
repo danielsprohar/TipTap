@@ -16,7 +16,6 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterLink, RouterOutlet } from '@angular/router'
 import { Observable, Subject, map, takeUntil, tap } from 'rxjs'
-import { AuthService } from './services/auth.service'
 import { HandsetService } from './services/handset.service'
 import { ThemeService } from './services/theme.service'
 
@@ -44,7 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>()
 
-  readonly user$ = this.authService.user$
   readonly isHandset$: Observable<boolean> = this.handsetService.isHandset$
   readonly isDarkTheme$: Observable<boolean> =
     this.themeService.isDarkTheme$.pipe(
@@ -63,8 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly handsetService: HandsetService,
     private readonly overlay: OverlayContainer,
     private readonly themeService: ThemeService,
-    private readonly changeDetector: ChangeDetectorRef,
-    private readonly authService: AuthService
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnDestroy(): void {
@@ -75,8 +72,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.observer
       .observe('(prefers-color-scheme: dark)')
       .pipe(
-        takeUntil(this.destroy$),
-        map((result) => result.matches)
+        map((result) => result.matches),
+        takeUntil(this.destroy$)
       )
       .subscribe((isDarkTheme: boolean) => {
         if (isDarkTheme) {

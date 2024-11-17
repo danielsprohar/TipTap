@@ -23,7 +23,6 @@
     "@angular/platform-browser-dynamic": "^16.0.2",
     "@angular/router": "^16.0.2",
     "chart.js": "^4.3.0",
-    "rxfire": "^6.0.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
@@ -45,5 +44,6 @@
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "typescript": "~4.9.5"
-  }
+  },
+  "packageManager": "pnpm@9.13.1+sha512.5ac37545851c55ec58521b6c285db6f848f93ca70889beb4145f5b40fe234e4ea4faee4dad12ac5c139e494374c65d9c3a6ec9a25954378fa286a250e68d2f20"
 }

@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import {
-  Observable,
-  Subject,
   finalize,
   interval,
   map,
+  Observable,
   share,
   shareReplay,
+  Subject,
   takeUntil,
   tap,
   timer,
 } from 'rxjs'
-import { Lesson } from '../../models'
+import { Lesson } from '../../models/lesson'
 import { MetricsService } from './metrics.service'
 
 export const SESSION_DURATION_MILLISECONDS = 60_000
@@ -22,6 +22,7 @@ export class SessionService {
   private readonly stoppedSubject = new Subject<void>()
   private readonly resetSubject = new Subject<void>()
   private readonly completedSubject = new Subject<void>()
+  private readonly metricsService = inject(MetricsService)
   private _durationSeconds = SESSION_DURATION_MILLISECONDS / 1000
   private _lesson: Lesson | null = null
   private _startedAt: Date | null = null
@@ -32,8 +33,6 @@ export class SessionService {
   readonly started$ = this.startedSubject.asObservable().pipe(shareReplay())
   readonly reset$ = this.resetSubject.asObservable().pipe(shareReplay())
   readonly completed$ = this.completedSubject.asObservable().pipe(shareReplay())
-
-  constructor(private readonly metricsService: MetricsService) {}
 
   get time$() {
     return this._time$

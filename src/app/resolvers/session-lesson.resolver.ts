@@ -7,8 +7,8 @@ import {
 } from '@angular/router'
 import { EMPTY, of } from 'rxjs'
 import { CharacterSpace } from '../lessons/character-space'
-import { Lesson } from '../models'
-import { RandomWordGeneratorService } from '../session/services'
+import { Lesson } from '../models/lesson'
+import { RandomWordGeneratorService } from '../session/services/random-word-generator.service'
 
 export const sessionLessonResolver: ResolveFn<string[]> = (
   route: ActivatedRouteSnapshot,

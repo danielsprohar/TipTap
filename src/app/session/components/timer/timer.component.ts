@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import { switchMap } from 'rxjs'
-import { SessionService } from '../../services'
+import { SessionService } from '../../services/session.service'
 
 @Component({
   selector: 'tiptap-timer',
@@ -11,10 +11,10 @@ import { SessionService } from '../../services'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent {
+  private readonly sessionService = inject(SessionService)
+
   readonly sessionLengthSeconds = this.sessionService.getDurationSeconds()
   readonly time$ = this.sessionService.started$.pipe(
     switchMap(() => this.sessionService.time$)
   )
-
-  constructor(private readonly sessionService: SessionService) {}
 }

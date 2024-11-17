@@ -16,7 +16,9 @@ import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Subject, takeUntil } from 'rxjs'
 import { ThemeService } from '../../../services/theme.service'
-import { KeyboardService, MetricsService, SessionService } from '../../services'
+import { KeyboardService } from '../../services/keyboard.service'
+import { MetricsService } from '../../services/metrics.service'
+import { SessionService } from '../../services/session.service'
 
 @Component({
   standalone: true,

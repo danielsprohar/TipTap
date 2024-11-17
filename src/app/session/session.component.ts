@@ -13,7 +13,9 @@ import { Subject, map, takeUntil } from 'rxjs'
 import { SessionMetricsComponent } from './components/session-metrics/session-metrics.component'
 import { TerminalComponent } from './components/terminal/terminal.component'
 import { TimerComponent } from './components/timer/timer.component'
-import { KeyboardService, MetricsService, SessionService } from './services'
+import { KeyboardService } from './services/keyboard.service'
+import { MetricsService } from './services/metrics.service'
+import { SessionService } from './services/session.service'
 
 @Component({
   standalone: true,
