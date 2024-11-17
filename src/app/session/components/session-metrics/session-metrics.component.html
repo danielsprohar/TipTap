@@ -1,25 +1,24 @@
-<section
-  class="flex flex-col gap-x-4 my-1"
-  *ngIf="timeSeries$ | async as timeSeries"
->
+@if(timeSeries$ | async; as timeSeries) {
+<section class="flex flex-col gap-x-4 my-1">
   <h1 class="text-3xl font-semibold mb-2">Session Metrics</h1>
 
   <div class="flex flex-col gap-y-4">
     <mat-card>
       <mat-card-content>
-        <tiptap-metrics-line-chart
-          [samples]="timeSeries"
-        ></tiptap-metrics-line-chart>
+        <tiptap-metrics-line-chart [samples]="timeSeries" />
       </mat-card-content>
     </mat-card>
 
     <div>
       <h2 class="text-2xl mb-2">Tabulated Statistics</h2>
-      <mat-card *ngIf="sessionResults$ | async as data">
+      @if(sessionResults$ | async; as data) {
+      <mat-card>
         <mat-card-content>
-          <tiptap-metrics-table [sessionResults]="data"></tiptap-metrics-table>
+          <tiptap-metrics-table [sessionResults]="data" />
         </mat-card-content>
       </mat-card>
+      }
     </div>
   </div>
 </section>
+}

@@ -5,18 +5,19 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
+  inject,
+  input,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core'
 import {
   CategoryScale,
   Chart,
   Legend,
+  LinearScale,
   LineController,
   LineElement,
-  LinearScale,
   PointElement,
   Title,
   Tooltip,
@@ -40,20 +41,18 @@ export class MetricsLineChartComponent
   implements AfterViewInit, OnDestroy, OnInit
 {
   private readonly destroy$ = new Subject<void>()
-  private chart?: Chart
+  private readonly themeService = inject(ThemeService)
+  private readonly cdr = inject(ChangeDetectorRef)
   private readonly lightGrey = '#e0e0e0'
   private readonly darkGrey = '#303030'
   private readonly red = '#ff0000'
   private readonly blue = '#0000ff'
   private readonly green = '#00ff00'
 
-  @Input({ required: true }) samples!: SessionSample[]
-  @ViewChild('canvas', { static: true }) canvas?: ElementRef
+  private chart?: Chart
 
-  constructor(
-    private readonly changeDetector: ChangeDetectorRef,
-    private readonly themeService: ThemeService
-  ) {}
+  readonly samples = input.required<SessionSample[]>()
+  readonly canvas = viewChild<ElementRef>('canvas')
 
   ngOnDestroy(): void {
     Chart.unregister(
@@ -106,7 +105,7 @@ export class MetricsLineChartComponent
   }
 
   ngAfterViewInit(): void {
-    if (this.canvas === undefined) {
+    if (this.canvas() === undefined) {
       throw new Error('Canvas is undefined')
     }
     this.render()
@@ -117,28 +116,28 @@ export class MetricsLineChartComponent
       this.chart.destroy()
     }
 
-    const canvasElement = this.canvas!.nativeElement as HTMLCanvasElement
+    const canvasElement = this.canvas()!.nativeElement as HTMLCanvasElement
     this.chart = new Chart(canvasElement, {
       type: 'line',
       data: {
-        labels: this.samples.map((samples) => samples.timeSeconds),
+        labels: this.samples().map((samples) => samples.timeSeconds),
         datasets: [
           {
             label: 'Net WPM',
-            data: this.samples.map((samples) => samples.netWPM),
+            data: this.samples().map((samples) => samples.netWPM),
             borderColor: this.blue,
             yAxisID: 'y',
           },
           {
             label: 'Errors',
-            data: this.samples.map((samples) => samples.errors),
+            data: this.samples().map((samples) => samples.errors),
             borderColor: this.red,
             yAxisID: 'y1',
             showLine: false,
           },
           {
             label: 'Raw WPM',
-            data: this.samples.map((samples) => samples.rawWPM),
+            data: this.samples().map((samples) => samples.rawWPM),
             borderColor: this.green,
             yAxisID: 'y2',
           },
@@ -205,6 +204,6 @@ export class MetricsLineChartComponent
       },
     })
 
-    this.changeDetector.detectChanges()
+    this.cdr.detectChanges()
   }
 }

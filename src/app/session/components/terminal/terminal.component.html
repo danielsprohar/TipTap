@@ -1,5 +1,5 @@
 <div class="my-4">
-  <mat-card *ngIf="words; else loading">
+  <mat-card>
     <div class="py-3 pl-3 overflow-y-auto">
       <div
         #terminal
@@ -9,7 +9,4 @@
       ></div>
     </div>
   </mat-card>
-  <ng-template #loading>
-    <mat-progress-spinner></mat-progress-spinner>
-  </ng-template>
 </div>

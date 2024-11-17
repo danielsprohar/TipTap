@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,11 +6,12 @@ import {
   Component,
   ElementRef,
   HostListener,
-  Input,
+  inject,
+  input,
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild,
+  viewChild,
 } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
@@ -26,25 +27,22 @@ import { SessionService } from '../../services/session.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.scss'],
-  imports: [AsyncPipe, NgIf, MatCardModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
   private isSessionInProgress = false
   private isInitialRender = true
+  private readonly themeService = inject(ThemeService)
+  private readonly metricsService = inject(MetricsService)
+  private readonly sessionService = inject(SessionService)
+  private readonly changeDetector = inject(ChangeDetectorRef)
+  private readonly keyboardService = inject(KeyboardService)
+  private readonly renderer = inject(Renderer2)
+
   readonly isDarkTheme$ = this.themeService.isDarkTheme$
-
-  @Input({ required: true }) words!: string[]
-  @ViewChild('terminal') terminalRef!: ElementRef
-
-  constructor(
-    private readonly themeService: ThemeService,
-    private readonly metricsService: MetricsService,
-    private readonly sessionService: SessionService,
-    private readonly changeDetector: ChangeDetectorRef,
-    private readonly keyboardService: KeyboardService,
-    private readonly renderer: Renderer2
-  ) {}
+  readonly words = input.required<string[]>()
+  readonly terminalRef = viewChild<ElementRef>('terminal')
 
   ngOnDestroy(): void {
     this.destroy$.next()
@@ -52,7 +50,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if (this.terminalRef) {
+    if (this.terminalRef()) {
       this.render()
     }
   }
@@ -87,12 +85,12 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   getAllElementsErrors(): NodeListOf<Element> {
-    const terminal: Element = this.terminalRef.nativeElement
+    const terminal: Element = this.terminalRef()?.nativeElement
     return terminal.querySelectorAll('.error')
   }
 
   getWordsAttempted(): NodeListOf<Element> {
-    const terminal: Element = this.terminalRef.nativeElement
+    const terminal: Element = this.terminalRef()?.nativeElement
     return terminal.querySelectorAll('[data-word="attempted"]')
   }
 
@@ -104,8 +102,8 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   render(): void {
-    const words: string[] = this.words
-    const terminal: Element = this.terminalRef.nativeElement
+    const words: string[] = this.words()
+    const terminal: Element = this.terminalRef()?.nativeElement
 
     for (const word of words) {
       const wordElement: HTMLElement = this.renderer.createElement('span')
@@ -139,7 +137,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   clearTerminal() {
-    const terminal: HTMLElement = this.terminalRef.nativeElement!
+    const terminal: HTMLElement = this.terminalRef()?.nativeElement!
     terminal.innerHTML = ''
   }
 
@@ -172,7 +170,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleKey(key: string): void {
-    const terminal: Element = this.terminalRef.nativeElement!
+    const terminal: Element = this.terminalRef()?.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
     // This helps us calculate the WPM after the session is complete
     this.renderer.setAttribute(currentLetter, 'data-key', 'attempted')
@@ -207,7 +205,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleBackspace(): void {
-    const terminal: Element = this.terminalRef.nativeElement!
+    const terminal: Element = this.terminalRef()?.nativeElement!
     const currentLetter: Element = terminal.querySelector('.cursor')!
     let previousLetter: Element | null = currentLetter.previousElementSibling
 
