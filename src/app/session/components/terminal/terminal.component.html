@@ -1,11 +1,11 @@
-<div class="my-4">
+<div class="my-4 rounded-xl border bg-gray-300">
   <mat-card>
     <div class="py-3 pl-3 overflow-y-auto">
       <div
         #terminal
         id="terminal"
         class="flex flex-wrap text-xl font-mono rounded-md max-h-96"
-        [class.dark-theme]="isDarkTheme$ | async"
+        [class.dark-theme]="isDarkTheme()"
       ></div>
     </div>
   </mat-card>
