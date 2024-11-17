@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { Finger, Hand, Level } from '../../../enums'
-import { Lesson } from '../../../models'
-import { LessonsListComponent } from './lessons-list.component'
+import { Finger, Hand, Level } from "../../../enums";
+import { Lesson } from "../../../models";
+import { LessonsListComponent } from "./lessons-list.component";
 
-describe('LessonsListComponent', () => {
-  let component: LessonsListComponent
-  let fixture: ComponentFixture<LessonsListComponent>
+describe("LessonsListComponent", () => {
+  let component: LessonsListComponent;
+  let fixture: ComponentFixture<LessonsListComponent>;
   const lessons: Lesson[] = [
     new Lesson({
       level: Level.BEGINNER,
@@ -32,25 +32,25 @@ describe('LessonsListComponent', () => {
       finger: Finger.POINTY,
       isHomeKeys: false,
     }),
-  ]
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [LessonsListComponent],
-    })
-    fixture = TestBed.createComponent(LessonsListComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    });
+    fixture = TestBed.createComponent(LessonsListComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+  it("should create", () => {
+    expect(component).toBeTruthy();
+  });
 
-  it('should render a list of lesson-detail components', () => {
+  it("should render a list of lesson-detail components", () => {
     const lessons = fixture.nativeElement.querySelectorAll(
-      'tiptap-lesson-detail'
-    )
-    expect(lessons.length).toBe(lessons.length)
-  })
-})
+      "tiptap-lesson-detail"
+    );
+    expect(lessons.length).toBe(lessons.length);
+  });
+});

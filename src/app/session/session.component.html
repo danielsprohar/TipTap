@@ -1,25 +1,38 @@
 <div class="max-w-4xl flex flex-col">
   <div class="mt-4 mb-2 flex items-center justify-between">
     <tiptap-timer></tiptap-timer>
-    @if(inProgress()) {
-    <button mat-flat-button (click)="stopSession()">Stop</button>
+    @if (inProgress()) {
+      <button
+        mat-flat-button
+        (click)="stopSession()"
+      >
+        Stop
+      </button>
     } @else {
-    <button mat-flat-button (click)="startSession()">Start</button>
+      <button
+        mat-flat-button
+        (click)="startSession()"
+      >
+        Start
+      </button>
     }
   </div>
 
-  <tiptap-terminal *ngIf="words$ | async as words" [words]="words" />
+  <tiptap-terminal
+    *ngIf="words$ | async as words"
+    [words]="words"
+  />
 
-  @if(!inProgress()) {
-  <div class="mt-2 mb-4">
-    <kbd class="px-2 py-1">Shift</kbd>
-    +
-    <kbd class="px-2 py-1">Enter</kbd>
-    to begin
-  </div>
+  @if (!inProgress()) {
+    <div class="mt-2 mb-4">
+      <kbd class="px-2 py-1">Shift</kbd>
+      +
+      <kbd class="px-2 py-1">Enter</kbd>
+      to begin
+    </div>
   }
   <!--  -->
-  @if(completed()) {
-  <tiptap-session-metrics class="my-4" />
+  @if (completed()) {
+    <tiptap-session-metrics class="my-4" />
   }
 </div>

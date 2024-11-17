@@ -5,8 +5,11 @@
         class="mt-4"
         *ngFor="let map of beginnerLessonsGroupedByHand | keyvalue"
       >
-        <h1 class="text-2xl font-semibold mb-3" [id]="'beginner_' + map.key">
-          {{ map.key === BOTH_HANDS ? 'Home Keys' : (map.key | hand) }}
+        <h1
+          class="text-2xl font-semibold mb-3"
+          [id]="'beginner_' + map.key"
+        >
+          {{ map.key === BOTH_HANDS ? "Home Keys" : (map.key | hand) }}
         </h1>
         <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
       </section>

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core'
-import { environment } from 'src/environments/environment'
-import { CharacterSpace } from '../../lessons/character-space'
+import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
+import { CharacterSpace } from "../../lessons/character-space";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class RandomWordGeneratorService {
-  private readonly defaultWordCount = environment.rwg.defaults.wordCount
-  private readonly defaultWordSize = environment.rwg.defaults.wordSize
+  private readonly defaultWordCount = environment.rwg.defaults.wordCount;
+  private readonly defaultWordSize = environment.rwg.defaults.wordSize;
 
   /**
    * Creates a random word from the given character space.
@@ -25,23 +25,23 @@ export class RandomWordGeneratorService {
     characterSpace: CharacterSpace,
     n: number = this.defaultWordSize
   ): string {
-    const max = characterSpace.size
-    const characterSpaceArray: string[] = Array.from(characterSpace)
-    const characters: string[] = []
+    const max = characterSpace.size;
+    const characterSpaceArray: string[] = Array.from(characterSpace);
+    const characters: string[] = [];
 
     // indices
-    let i = 0
-    let j = 0
+    let i = 0;
+    let j = 0;
 
     while (i < n) {
       // Randomly select an index in the range [0, n-1]
-      j = Math.floor(Math.random() * max)
+      j = Math.floor(Math.random() * max);
       // Get a character from the character space
-      characters.push(characterSpaceArray[j])
-      i++
+      characters.push(characterSpaceArray[j]);
+      i++;
     }
 
-    return characters.join('')
+    return characters.join("");
   }
 
   /**
@@ -59,12 +59,12 @@ export class RandomWordGeneratorService {
     wordCount: number = this.defaultWordCount,
     wordSize: number = this.defaultWordSize
   ): string[] {
-    const words: string[] = []
+    const words: string[] = [];
 
     for (let i = 0; i < wordCount; i++) {
-      words.push(this.createRandomWord(characterSpace, wordSize))
+      words.push(this.createRandomWord(characterSpace, wordSize));
     }
 
-    return words
+    return words;
   }
 }

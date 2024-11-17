@@ -1,21 +1,21 @@
-import { Pipe, PipeTransform } from '@angular/core'
-import { Hand } from '../../enums'
+import { Pipe, PipeTransform } from "@angular/core";
+import { Hand } from "../../enums";
 
 @Pipe({
-  name: 'hand',
+  name: "hand",
   standalone: true,
 })
 export class HandPipe implements PipeTransform {
   transform(value: Hand, ...args: unknown[]): string {
     switch (value) {
       case Hand.LEFT:
-        return 'Left Hand'
+        return "Left Hand";
       case Hand.RIGHT:
-        return 'Right Hand'
+        return "Right Hand";
       case Hand.BOTH:
-        return 'Both Hands'
+        return "Both Hands";
       default:
-        return ''
+        return "";
     }
   }
 }

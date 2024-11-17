@@ -1,9 +1,9 @@
-import { Routes } from '@angular/router'
-import { SessionComponent } from './session.component'
+import { Routes } from "@angular/router";
+import { SessionComponent } from "./session.component";
 
 export const sessionRoutes: Routes = [
   {
-    path: '',
+    path: "",
     component: SessionComponent,
   },
-]
+];

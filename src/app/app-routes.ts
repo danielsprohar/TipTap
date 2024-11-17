@@ -1,24 +1,24 @@
-import { Routes } from '@angular/router'
-import { HomeComponent } from './home/home.component'
-import { NotFoundComponent } from './not-found/not-found.component'
-import { sessionLessonResolver, randomLessonResolver } from './resolvers'
+import { Routes } from "@angular/router";
+import { HomeComponent } from "./home/home.component";
+import { NotFoundComponent } from "./not-found/not-found.component";
+import { sessionLessonResolver, randomLessonResolver } from "./resolvers";
 
 export const appRoutes: Routes = [
   {
-    path: '',
+    path: "",
     component: HomeComponent,
   },
   {
-    path: 'lessons',
+    path: "lessons",
     loadComponent: () =>
-      import('./lessons/lessons.component').then(
+      import("./lessons/lessons.component").then(
         (component) => component.LessonsComponent
       ),
   },
   {
-    path: 'session',
+    path: "session",
     loadComponent: () =>
-      import('./session/session.component').then(
+      import("./session/session.component").then(
         (component) => component.SessionComponent
       ),
     resolve: {
@@ -26,9 +26,9 @@ export const appRoutes: Routes = [
     },
   },
   {
-    path: 'random',
+    path: "random",
     loadComponent: () =>
-      import('./session/session.component').then(
+      import("./session/session.component").then(
         (component) => component.SessionComponent
       ),
     resolve: {
@@ -36,7 +36,7 @@ export const appRoutes: Routes = [
     },
   },
   {
-    path: '**',
+    path: "**",
     component: NotFoundComponent,
   },
-]
+];

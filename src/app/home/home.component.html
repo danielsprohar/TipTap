@@ -17,9 +17,13 @@
     </p>
     <p>
       The Beginner and Intermediate
-      <a routerLink="lessons" class="hover:underline">lessons</a> are composed
-      from the English alphabet. Each lesson is 60 seconds in duration. You are
-      graded on a
+      <a
+        routerLink="lessons"
+        class="hover:underline"
+        >lessons</a
+      >
+      are composed from the English alphabet. Each lesson is 60 seconds in
+      duration. You are graded on a
       <a
         href="https://en.wikipedia.org/wiki/Words_per_minute"
         target="_blank"
@@ -82,7 +86,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let datum of dataSource" class="border-b border-gray-500">
+        <tr
+          *ngFor="let datum of dataSource"
+          class="border-b border-gray-500"
+        >
           <td>{{ datum.finger }}</td>
           <td>{{ datum.color }}</td>
           <td [style.background]="datum.hexColorCode"></td>
@@ -98,7 +105,10 @@
       lesson.
     </p>
 
-    <div id="maths" class="flex flex-col gap-y-4 mt-4">
+    <div
+      id="maths"
+      class="flex flex-col gap-y-4 mt-4"
+    >
       <section>
         <h3 class="text-xl mb-2">Raw WPM</h3>
         <p>Raw WPM does not account for the errors you made.</p>

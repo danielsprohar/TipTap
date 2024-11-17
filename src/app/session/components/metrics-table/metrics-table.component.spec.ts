@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DecimalPipe, PercentPipe } from '@angular/common'
-import { SessionResults } from '../../models/session-results'
-import { MetricsTableComponent } from './metrics-table.component'
+import { DecimalPipe, PercentPipe } from "@angular/common";
+import { SessionResults } from "../../models/session-results";
+import { MetricsTableComponent } from "./metrics-table.component";
 
-describe('MetricsTableComponent', () => {
-  let component: MetricsTableComponent
-  let fixture: ComponentFixture<MetricsTableComponent>
+describe("MetricsTableComponent", () => {
+  let component: MetricsTableComponent;
+  let fixture: ComponentFixture<MetricsTableComponent>;
   const sessionResults: SessionResults = SessionResults.builder()
     .totalErrors(2)
     .totalCharacters(25)
@@ -16,26 +16,26 @@ describe('MetricsTableComponent', () => {
     .durationSeconds(30)
     .startedAt(new Date())
     .completedAt(new Date())
-    .build()
+    .build();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [MetricsTableComponent],
-    })
-    fixture = TestBed.createComponent(MetricsTableComponent)
-    component = fixture.componentInstance
-    component.sessionResults = sessionResults
-    fixture.detectChanges()
-  })
+    });
+    fixture = TestBed.createComponent(MetricsTableComponent);
+    component = fixture.componentInstance;
+    component.sessionResults = sessionResults;
+    fixture.detectChanges();
+  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+  it("should create", () => {
+    expect(component).toBeTruthy();
+  });
 
-  it('should render the metrics table', () => {
-    const compiled: Element = fixture.nativeElement
-    const cells: NodeListOf<Element> = compiled.querySelectorAll('mat-cell')
-    expect(cells.length).toBeGreaterThan(0)
+  it("should render the metrics table", () => {
+    const compiled: Element = fixture.nativeElement;
+    const cells: NodeListOf<Element> = compiled.querySelectorAll("mat-cell");
+    expect(cells.length).toBeGreaterThan(0);
 
     const {
       accuracy,
@@ -44,39 +44,39 @@ describe('MetricsTableComponent', () => {
       totalWords,
       totalWordsWithErrors,
       totalCharacters,
-    } = component.sessionResults
+    } = component.sessionResults;
 
-    const accuracyCell: Element = cells[0]
-    const expectedAccuracy = new PercentPipe('en-US').transform(accuracy)
+    const accuracyCell: Element = cells[0];
+    const expectedAccuracy = new PercentPipe("en-US").transform(accuracy);
     expect(accuracyCell.textContent)
-      .withContext('accuracy')
-      .toContain(expectedAccuracy)
+      .withContext("accuracy")
+      .toContain(expectedAccuracy);
 
-    const rawWPMCell: Element = cells[1]
-    const expectedRawWPM = new DecimalPipe('en-US').transform(rawWPM, '1.0-2')
+    const rawWPMCell: Element = cells[1];
+    const expectedRawWPM = new DecimalPipe("en-US").transform(rawWPM, "1.0-2");
     expect(rawWPMCell.textContent)
-      .withContext('rawWPM')
-      .toContain(expectedRawWPM)
+      .withContext("rawWPM")
+      .toContain(expectedRawWPM);
 
-    const netWPMCell: Element = cells[2]
-    const expectedNetWPM = new DecimalPipe('en-US').transform(netWPM, '1.0-2')
+    const netWPMCell: Element = cells[2];
+    const expectedNetWPM = new DecimalPipe("en-US").transform(netWPM, "1.0-2");
     expect(netWPMCell.textContent)
-      .withContext('netWPM')
-      .toContain(expectedNetWPM)
+      .withContext("netWPM")
+      .toContain(expectedNetWPM);
 
-    const totalWordsCell: Element = cells[3]
+    const totalWordsCell: Element = cells[3];
     expect(totalWordsCell.textContent)
-      .withContext('totalWords')
-      .toContain(`${totalWords}`)
+      .withContext("totalWords")
+      .toContain(`${totalWords}`);
 
-    const totalWordsWithErrorsCell: Element = cells[4]
+    const totalWordsWithErrorsCell: Element = cells[4];
     expect(totalWordsWithErrorsCell.textContent)
-      .withContext('totalWordsWithErrors')
-      .toContain(`${totalWordsWithErrors}`)
+      .withContext("totalWordsWithErrors")
+      .toContain(`${totalWordsWithErrors}`);
 
-    const totalCharactersCell: Element = cells[5]
+    const totalCharactersCell: Element = cells[5];
     expect(totalCharactersCell.textContent)
-      .withContext('totalCharacters')
-      .toContain(`${totalCharacters}`)
-  })
-})
+      .withContext("totalCharacters")
+      .toContain(`${totalCharacters}`);
+  });
+});

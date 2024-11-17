@@ -1,20 +1,20 @@
-import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
-import { switchMap } from 'rxjs'
-import { SessionService } from '../../services/session.service'
+import { CommonModule } from "@angular/common";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { switchMap } from "rxjs";
+import { SessionService } from "../../services/session.service";
 
 @Component({
-  selector: 'tiptap-timer',
+  selector: "tiptap-timer",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './timer.component.html',
+  templateUrl: "./timer.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent {
-  private readonly sessionService = inject(SessionService)
+  private readonly sessionService = inject(SessionService);
 
-  readonly sessionLengthSeconds = this.sessionService.getDurationSeconds()
+  readonly sessionLengthSeconds = this.sessionService.getDurationSeconds();
   readonly time$ = this.sessionService.started$.pipe(
     switchMap(() => this.sessionService.time$)
-  )
+  );
 }

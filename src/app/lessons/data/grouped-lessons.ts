@@ -1,8 +1,8 @@
-import { Finger, Hand, Level } from '../../enums'
-import { Lesson } from '../../models/lesson'
+import { Finger, Hand, Level } from "../../enums";
+import { Lesson } from "../../models/lesson";
 
 // Beginner lessons
-const beginnerLessonsGroupedByHand = new Map<Hand, Lesson[]>()
+const beginnerLessonsGroupedByHand = new Map<Hand, Lesson[]>();
 beginnerLessonsGroupedByHand.set(Hand.LEFT, [
   new Lesson({
     level: Level.BEGINNER,
@@ -28,7 +28,7 @@ beginnerLessonsGroupedByHand.set(Hand.LEFT, [
     finger: Finger.POINTY,
     isHomeKeys: false,
   }),
-])
+]);
 
 beginnerLessonsGroupedByHand.set(Hand.RIGHT, [
   new Lesson({
@@ -55,7 +55,7 @@ beginnerLessonsGroupedByHand.set(Hand.RIGHT, [
     finger: Finger.POINTY,
     isHomeKeys: false,
   }),
-])
+]);
 
 beginnerLessonsGroupedByHand.set(Hand.BOTH, [
   new Lesson({
@@ -76,10 +76,10 @@ beginnerLessonsGroupedByHand.set(Hand.BOTH, [
     finger: Finger.ALL,
     isHomeKeys: true,
   }),
-])
+]);
 
 // Intermediate lessons
-const intermediateLessonsGroupedByHand = new Map<Hand, Lesson[]>()
+const intermediateLessonsGroupedByHand = new Map<Hand, Lesson[]>();
 intermediateLessonsGroupedByHand.set(Hand.LEFT, [
   new Lesson({
     level: Level.INTERMEDIATE,
@@ -105,7 +105,7 @@ intermediateLessonsGroupedByHand.set(Hand.LEFT, [
     finger: Finger.POINTY,
     isHomeKeys: false,
   }),
-])
+]);
 
 intermediateLessonsGroupedByHand.set(Hand.RIGHT, [
   new Lesson({
@@ -132,7 +132,7 @@ intermediateLessonsGroupedByHand.set(Hand.RIGHT, [
     finger: Finger.POINTY,
     isHomeKeys: false,
   }),
-])
+]);
 
 intermediateLessonsGroupedByHand.set(Hand.BOTH, [
   new Lesson({
@@ -141,13 +141,13 @@ intermediateLessonsGroupedByHand.set(Hand.BOTH, [
     finger: Finger.ALL,
     isHomeKeys: false,
   }),
-])
+]);
 
-export const map = new Map<Level, Map<Hand, Lesson[]>>()
-map.set(Level.BEGINNER, beginnerLessonsGroupedByHand)
-map.set(Level.INTERMEDIATE, intermediateLessonsGroupedByHand)
+export const map = new Map<Level, Map<Hand, Lesson[]>>();
+map.set(Level.BEGINNER, beginnerLessonsGroupedByHand);
+map.set(Level.INTERMEDIATE, intermediateLessonsGroupedByHand);
 map.set = function () {
-  throw new Error('Cannot set value on this map')
-}
+  throw new Error("Cannot set value on this map");
+};
 
-export const lessonsGroupedByLevelThenHand = Object.freeze(map)
+export const lessonsGroupedByLevelThenHand = Object.freeze(map);

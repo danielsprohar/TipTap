@@ -1,4 +1,4 @@
-import { MathUtil } from '../utils/math-util'
+import { MathUtil } from "../utils/math-util";
 
 export class SessionResults {
   constructor(
@@ -16,106 +16,106 @@ export class SessionResults {
   ) {}
 
   static builder(): SessionResultsBuilder {
-    return new SessionResultsBuilder()
+    return new SessionResultsBuilder();
   }
 }
 
 class SessionResultsBuilder {
-  private _totalErrors?: number
-  private _totalCharacters?: number
-  private _totalWords?: number
-  private _totalWordsWithErrors?: number
-  private _accuracy?: number
-  private _durationSeconds?: number
-  private _startedAt?: Date
-  private _completedAt?: Date
+  private _totalErrors?: number;
+  private _totalCharacters?: number;
+  private _totalWords?: number;
+  private _totalWordsWithErrors?: number;
+  private _accuracy?: number;
+  private _durationSeconds?: number;
+  private _startedAt?: Date;
+  private _completedAt?: Date;
 
   totalErrors(errors: number) {
-    this._totalErrors = errors
-    return this
+    this._totalErrors = errors;
+    return this;
   }
 
   totalCharacters(totalCharacters: number) {
-    this._totalCharacters = totalCharacters
-    return this
+    this._totalCharacters = totalCharacters;
+    return this;
   }
 
   totalWords(totalWords: number) {
-    this._totalWords = totalWords
-    return this
+    this._totalWords = totalWords;
+    return this;
   }
 
   totalWordsWithErrors(totalWordsWithErrors: number) {
-    this._totalWordsWithErrors = totalWordsWithErrors
-    return this
+    this._totalWordsWithErrors = totalWordsWithErrors;
+    return this;
   }
 
   accuracy(accuracy: number) {
-    this._accuracy = accuracy
-    return this
+    this._accuracy = accuracy;
+    return this;
   }
 
   durationSeconds(duration: number) {
-    this._durationSeconds = duration
-    return this
+    this._durationSeconds = duration;
+    return this;
   }
 
   startedAt(startedAt: Date) {
-    this._startedAt = startedAt
-    return this
+    this._startedAt = startedAt;
+    return this;
   }
 
   completedAt(completedAt: Date) {
-    this._completedAt = completedAt
-    return this
+    this._completedAt = completedAt;
+    return this;
   }
 
   build() {
     if (this._totalErrors === undefined) {
-      throw new Error('Errors is required')
+      throw new Error("Errors is required");
     }
 
     if (this._totalCharacters === undefined) {
-      throw new Error('Total characters is required')
+      throw new Error("Total characters is required");
     }
 
     if (this._totalWords === undefined) {
-      throw new Error('Total words is required')
+      throw new Error("Total words is required");
     }
 
     if (this._totalWordsWithErrors === undefined) {
-      throw new Error('Total words with errors is required')
+      throw new Error("Total words with errors is required");
     }
 
     if (this._accuracy === undefined) {
-      throw new Error('Accuracy is required')
+      throw new Error("Accuracy is required");
     }
 
     if (this._durationSeconds === undefined) {
-      throw new Error('Duration is required')
+      throw new Error("Duration is required");
     }
 
     if (this._startedAt === undefined) {
-      throw new Error('Started at is required')
+      throw new Error("Started at is required");
     }
 
     if (this._completedAt === undefined) {
-      throw new Error('Completed at is required')
+      throw new Error("Completed at is required");
     }
 
     const cpm = MathUtil.calulateCPM(
       this._totalCharacters,
       this._durationSeconds
-    )
+    );
     const rawWPM = MathUtil.calculateRawWPM(
       this._totalCharacters,
       this._durationSeconds
-    )
+    );
     const netWPM = MathUtil.calculateNetWPM(
       this._totalCharacters,
       this._totalErrors,
       this._durationSeconds
-    )
+    );
 
     return new SessionResults(
       cpm,
@@ -129,6 +129,6 @@ class SessionResultsBuilder {
       this._durationSeconds,
       this._startedAt,
       this._completedAt
-    )
+    );
   }
 }

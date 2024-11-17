@@ -1,18 +1,18 @@
-import { HttpClient, HttpParams } from '@angular/common/http'
-import { Injectable } from '@angular/core'
-import { catchError } from 'rxjs'
-import { environment } from 'src/environments/environment'
-import { Book } from '../models/book'
-import { HttpErrorResponseHandler } from './http-error-response-handler'
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { catchError } from "rxjs";
+import { environment } from "src/environments/environment";
+import { Book } from "../models/book";
+import { HttpErrorResponseHandler } from "./http-error-response-handler";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class BookService extends HttpErrorResponseHandler {
-  private readonly url = environment.services.book.url
+  private readonly url = environment.services.book.url;
 
   constructor(private readonly http: HttpClient) {
-    super()
+    super();
   }
 
   get(params?: HttpParams) {
@@ -20,6 +20,6 @@ export class BookService extends HttpErrorResponseHandler {
       .get<Book>(this.url, {
         params,
       })
-      .pipe(catchError(this.handleError))
+      .pipe(catchError(this.handleError));
   }
 }

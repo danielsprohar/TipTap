@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -10,7 +10,7 @@ import {
   OnDestroy,
   OnInit,
   viewChild,
-} from '@angular/core'
+} from "@angular/core";
 import {
   CategoryScale,
   Chart,
@@ -21,13 +21,13 @@ import {
   PointElement,
   Title,
   Tooltip,
-} from 'chart.js'
-import { Subject, takeUntil } from 'rxjs'
-import { ThemeService } from '../../../services/theme.service'
-import { SessionSample } from '../../models/time-series-sample'
+} from "chart.js";
+import { Subject, takeUntil } from "rxjs";
+import { ThemeService } from "../../../services/theme.service";
+import { SessionSample } from "../../models/time-series-sample";
 
 @Component({
-  selector: 'tiptap-metrics-line-chart',
+  selector: "tiptap-metrics-line-chart",
   standalone: true,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,19 +40,19 @@ import { SessionSample } from '../../models/time-series-sample'
 export class MetricsLineChartComponent
   implements AfterViewInit, OnDestroy, OnInit
 {
-  private readonly destroy$ = new Subject<void>()
-  private readonly themeService = inject(ThemeService)
-  private readonly cdr = inject(ChangeDetectorRef)
-  private readonly lightGrey = '#e0e0e0'
-  private readonly darkGrey = '#303030'
-  private readonly red = '#ff0000'
-  private readonly blue = '#0000ff'
-  private readonly green = '#00ff00'
+  private readonly destroy$ = new Subject<void>();
+  private readonly themeService = inject(ThemeService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly lightGrey = "#e0e0e0";
+  private readonly darkGrey = "#303030";
+  private readonly red = "#ff0000";
+  private readonly blue = "#0000ff";
+  private readonly green = "#00ff00";
 
-  private chart?: Chart
+  private chart?: Chart;
 
-  readonly samples = input.required<SessionSample[]>()
-  readonly canvas = viewChild<ElementRef>('canvas')
+  readonly samples = input.required<SessionSample[]>();
+  readonly canvas = viewChild<ElementRef>("canvas");
 
   ngOnDestroy(): void {
     Chart.unregister(
@@ -66,10 +66,10 @@ export class MetricsLineChartComponent
       Title,
       Tooltip,
       Legend
-    )
+    );
 
-    this.destroy$.next()
-    this.destroy$.complete()
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnInit(): void {
@@ -85,61 +85,63 @@ export class MetricsLineChartComponent
       Title,
       Tooltip,
       Legend
-    )
+    );
 
-    Chart.defaults.font.family = 'Roboto Mono, "Helvetica Neue", sans-serif'
-    Chart.defaults.font.size = 16
-    Chart.defaults.font.weight = 'normal'
+    Chart.defaults.font.family = 'Roboto Mono, "Helvetica Neue", sans-serif';
+    Chart.defaults.font.size = 16;
+    Chart.defaults.font.weight = "normal";
 
     this.themeService.isDarkTheme$
       .pipe(takeUntil(this.destroy$))
       .subscribe((isDarkTheme) => {
-        Chart.defaults.color = isDarkTheme ? this.lightGrey : this.darkGrey
-        Chart.defaults.backgroundColor = isDarkTheme ? this.darkGrey : '#ffffff'
+        Chart.defaults.color = isDarkTheme ? this.lightGrey : this.darkGrey;
+        Chart.defaults.backgroundColor = isDarkTheme
+          ? this.darkGrey
+          : "#ffffff";
         Chart.defaults.borderColor = isDarkTheme
           ? this.lightGrey
-          : this.darkGrey
+          : this.darkGrey;
 
-        this.render()
-      })
+        this.render();
+      });
   }
 
   ngAfterViewInit(): void {
     if (this.canvas() === undefined) {
-      throw new Error('Canvas is undefined')
+      throw new Error("Canvas is undefined");
     }
-    this.render()
+    this.render();
   }
 
   render() {
     if (this.chart !== undefined) {
-      this.chart.destroy()
+      this.chart.destroy();
     }
 
-    const canvasElement = this.canvas()!.nativeElement as HTMLCanvasElement
+    const canvasElement = this.canvas()!.nativeElement as HTMLCanvasElement;
     this.chart = new Chart(canvasElement, {
-      type: 'line',
+      type: "line",
       data: {
         labels: this.samples().map((samples) => samples.timeSeconds),
         datasets: [
           {
-            label: 'Net WPM',
+            label: "Net WPM",
             data: this.samples().map((samples) => samples.netWPM),
             borderColor: this.blue,
-            yAxisID: 'y',
+            yAxisID: "y",
           },
           {
-            label: 'Errors',
+            label: "Errors",
             data: this.samples().map((samples) => samples.errors),
             borderColor: this.red,
-            yAxisID: 'y1',
+            yAxisID: "y1",
             showLine: false,
           },
           {
-            label: 'Raw WPM',
+            label: "Raw WPM",
             data: this.samples().map((samples) => samples.rawWPM),
             borderColor: this.green,
-            yAxisID: 'y2',
+            yAxisID: "y2",
           },
         ],
       },
@@ -148,20 +150,20 @@ export class MetricsLineChartComponent
         plugins: {
           title: {
             display: true,
-            text: 'Typing Session',
+            text: "Typing Session",
           },
           tooltip: {
             enabled: true,
             usePointStyle: true,
             callbacks: {
               title(tooltipItems) {
-                return `t = ${tooltipItems[0].label}`
+                return `t = ${tooltipItems[0].label}`;
               },
             },
           },
           legend: {
             display: true,
-            position: 'top',
+            position: "top",
           },
         },
         scales: {
@@ -169,32 +171,32 @@ export class MetricsLineChartComponent
             display: true,
             title: {
               display: true,
-              text: 'Time (seconds)',
+              text: "Time (seconds)",
             },
           },
           y: {
             display: true,
-            position: 'left',
+            position: "left",
             title: {
               display: true,
-              text: 'Words per minute',
+              text: "Words per minute",
             },
           },
           y1: {
-            type: 'linear',
+            type: "linear",
             display: true,
-            position: 'right',
+            position: "right",
             min: 0,
             title: {
               display: true,
-              text: 'Errors',
+              text: "Errors",
             },
             grid: {
               drawOnChartArea: false, // only want the grid lines for one axis to show up
             },
           },
           y2: {
-            type: 'linear',
+            type: "linear",
             display: false,
             grid: {
               drawOnChartArea: false, // only want the grid lines for one axis to show up
@@ -202,8 +204,8 @@ export class MetricsLineChartComponent
           },
         },
       },
-    })
+    });
 
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
   }
 }

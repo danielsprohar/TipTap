@@ -1,4 +1,4 @@
-import { Constants } from '../../constants/constants'
+import { Constants } from "../../constants/constants";
 
 /**
  * @see https://www.speedtypingonline.com/typing-equations
@@ -9,10 +9,10 @@ export class MathUtil {
     totalErrors: number
   ): number {
     if (totalCharacters === 0) {
-      return 0
+      return 0;
     }
 
-    return 1 - totalErrors / totalCharacters
+    return 1 - totalErrors / totalCharacters;
   }
 
   /**
@@ -22,8 +22,8 @@ export class MathUtil {
    * @returns
    */
   static calulateCPM(totalCharacters: number, timeSeconds: number): number {
-    const mins = timeSeconds / 60
-    return totalCharacters / mins
+    const mins = timeSeconds / 60;
+    return totalCharacters / mins;
   }
 
   /**
@@ -34,11 +34,11 @@ export class MathUtil {
    * @returns
    */
   static calculateRawWPM(totalCharacters: number, timeSeconds: number): number {
-    return this.calulateCPM(totalCharacters, timeSeconds) / Constants.WORD_SIZE
+    return this.calulateCPM(totalCharacters, timeSeconds) / Constants.WORD_SIZE;
   }
 
   static calculateRawWPMFromCPM(cpm: number): number {
-    return cpm / Constants.WORD_SIZE
+    return cpm / Constants.WORD_SIZE;
   }
 
   /**
@@ -54,10 +54,10 @@ export class MathUtil {
     totalErrors: number,
     timeSeconds: number
   ): number {
-    const raw = this.calculateRawWPM(totalCharacters, timeSeconds)
-    const mins = timeSeconds / 60
-    const errorRate = totalErrors / mins
-    return raw - errorRate
+    const raw = this.calculateRawWPM(totalCharacters, timeSeconds);
+    const mins = timeSeconds / 60;
+    const errorRate = totalErrors / mins;
+    return raw - errorRate;
   }
 
   static calculateNetWPMFromRawWPM(
@@ -65,8 +65,8 @@ export class MathUtil {
     totalErrors: number,
     timeSeconds: number
   ): number {
-    const mins = timeSeconds / 60
-    const errorRate = totalErrors / mins
-    return rawWPM - errorRate
+    const mins = timeSeconds / 60;
+    const errorRate = totalErrors / mins;
+    return rawWPM - errorRate;
   }
 }

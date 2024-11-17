@@ -7,7 +7,6 @@ Random words were generated from the following websites:
 - [RandomWordGenerator](https://randomwordgenerator.com/sentence.php)
 - [Mockaroo](https://www.mockaroo.com/)
 
-
 ## Getting Started
 
 Open a terminal (or command prompt) on your machine and run the following commands:

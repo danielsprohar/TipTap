@@ -4,17 +4,17 @@
 
 export const environment = {
   firebase: {
-    projectId: 'tip-tap-e5cf7',
-    appId: '1:829596691349:web:00abd76dc21dd44266649c',
-    storageBucket: 'tip-tap-e5cf7.appspot.com',
-    locationId: 'us-central',
-    apiKey: 'AIzaSyCKe8ZERravi9CydPuVPSYI435D0Tgd3s8',
-    authDomain: 'tip-tap-e5cf7.firebaseapp.com',
-    messagingSenderId: '829596691349',
+    projectId: "tip-tap-e5cf7",
+    appId: "1:829596691349:web:00abd76dc21dd44266649c",
+    storageBucket: "tip-tap-e5cf7.appspot.com",
+    locationId: "us-central",
+    apiKey: "AIzaSyCKe8ZERravi9CydPuVPSYI435D0Tgd3s8",
+    authDomain: "tip-tap-e5cf7.firebaseapp.com",
+    messagingSenderId: "829596691349",
   },
   production: false,
   httpInterceptor: {
-    allowedList: ['http://localhost:3000/*', 'https://api.tiptap.academy'],
+    allowedList: ["http://localhost:3000/*", "https://api.tiptap.academy"],
   },
   rwg: {
     defaults: {
@@ -27,7 +27,7 @@ export const environment = {
       url: `http://localhost:3000/books`,
     },
   },
-}
+};
 
 /*
  * For easier debugging in development mode, you can import the following file

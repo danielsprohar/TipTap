@@ -1,16 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,ts}'],
+  content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {
       colors: {
-        'mat-dark-gray': '#303030',
-        'mat-dark-grey': '#303030',
+        "mat-dark-gray": "#303030",
+        "mat-dark-grey": "#303030",
       },
       fontFamily: {
-        mono: ['Roboto Mono', 'monospace'],
-      }
+        mono: ["Roboto Mono", "monospace"],
+      },
     },
   },
   plugins: [],
-}
+};

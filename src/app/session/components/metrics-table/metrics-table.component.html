@@ -1,4 +1,7 @@
-<mat-table [dataSource]="dataSource" class="w-full">
+<mat-table
+  [dataSource]="dataSource"
+  class="w-full"
+>
   <ng-container matColumnDef="accuracy">
     <mat-header-cell *matHeaderCellDef> Accuracy (%) </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{ row.accuracy | percent }} </mat-cell>
@@ -7,14 +10,14 @@
   <ng-container matColumnDef="rawWPM">
     <mat-header-cell *matHeaderCellDef> Raw WPM </mat-header-cell>
     <mat-cell *matCellDef="let row">
-      {{ row.rawWPM | number : '1.0-2' }}
+      {{ row.rawWPM | number: "1.0-2" }}
     </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="netWPM">
     <mat-header-cell *matHeaderCellDef> Net WPM </mat-header-cell>
     <mat-cell *matCellDef="let row">
-      {{ row.netWPM | number : '1.0-2' }}
+      {{ row.netWPM | number: "1.0-2" }}
     </mat-cell>
   </ng-container>
 
