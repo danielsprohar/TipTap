@@ -1,7 +1,14 @@
 <mat-card>
   <section class="px-4 py-3">
-    <div role="heading" class="text-xl mb-1">
-      <a routerLink="/session" [queryParams]="lesson()">
+    <div
+      role="heading"
+      class="text-xl mb-1"
+    >
+      <a
+        routerLink="/session"
+        [queryParams]="lesson()"
+        class="underline"
+      >
         {{ link() | titlecase }}
       </a>
     </div>
