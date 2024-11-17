@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -39,7 +38,6 @@ export class SessionComponent implements OnInit, OnDestroy {
   private readonly sessionService = inject(SessionService)
   private readonly route = inject(ActivatedRoute)
   private readonly keyboardService = inject(KeyboardService)
-  private readonly cdr = inject(ChangeDetectorRef)
 
   readonly keyPressed$ = this.keyboardService.key$
   readonly words$ = this.route.data.pipe(
