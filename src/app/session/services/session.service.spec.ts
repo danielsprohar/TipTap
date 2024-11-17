@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing'
 import { Finger, Hand, Level } from '../../enums'
-import { Lesson } from '../../models'
+import { Lesson } from '../../models/lesson'
 import { MetricsService } from './metrics.service'
 import { SessionService } from './session.service'
 

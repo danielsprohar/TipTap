@@ -1,11 +1,10 @@
 <div>
   <span class="uppercase font-semibold">Time</span>
   <p class="text-3xl font-mono">
-    <ng-container *ngIf="time$ | async as time; else idle">
-      {{ sessionLengthSeconds - time }}
-    </ng-container>
-    <ng-template #idle>
-      {{ sessionLengthSeconds }}
-    </ng-template>
+    @if(time$ | async; as time) {
+    {{ sessionLengthSeconds - time }}
+    } @else {
+    {{ sessionLengthSeconds }}
+    }
   </p>
 </div>
