@@ -7,7 +7,12 @@
 @tailwind utilities;
 
 $light-theme-primary: mat.m2-define-palette(mat.$m2-cyan-palette, 700);
-$light-theme-accent: mat.m2-define-palette(mat.$m2-amber-palette, A200, A100, A400);
+$light-theme-accent: mat.m2-define-palette(
+  mat.$m2-amber-palette,
+  A200,
+  A100,
+  A400
+);
 $light-theme-warn: mat.m2-define-palette(mat.$m2-red-palette);
 $light-theme: mat.m2-define-light-theme(
   (
@@ -37,16 +42,15 @@ a {
   cursor: pointer !important;
 }
 
-.dark-theme {
-  // https://github.com/angular/components/blob/master/guides/duplicate-theming-styles.md
-  @include mat.all-component-colors($dark-theme);
+@include mat.all-component-colors($light-theme);
+@include mat.all-component-themes($light-theme);
 
+@media (prefers-color-scheme: dark) {
+  @include mat.all-component-colors($dark-theme);
   a {
     color: #00e2ff;
   }
 }
-
-@include mat.all-component-themes($light-theme);
 
 @layer base {
   kbd {

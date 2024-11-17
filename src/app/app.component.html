@@ -61,24 +61,10 @@
       </button>
 
       <nav class="hidden mt-2 ml-3 sm:flex items-center">
-        <a mat-button routerLink="/" class="text-xl mr-2">Tip Tap</a>
+        <a mat-button routerLink="/" class="text-xl mr-2">Home</a>
         <a mat-button routerLink="lessons" class="link ml-1">Lessons</a>
         <a mat-button routerLink="random" class="link">Random</a>
       </nav>
-
-      <span class="flex-1"></span>
-
-      <button
-        data-test="toggle-theme"
-        mat-icon-button
-        aria-label="Toggle theme"
-        title="Toggle theme"
-        (click)="toggleTheme()"
-      >
-        <mat-icon id="themeIcon">
-          {{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}
-        </mat-icon>
-      </button>
     </mat-toolbar>
 
     <!-- Add Content Here -->
