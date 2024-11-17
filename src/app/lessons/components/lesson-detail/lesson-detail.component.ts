@@ -1,9 +1,10 @@
-import { NgFor, NgIf, TitleCasePipe } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  input,
   OnInit,
+  signal,
 } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { RouterLink } from '@angular/router'
@@ -16,27 +17,23 @@ import { CharacterSpace } from '../../character-space'
   selector: 'tiptap-lesson-detail',
   templateUrl: './lesson-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, MatCardModule, RouterLink, NgFor, TitleCasePipe],
+  imports: [CommonModule, MatCardModule, RouterLink],
 })
 export class LessonDetailComponent implements OnInit {
-  @Input({ required: true }) lesson!: Lesson
-  characterSpace?: CharacterSpace
-  link?: string
-
-  constructor() {}
+  readonly lesson = input.required<Lesson>()
+  readonly characterSpace = signal<CharacterSpace | null>(null)
+  readonly link = signal<string>('')
 
   ngOnInit(): void {
-    this.characterSpace = CharacterSpace.fromLesson(this.lesson)
+    const lesson = this.lesson()
 
-    this.link =
-      this.lesson.hand + (this.lesson.hand === Hand.BOTH ? ' Hands' : ' Hand')
+    this.characterSpace.set(CharacterSpace.fromLesson(lesson))
 
-    if (this.lesson.finger && this.lesson.finger !== Finger.ALL) {
-      this.link += ` - ${this.lesson.finger} Finger`
+    let link = lesson.hand + (lesson.hand === Hand.BOTH ? ' Hands' : ' Hand')
+    if (lesson.finger && lesson.finger !== Finger.ALL) {
+      link += ` - ${lesson.finger} Finger`
     }
-  }
 
-  trackByKey(_index: number, key: string) {
-    return key
+    this.link.set(link)
   }
 }
