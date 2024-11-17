@@ -3,11 +3,11 @@
     #drawer
     class="sidenav"
     fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [attr.role]="isHandset() ? 'dialog' : 'navigation'"
     mode="over"
   >
     <div class="h-full flex flex-col">
-      <mat-toolbar id="sidenavToolbar">
+      <mat-toolbar>
         <div class="flex items-center gap-4">
           <img
             class="rounded mt-3"
@@ -20,37 +20,41 @@
         </div>
       </mat-toolbar>
 
-      <mat-divider></mat-divider>
-
       <mat-nav-list>
         <a
           mat-list-item
           routerLink="/"
           (click)="drawer.close()"
         >
-          Home
+          <div class="flex items-center gap-x-2">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+          </div>
         </a>
         <a
           mat-list-item
           routerLink="lessons"
           (click)="drawer.close()"
         >
-          Lessons
+          <div class="flex items-center gap-x-2">
+            <mat-icon>book</mat-icon>
+            <span>Lessons</span>
+          </div>
         </a>
         <a
           mat-list-item
           routerLink="random"
           (click)="drawer.close()"
         >
-          Random
+          <div class="flex items-center gap-x-2">
+            <mat-icon>shuffle</mat-icon>
+            <span>Random</span>
+          </div>
         </a>
       </mat-nav-list>
 
       <!-- Spacer -->
       <div class="flex-1"></div>
-
-      <!-- Bottom -->
-      <mat-divider></mat-divider>
 
       <mat-nav-list>
         <a
@@ -58,9 +62,9 @@
           href="#"
           (click)="drawer.close()"
         >
-          <div class="flex space-between">
-            <span>Settings</span>
+          <div class="flex items-center gap-x-2">
             <mat-icon>settings</mat-icon>
+            <span>Settings</span>
           </div>
         </a>
       </mat-nav-list>
@@ -69,42 +73,44 @@
 
   <mat-sidenav-content>
     <!-- Top nav -->
-    <mat-toolbar
-      id="topnav"
-      class="w-full flex items-center mat-elevation-z2"
-    >
-      <button
-        mat-icon-button
-        aria-label="Toggle sidenav"
-        (click)="drawer.toggle()"
-      >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+    <mat-toolbar class="fixed left-0 right-0 top-0 z-50 h-14 w-full flex items-center border-b border-zinc-400 dark:border-zinc-800">
+      @if (isHandset()) {
+        <button
+          mat-icon-button
+          aria-label="Toggle sidenav"
+          (click)="drawer.toggle()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
 
       <nav class="hidden mt-2 ml-3 sm:flex items-center">
         <a
           mat-button
           routerLink="/"
           class="text-xl mr-2"
-          >Home</a
         >
+          Home
+        </a>
         <a
           mat-button
           routerLink="lessons"
           class="link ml-1"
-          >Lessons</a
         >
+          Lessons
+        </a>
         <a
           mat-button
           routerLink="random"
           class="link"
-          >Random</a
         >
+          Random
+        </a>
       </nav>
     </mat-toolbar>
 
     <!-- Add Content Here -->
-    <main class="max-w-4xl py-0 px-4 my-0 mx-auto">
+    <main class="max-w-4xl pt-14 px-4 my-0 mx-auto">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>

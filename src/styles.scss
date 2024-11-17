@@ -50,6 +50,7 @@ html {
 @layer base {
   kbd {
     @apply font-mono uppercase text-white rounded shadow-sm;
+    font-family: "Geist Mono";
     background-color: #212121;
   }
 }
@@ -67,5 +68,5 @@ body {
 
 body {
   margin: 0;
-  font-family: "Playpen Sans", cursive;
+  font-family: "Geist", sans-serif;
 }

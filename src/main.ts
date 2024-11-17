@@ -1,9 +1,6 @@
 import { importProvidersFrom } from "@angular/core";
 
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from "@angular/common/http";
+import { MAT_CARD_CONFIG, MatCardConfig } from "@angular/material/card";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
@@ -14,7 +11,12 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(appRoutes),
     importProvidersFrom(BrowserModule),
-    provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
+    {
+      provide: MAT_CARD_CONFIG,
+      useValue: {
+        appearance: "outlined",
+      } as MatCardConfig,
+    },
   ],
 }).catch((err) => console.error(err));

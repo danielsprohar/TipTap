@@ -8,7 +8,8 @@ module.exports = {
         "mat-dark-grey": "#303030",
       },
       fontFamily: {
-        mono: ["Roboto Mono", "monospace"],
+        sans: ["Geist", "sans-serif"],
+        mono: ["Geist Mono", "monospace"],
       },
     },
   },
