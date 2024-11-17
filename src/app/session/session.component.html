@@ -1,30 +1,25 @@
 <div class="max-w-4xl flex flex-col">
   <div class="mt-4 mb-2 flex items-center justify-between">
     <tiptap-timer></tiptap-timer>
-    <ng-container *ngIf="isSessionInProgress; else idle">
-      <button mat-raised-button color="warn" (click)="stopSession()">
-        Stop
-      </button>
-    </ng-container>
-    <ng-template #idle>
-      <button mat-stroked-button (click)="startSession()">Start</button>
-    </ng-template>
+    @if(inProgress()) {
+    <button mat-flat-button (click)="stopSession()">Stop</button>
+    } @else {
+    <button mat-flat-button (click)="startSession()">Start</button>
+    }
   </div>
 
-  <tiptap-terminal
-    *ngIf="words$ | async as words"
-    [words]="words"
-  ></tiptap-terminal>
+  <tiptap-terminal *ngIf="words$ | async as words" [words]="words" />
 
-  <div *ngIf="!isSessionInProgress" class="mt-2 mb-4">
+  @if(!inProgress()) {
+  <div class="mt-2 mb-4">
     <kbd class="px-2 py-1">Shift</kbd>
     +
     <kbd class="px-2 py-1">Enter</kbd>
     to begin
   </div>
-
-  <tiptap-session-metrics
-    *ngIf="isSessionCompleted"
-    class="my-4"
-  ></tiptap-session-metrics>
+  }
+  <!--  -->
+  @if(completed()) {
+  <tiptap-session-metrics class="my-4" />
+  }
 </div>
