@@ -1,5 +1,5 @@
 import { ResolveFn } from "@angular/router";
-import dataSource from "../../assets/data/word-data.json";
+import dataSource from "../../../../assets/data/word-data.json";
 
 export const randomLessonResolver: ResolveFn<string[]> = () => {
   const data: string[][] = dataSource;

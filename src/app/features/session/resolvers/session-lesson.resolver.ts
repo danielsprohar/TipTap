@@ -6,9 +6,9 @@ import {
   RouterStateSnapshot,
 } from "@angular/router";
 import { EMPTY, of } from "rxjs";
-import { CharacterSpace } from "../features/lessons/character-space";
-import { Lesson } from "../models/lesson";
-import { RandomWordGeneratorService } from "../session/services/random-word-generator.service";
+import { Lesson } from "../../../models/lesson";
+import { CharacterSpace } from "../../lessons/character-space";
+import { RandomWordGeneratorService } from "../services/random-word-generator.service";
 
 export const sessionLessonResolver: ResolveFn<string[]> = (
   route: ActivatedRouteSnapshot,

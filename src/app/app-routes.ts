@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
+import { randomLessonResolver } from "./features/session/resolvers/random-lesson.resolver";
+import { sessionLessonResolver } from "./features/session/resolvers/session-lesson.resolver";
 import { HomeComponent } from "./home/home.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
-import { randomLessonResolver } from "./resolvers/random-lesson.resolver";
-import { sessionLessonResolver } from "./resolvers/session-lesson.resolver";
 
 export const appRoutes: Routes = [
   {
