@@ -31,19 +31,9 @@ html {
   @include mat.core-theme($dark-theme);
   @include mat.all-component-themes($dark-theme);
 
-  a {
-    color: #00e2ff;
-  }
-
   @media (prefers-color-scheme: light) {
     @include mat.core-color($light-theme);
     @include mat.all-component-colors($light-theme);
-
-    a {
-      color: blue;
-      font-weight: 600;
-      cursor: pointer !important;
-    }
   }
 }
 
