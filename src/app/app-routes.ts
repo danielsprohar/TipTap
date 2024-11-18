@@ -1,7 +1,8 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
-import { sessionLessonResolver, randomLessonResolver } from "./resolvers";
+import { randomLessonResolver } from "./resolvers/random-lesson.resolver";
+import { sessionLessonResolver } from "./resolvers/session-lesson.resolver";
 
 export const appRoutes: Routes = [
   {
@@ -11,14 +12,14 @@ export const appRoutes: Routes = [
   {
     path: "lessons",
     loadComponent: () =>
-      import("./lessons/lessons.component").then(
+      import("./features/lessons/lessons.component").then(
         (component) => component.LessonsComponent
       ),
   },
   {
     path: "session",
     loadComponent: () =>
-      import("./session/session.component").then(
+      import("./features/session/session.component").then(
         (component) => component.SessionComponent
       ),
     resolve: {
@@ -28,7 +29,7 @@ export const appRoutes: Routes = [
   {
     path: "random",
     loadComponent: () =>
-      import("./session/session.component").then(
+      import("./features/session/session.component").then(
         (component) => component.SessionComponent
       ),
     resolve: {

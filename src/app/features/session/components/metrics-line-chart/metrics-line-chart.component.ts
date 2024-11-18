@@ -23,7 +23,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Subject, takeUntil } from "rxjs";
-import { ThemeService } from "../../../services/theme.service";
+import { ThemeService } from "../../../../services/theme.service";
 import { SessionSample } from "../../models/time-series-sample";
 
 @Component({

@@ -33,7 +33,6 @@
               "base": "dist/tip-tap"
             },
             "index": "src/index.html",
-            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
@@ -55,12 +54,7 @@
                   "maximumError": "4kb"
                 }
               ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [],
               "outputHashing": "all"
             },
             "development": {
@@ -93,8 +87,6 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",

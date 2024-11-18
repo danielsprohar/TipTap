@@ -11,7 +11,7 @@ import {
   tap,
   timer,
 } from "rxjs";
-import { Lesson } from "../../models/lesson";
+import { Lesson } from "../../../models/lesson";
 import { MetricsService } from "./metrics.service";
 
 export const SESSION_DURATION_MILLISECONDS = 60_000;

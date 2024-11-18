@@ -1,5 +1,7 @@
-import { Finger, Hand, Level } from "../../enums";
-import { Lesson } from "../../models/lesson";
+import { Finger } from "../../../enums/finger.enum";
+import { Hand } from "../../../enums/hand.enum";
+import { Level } from "../../../enums/level.enum";
+import { Lesson } from "../../../models/lesson";
 
 // Beginner lessons
 const beginnerLessonsGroupedByHand = new Map<Hand, Lesson[]>();

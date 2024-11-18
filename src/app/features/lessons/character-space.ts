@@ -1,6 +1,8 @@
-import { Finger, Hand, Level } from "../enums";
-import { Keys } from "../keyboard/keys";
-import { Lesson } from "../models/lesson";
+import { Keys } from "../../constants/keys";
+import { Finger } from "../../enums/finger.enum";
+import { Hand } from "../../enums/hand.enum";
+import { Level } from "../../enums/level.enum";
+import { Lesson } from "../../models/lesson";
 
 export class CharacterSpace extends Set<string> {
   static fromLesson(lesson: Lesson): CharacterSpace {

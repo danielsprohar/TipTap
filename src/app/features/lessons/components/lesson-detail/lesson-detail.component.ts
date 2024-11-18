@@ -8,8 +8,9 @@ import {
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { RouterLink } from "@angular/router";
-import { Finger, Hand } from "../../../enums";
-import { Lesson } from "../../../models/lesson";
+import { Finger } from "../../../../enums/finger.enum";
+import { Hand } from "../../../../enums/hand.enum";
+import { Lesson } from "../../../../models/lesson";
 import { CharacterSpace } from "../../character-space";
 
 @Component({

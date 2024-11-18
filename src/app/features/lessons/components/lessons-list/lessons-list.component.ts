@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { Lesson } from "../../../models/lesson";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { Lesson } from "../../../../models/lesson";
 import { LessonDetailComponent } from "../lesson-detail/lesson-detail.component";
 
 @Component({
@@ -11,5 +11,5 @@ import { LessonDetailComponent } from "../lesson-detail/lesson-detail.component"
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LessonsListComponent {
-  @Input({ required: true }) lessons!: Lesson[];
+  readonly lessons = input.required<Lesson[]>();
 }

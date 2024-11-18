@@ -1,4 +1,4 @@
-import { Constants } from "../../constants/constants";
+import { Constants } from "../../../constants/constants";
 
 /**
  * @see https://www.speedtypingonline.com/typing-equations

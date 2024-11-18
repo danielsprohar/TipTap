@@ -1,27 +1,25 @@
 import { ParamMap, Params } from "@angular/router";
-import { Finger, Hand, Level } from "../enums";
-import { Book } from "./book";
+import { Finger } from "../enums/finger.enum";
+import { Hand } from "../enums/hand.enum";
+import { Level } from "../enums/level.enum";
 
 export class Lesson {
   level!: Level;
   hand!: Hand;
   finger: Finger = Finger.ALL;
   isHomeKeys: boolean = false;
-  book: Book | null = null;
 
   constructor(props?: {
     level: Level;
     hand: Hand;
     finger?: Finger;
     isHomeKeys?: boolean;
-    book?: Book;
   }) {
     if (props) {
       this.level = props.level;
       this.hand = props.hand;
       this.finger = props.finger || Finger.ALL;
       this.isHomeKeys = props.isHomeKeys || false;
-      this.book = props.book || null;
     }
   }
 
@@ -48,18 +46,9 @@ class LessonBuilder {
   private level?: Level;
   private hand?: Hand;
   private finger?: Finger;
-  private book?: Book;
   private _isHomeKeys?: boolean;
 
   constructor() {}
-
-  setBook(book: Book): LessonBuilder {
-    this.book = book;
-    this.level = Level.ADVANCED;
-    this.hand = Hand.BOTH;
-    this.finger = Finger.ALL;
-    return this;
-  }
 
   setLevel(level: Level): LessonBuilder {
     this.level = level;
@@ -87,16 +76,6 @@ class LessonBuilder {
       obj[key] = paramMap.get(key);
     }
 
-    if (obj.book) {
-      return new Lesson({
-        ...obj,
-        book: new Book({
-          title: obj.book,
-          chapter: obj.chapter,
-        }),
-      });
-    }
-
     return new Lesson({ ...obj });
   }
 
@@ -113,7 +92,6 @@ class LessonBuilder {
       hand: this.hand,
       finger: this.finger,
       isHomeKeys: this._isHomeKeys,
-      book: this.book,
     });
   }
 }

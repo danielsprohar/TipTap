@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CharacterSpace } from "../../features/lessons/character-space";
+import { CharacterSpace } from "../../lessons/character-space";
 
 @Injectable({
   providedIn: "root",

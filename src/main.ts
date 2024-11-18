@@ -1,4 +1,7 @@
-import { importProvidersFrom } from "@angular/core";
+import {
+  importProvidersFrom,
+  provideExperimentalZonelessChangeDetection,
+} from "@angular/core";
 
 import { MAT_CARD_CONFIG, MatCardConfig } from "@angular/material/card";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
@@ -11,6 +14,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(appRoutes),
     importProvidersFrom(BrowserModule),
+    provideExperimentalZonelessChangeDetection(),
     provideAnimations(),
     {
       provide: MAT_CARD_CONFIG,
