@@ -35,7 +35,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly themeService = inject(ThemeService);
   private readonly metricsService = inject(MetricsService);
   private readonly sessionService = inject(SessionService);
-  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly keyboardService = inject(KeyboardService);
   private readonly renderer = inject(Renderer2);
 
@@ -138,7 +138,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     const firstLetter: Element = firstWord.firstElementChild!;
     firstLetter.classList.add("cursor");
     firstLetter.scrollIntoView();
-    this.changeDetector.detectChanges();
+    this.cdr.detectChanges();
   }
 
   clearTerminal() {
@@ -151,12 +151,12 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
 
-    if (!this.isSessionInProgress && event.shiftKey && event.key === "Enter") {
+    if (!this.isSessionInProgress()) {
       this.sessionService.start();
       return false;
     }
 
-    if (!this.isSessionInProgress) return false;
+    if (!this.isSessionInProgress()) return false;
     if (event.repeat) return false;
     if (event.key === "Enter") return false;
     if (event.key === "Shift") return false;
@@ -167,7 +167,7 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
     if (event.key === "Backspace") {
       this.handleBackspace();
     } else {
-      this.keyboardService.keyUp(event.key);
+      this.keyboardService.setPressedKey(event.key);
       this.handleKey(event.key);
     }
 

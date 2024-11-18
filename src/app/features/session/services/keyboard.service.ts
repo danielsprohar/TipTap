@@ -3,10 +3,10 @@ import { Subject } from "rxjs";
 
 @Injectable()
 export class KeyboardService {
-  private readonly _key = new Subject<string>();
-  readonly key$ = this._key.asObservable();
+  private readonly pressedkey = new Subject<string>();
+  readonly pressedKey$ = this.pressedkey.asObservable();
 
-  keyUp(key: string) {
-    this._key.next(key);
+  setPressedKey(key: string) {
+    this.pressedkey.next(key);
   }
 }

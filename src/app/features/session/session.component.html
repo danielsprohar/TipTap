@@ -21,15 +21,7 @@
 
   <tiptap-terminal [words]="words()" />
 
-  @if (!inProgress()) {
-    <div class="mt-2 mb-4">
-      <kbd class="px-2 py-1">Shift</kbd>
-      +
-      <kbd class="px-2 py-1">Enter</kbd>
-      to begin
-    </div>
-  }
-  <!--  -->
+  <!-- TODO: Open in dialog -->
   @if (completed()) {
     <tiptap-session-metrics class="my-4" />
   }
