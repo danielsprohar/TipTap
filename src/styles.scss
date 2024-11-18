@@ -49,9 +49,7 @@ html {
 
 @layer base {
   kbd {
-    @apply font-mono uppercase text-white rounded shadow-sm;
-    font-family: "Geist Mono";
-    background-color: #212121;
+    @apply font-mono uppercase text-white rounded shadow-sm bg-zinc-800 dark:bg-zinc-700;
   }
 }
 
