@@ -23,22 +23,15 @@ $dark-theme-error: #ff7595;
 }
 
 .correct {
-  color: grey;
+  color: #676c6c;
 }
 
 .cursor {
-  background-color: #dcdcdc;
-  // animation: cursor-blink 1s steps(2) infinite;
-  // -webkit-animation: cursor-blink 1s steps(2) infinite;
+  background-color: #000;
+  color: #fff;
 }
 
-// @keyframes cursor-blink {
-//   0% {
-//     background-color: inherit;
-//   }
-// }
-
-.dark-theme {
+@media (prefers-color-scheme: dark) {
   .error {
     color: $dark-theme-error;
   }
@@ -51,34 +44,7 @@ $dark-theme-error: #ff7595;
   }
 
   .cursor {
-    background-color: grey;
-  }
-}
-
-.flash {
-  -webkit-animation-name: flash-animation;
-  -webkit-animation-duration: 0.1s;
-
-  animation-name: flash-animation;
-  animation-duration: 0.1s;
-}
-
-@-webkit-keyframes flash-animation {
-  from {
-    background: rgba(255, 0, 0, 0.15);
+    background-color: #fff;
     color: #000;
-  }
-  to {
-    background: default;
-  }
-}
-
-@keyframes flash-animation {
-  from {
-    background: rgba(255, 0, 0, 0.15);
-    color: #000;
-  }
-  to {
-    background: default;
   }
 }
