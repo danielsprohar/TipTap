@@ -73,7 +73,9 @@
 
   <mat-sidenav-content>
     <!-- Top nav -->
-    <mat-toolbar class="fixed left-0 right-0 top-0 z-50 h-14 w-full flex items-center border-b border-zinc-400 dark:border-zinc-800">
+    <div
+      class="fixed left-0 right-0 top-0 z-50 h-14 w-full flex items-center border-b bg-zinc-900 text-white border-zinc-400 dark:border-zinc-800"
+    >
       @if (isHandset()) {
         <button
           mat-icon-button
@@ -84,30 +86,27 @@
         </button>
       }
 
-      <nav class="hidden mt-2 ml-3 sm:flex items-center">
+      <nav class="hidden mt-2 ml-3 sm:flex items-center gap-x-2">
         <a
-          mat-button
           routerLink="/"
-          class="text-xl mr-2"
+          class="text-white hover:underline"
         >
           Home
         </a>
         <a
-          mat-button
           routerLink="lessons"
-          class="link ml-1"
+          class="text-white hover:underline"
         >
           Lessons
         </a>
         <a
-          mat-button
           routerLink="random"
-          class="link"
+          class="text-white hover:underline"
         >
           Random
         </a>
       </nav>
-    </mat-toolbar>
+    </div>
 
     <!-- Add Content Here -->
     <main class="max-w-4xl pt-14 px-4 my-0 mx-auto">
