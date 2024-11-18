@@ -37,13 +37,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   private readonly sessionService = inject(SessionService);
   private readonly route = inject(ActivatedRoute);
-  private readonly keyboardService = inject(KeyboardService);
 
-  readonly keyPressed$ = this.keyboardService.key$;
-  readonly words$ = this.route.data.pipe(
-    map((data) => (data["words"] as string[]) ?? [])
-  );
-
+  readonly words = signal<string[]>([]);
   readonly inProgress = signal<boolean>(false);
   readonly completed = signal<boolean>(false);
 
@@ -54,6 +49,15 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.route.data
+      .pipe(
+        map((data) => (data["words"] as string[]) ?? []),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((words) => {
+        this.words.set(words);
+      });
+
     this.sessionService.started$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {

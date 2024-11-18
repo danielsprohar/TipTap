@@ -1,6 +1,7 @@
 <div class="max-w-4xl flex flex-col">
   <div class="mt-4 mb-2 flex items-center justify-between">
-    <tiptap-timer></tiptap-timer>
+    <tiptap-timer />
+
     @if (inProgress()) {
       <button
         mat-flat-button
@@ -18,10 +19,7 @@
     }
   </div>
 
-  <tiptap-terminal
-    *ngIf="words$ | async as words"
-    [words]="words"
-  />
+  <tiptap-terminal [words]="words()" />
 
   @if (!inProgress()) {
     <div class="mt-2 mb-4">
