@@ -14,7 +14,6 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Subject, takeUntil } from "rxjs";
 import { CardComponent } from "../../../../components/card/card.component";
 import { ThemeService } from "../../../../services/theme.service";
@@ -27,7 +26,7 @@ import { SessionService } from "../../services/session.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./terminal.component.html",
   styleUrls: ["./terminal.component.scss"],
-  imports: [CardComponent, CommonModule, MatProgressSpinnerModule],
+  imports: [CardComponent, CommonModule],
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

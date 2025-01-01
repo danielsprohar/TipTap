@@ -3,7 +3,6 @@ import {
   provideExperimentalZonelessChangeDetection,
 } from "@angular/core";
 
-import { MAT_CARD_CONFIG, MatCardConfig } from "@angular/material/card";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
@@ -16,11 +15,5 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserModule),
     provideExperimentalZonelessChangeDetection(),
     provideAnimations(),
-    {
-      provide: MAT_CARD_CONFIG,
-      useValue: {
-        appearance: "outlined",
-      } as MatCardConfig,
-    },
   ],
 }).catch((err) => console.error(err));

@@ -7,8 +7,6 @@ import {
   OnInit,
   signal,
 } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatDividerModule } from "@angular/material/divider";
 import { ActivatedRoute } from "@angular/router";
 import { map, Subject, takeUntil } from "rxjs";
 import { SessionMetricsComponent } from "./components/session-metrics/session-metrics.component";
@@ -19,18 +17,16 @@ import { MetricsService } from "./services/metrics.service";
 import { SessionService } from "./services/session.service";
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: "tiptap-session",
-    templateUrl: "./session.component.html",
-    providers: [SessionService, MetricsService, KeyboardService],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatDividerModule,
-        SessionMetricsComponent,
-        TerminalComponent,
-        TimerComponent,
-    ]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "tiptap-session",
+  templateUrl: "./session.component.html",
+  providers: [SessionService, MetricsService, KeyboardService],
+  imports: [
+    CommonModule,
+    SessionMetricsComponent,
+    TerminalComponent,
+    TimerComponent,
+  ],
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

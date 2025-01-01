@@ -3,19 +3,9 @@
     <tiptap-timer />
 
     @if (inProgress()) {
-      <button
-        mat-flat-button
-        (click)="stopSession()"
-      >
-        Stop
-      </button>
+      <button (click)="stopSession()">Stop</button>
     } @else {
-      <button
-        mat-flat-button
-        (click)="startSession()"
-      >
-        Start
-      </button>
+      <button (click)="startSession()">Start</button>
     }
   </div>
 

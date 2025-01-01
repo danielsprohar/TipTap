@@ -1,43 +1,9 @@
-@use "@angular/material" as mat;
-@include mat.elevation-classes();
-@include mat.app-background();
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-// Define a dark theme
-$dark-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: mat.$cyan-palette,
-    ),
-  )
-);
-
-// Define a light theme
-$light-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: mat.$cyan-palette,
-    ),
-  )
-);
-
 html {
   color-scheme: light dark;
-
-  @include mat.elevation-classes();
-  @include mat.app-background();
-  @include mat.all-component-themes($dark-theme);
-
-  @media (prefers-color-scheme: light) {
-    @include mat.elevation-classes();
-    @include mat.app-background();
-    @include mat.all-component-colors($light-theme);
-  }
 }
 
 @layer base {

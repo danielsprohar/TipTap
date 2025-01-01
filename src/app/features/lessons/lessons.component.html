@@ -1,45 +1,45 @@
-<mat-tab-group>
-  <mat-tab label="Beginner">
+<div class="flex flex-col gap-y-8">
+  <h1 class="font-bold text-3xl">Lessons</h1>
+
+  <section>
+    <h2
+      id="beginner"
+      class="mb-3 font-semibold text-2xl"
+    >
+      Beginner
+    </h2>
+
     <div class="flex flex-col gap-y-8 px-1 pb-4">
       @for (map of beginnerLessonsGroupedByHand | keyvalue; track $index) {
-        <section class="mt-4">
-          <h1
-            class="text-2xl font-semibold mb-3"
-            [id]="'beginner_' + map.key"
-          >
-            {{ map.key === BOTH_HANDS ? "Home Keys" : (map.key | hand) }}
-          </h1>
-          <ul>
-            <li class="flex flex-col gap-y-4">
-              @for (lesson of map.value; track $index) {
-                <tiptap-lesson-detail [lesson]="lesson" />
-              }
-            </li>
-          </ul>
-        </section>
+        <ul>
+          <li class="flex flex-col gap-y-4">
+            @for (lesson of map.value; track $index) {
+              <tiptap-lesson-detail [lesson]="lesson" />
+            }
+          </li>
+        </ul>
       }
     </div>
-  </mat-tab>
+  </section>
 
-  <mat-tab label="Intermediate">
+  <section>
+    <h2
+      id="intermediate"
+      class="mb-3 font-semibold text-2xl"
+    >
+      Intermediate
+    </h2>
+
     <div class="flex flex-col gap-y-8 px-1 pb-4">
       @for (map of intermediateLessonsGroupedByHand | keyvalue; track $index) {
-        <section class="mt-4">
-          <h1
-            class="text-2xl font-semibold mb-3"
-            [id]="'intermediate_' + map.key"
-          >
-            {{ map.key | hand }}
-          </h1>
-          <ul class="flex flex-col gap-y-4">
-            <li>
-              @for (lesson of map.value; track $index) {
-                <tiptap-lesson-detail [lesson]="lesson" />
-              }
-            </li>
-          </ul>
-        </section>
+        <ul class="flex flex-col gap-y-4">
+          <li>
+            @for (lesson of map.value; track $index) {
+              <tiptap-lesson-detail [lesson]="lesson" />
+            }
+          </li>
+        </ul>
       }
     </div>
-  </mat-tab>
-</mat-tab-group>
+  </section>
+</div>
