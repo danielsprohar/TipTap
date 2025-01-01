@@ -4,11 +4,10 @@ import { switchMap } from "rxjs";
 import { SessionService } from "../../services/session.service";
 
 @Component({
-  selector: "tiptap-timer",
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: "./timer.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tiptap-timer",
+    imports: [CommonModule],
+    templateUrl: "./timer.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimerComponent {
   private readonly sessionService = inject(SessionService);

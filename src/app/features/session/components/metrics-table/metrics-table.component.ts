@@ -9,12 +9,11 @@ import { MatTableModule } from "@angular/material/table";
 import { SessionResults } from "../../models/session-results";
 
 @Component({
-  selector: "tiptap-metrics-table",
-  standalone: true,
-  imports: [CommonModule, DecimalPipe, MatTableModule],
-  templateUrl: "./metrics-table.component.html",
-  styleUrls: ["./metrics-table.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tiptap-metrics-table",
+    imports: [CommonModule, DecimalPipe, MatTableModule],
+    templateUrl: "./metrics-table.component.html",
+    styleUrls: ["./metrics-table.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MetricsTableComponent implements OnInit {
   @Input({ required: true }) sessionResults!: SessionResults;

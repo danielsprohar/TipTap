@@ -27,15 +27,14 @@ import { ThemeService } from "../../../../services/theme.service";
 import { SessionSample } from "../../models/time-series-sample";
 
 @Component({
-  selector: "tiptap-metrics-line-chart",
-  standalone: true,
-  imports: [CommonModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "tiptap-metrics-line-chart",
+    imports: [CommonModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div class="w-full">
       <canvas #canvas></canvas>
     </div>
-  `,
+  `
 })
 export class MetricsLineChartComponent
   implements AfterViewInit, OnDestroy, OnInit

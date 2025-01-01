@@ -9,16 +9,15 @@ import { MetricsLineChartComponent } from "../metrics-line-chart/metrics-line-ch
 import { MetricsTableComponent } from "../metrics-table/metrics-table.component";
 
 @Component({
-  selector: "tiptap-session-metrics",
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MetricsLineChartComponent,
-    MetricsTableComponent,
-  ],
-  templateUrl: "./session-metrics.component.html",
+    selector: "tiptap-session-metrics",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MetricsLineChartComponent,
+        MetricsTableComponent,
+    ],
+    templateUrl: "./session-metrics.component.html"
 })
 export class SessionMetricsComponent {
   private readonly metrics = inject(MetricsService);

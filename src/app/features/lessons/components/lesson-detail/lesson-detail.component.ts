@@ -14,11 +14,10 @@ import { Lesson } from "../../../../models/lesson";
 import { CharacterSpace } from "../../character-space";
 
 @Component({
-  standalone: true,
-  selector: "tiptap-lesson-detail",
-  templateUrl: "./lesson-detail.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatCardModule, RouterLink],
+    selector: "tiptap-lesson-detail",
+    templateUrl: "./lesson-detail.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CommonModule, MatCardModule, RouterLink]
 })
 export class LessonDetailComponent implements OnInit {
   readonly lesson = input.required<Lesson>();

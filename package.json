@@ -13,25 +13,25 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^18.2.12",
-    "@angular/cdk": "^18.2.13",
-    "@angular/common": "^18.2.12",
-    "@angular/compiler": "^18.2.12",
-    "@angular/core": "^18.2.12",
-    "@angular/forms": "^18.2.12",
-    "@angular/material": "^18.2.13",
-    "@angular/platform-browser": "^18.2.12",
-    "@angular/platform-browser-dynamic": "^18.2.12",
-    "@angular/router": "^18.2.12",
+    "@angular/animations": "^19.0.5",
+    "@angular/cdk": "^19.0.4",
+    "@angular/common": "^19.0.5",
+    "@angular/compiler": "^19.0.5",
+    "@angular/core": "^19.0.5",
+    "@angular/forms": "^19.0.5",
+    "@angular/material": "^19.0.4",
+    "@angular/platform-browser": "^19.0.5",
+    "@angular/platform-browser-dynamic": "^19.0.5",
+    "@angular/router": "^19.0.5",
     "chart.js": "^4.3.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.12",
-    "@angular/cli": "^18.2.12",
-    "@angular/compiler-cli": "^18.2.12",
+    "@angular-devkit/build-angular": "^19.0.6",
+    "@angular/cli": "^19.0.6",
+    "@angular/compiler-cli": "^19.0.5",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "autoprefixer": "^10.4.16",
@@ -45,7 +45,7 @@
     "postcss": "^8.4.31",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.3.3",
-    "typescript": "~5.4.5"
+    "typescript": "~5.6.3"
   },
   "packageManager": "pnpm@9.13.1+sha512.5ac37545851c55ec58521b6c285db6f848f93ca70889beb4145f5b40fe234e4ea4faee4dad12ac5c139e494374c65d9c3a6ec9a25954378fa286a250e68d2f20"
 }

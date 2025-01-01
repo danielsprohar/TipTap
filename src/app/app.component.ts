@@ -17,20 +17,19 @@ import { Subject, takeUntil } from "rxjs";
 import { HandsetService } from "./services/handset.service";
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "tiptap-app-root",
-  templateUrl: "./app.component.html",
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    RouterLink,
-    RouterOutlet,
-  ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tiptap-app-root",
+    templateUrl: "./app.component.html",
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        RouterLink,
+        RouterOutlet,
+    ]
 })
 export class AppComponent implements OnDestroy, OnInit {
   private readonly destroyed$ = new Subject<void>();

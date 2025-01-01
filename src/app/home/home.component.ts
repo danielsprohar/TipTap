@@ -17,11 +17,10 @@ const FINGER_NAME_TO_COLOR_MAP = [
 ];
 
 @Component({
-  selector: "tiptap-home",
-  standalone: true,
-  imports: [AsyncPipe, MatDividerModule, RouterLink, NgFor],
-  templateUrl: "./home.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tiptap-home",
+    imports: [AsyncPipe, MatDividerModule, RouterLink, NgFor],
+    templateUrl: "./home.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
   readonly tableColumns = ["finger", "color", "hex"];

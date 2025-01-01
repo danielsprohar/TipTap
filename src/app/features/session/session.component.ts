@@ -19,19 +19,18 @@ import { MetricsService } from "./services/metrics.service";
 import { SessionService } from "./services/session.service";
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "tiptap-session",
-  templateUrl: "./session.component.html",
-  providers: [SessionService, MetricsService, KeyboardService],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDividerModule,
-    SessionMetricsComponent,
-    TerminalComponent,
-    TimerComponent,
-  ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tiptap-session",
+    templateUrl: "./session.component.html",
+    providers: [SessionService, MetricsService, KeyboardService],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatDividerModule,
+        SessionMetricsComponent,
+        TerminalComponent,
+        TimerComponent,
+    ]
 })
 export class SessionComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

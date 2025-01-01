@@ -23,12 +23,11 @@ import { MetricsService } from "../../services/metrics.service";
 import { SessionService } from "../../services/session.service";
 
 @Component({
-  standalone: true,
-  selector: "tiptap-terminal",
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./terminal.component.html",
-  styleUrls: ["./terminal.component.scss"],
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
+    selector: "tiptap-terminal",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: "./terminal.component.html",
+    styleUrls: ["./terminal.component.scss"],
+    imports: [CommonModule, MatCardModule, MatProgressSpinnerModule]
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
