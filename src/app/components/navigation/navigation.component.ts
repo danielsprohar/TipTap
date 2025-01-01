@@ -7,4 +7,4 @@ import { RouterLink } from "@angular/router";
   templateUrl: "./navigation.component.html",
   imports: [CommonModule, RouterLink],
 })
-export class Navigation {}
+export class NavigationComponent {}

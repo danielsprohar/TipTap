@@ -9,14 +9,14 @@ import {
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
-import { Navigation } from "./components/navigation/navigation.component";
+import { NavigationComponent } from "./components/navigation/navigation.component";
 import { HandsetService } from "./services/handset.service";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "tiptap-app-root",
   templateUrl: "./app.component.html",
-  imports: [CommonModule, RouterOutlet, Navigation],
+  imports: [CommonModule, RouterOutlet, NavigationComponent],
 })
 export class AppComponent implements OnDestroy, OnInit {
   private readonly destroyed$ = new Subject<void>();
