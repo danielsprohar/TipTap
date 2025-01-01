@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { MatCardModule } from "@angular/material/card";
 import { of, switchMap } from "rxjs";
+import { CardComponent } from "../../../../components/card/card.component";
 import { SessionResults } from "../../models/session-results";
 import { MetricsService } from "../../services/metrics.service";
 import { SessionService } from "../../services/session.service";
@@ -9,15 +9,15 @@ import { MetricsLineChartComponent } from "../metrics-line-chart/metrics-line-ch
 import { MetricsTableComponent } from "../metrics-table/metrics-table.component";
 
 @Component({
-    selector: "tiptap-session-metrics",
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        MatCardModule,
-        MetricsLineChartComponent,
-        MetricsTableComponent,
-    ],
-    templateUrl: "./session-metrics.component.html"
+  selector: "tiptap-session-metrics",
+  templateUrl: "./session-metrics.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    CardComponent,
+    MetricsLineChartComponent,
+    MetricsTableComponent,
+  ],
 })
 export class SessionMetricsComponent {
   private readonly metrics = inject(MetricsService);
