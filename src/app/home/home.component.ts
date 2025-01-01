@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { MatDividerModule } from "@angular/material/divider";
 import { RouterLink } from "@angular/router";
 import { ThemeService } from "../services/theme.service";
 
@@ -18,7 +17,7 @@ const FINGER_NAME_TO_COLOR_MAP = [
 
 @Component({
   selector: "tiptap-home",
-  imports: [CommonModule, MatDividerModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: "./home.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
