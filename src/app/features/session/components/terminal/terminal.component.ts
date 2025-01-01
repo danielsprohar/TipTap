@@ -14,20 +14,20 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Subject, takeUntil } from "rxjs";
+import { CardComponent } from "../../../../components/card/card.component";
 import { ThemeService } from "../../../../services/theme.service";
 import { KeyboardService } from "../../services/keyboard.service";
 import { MetricsService } from "../../services/metrics.service";
 import { SessionService } from "../../services/session.service";
 
 @Component({
-    selector: "tiptap-terminal",
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: "./terminal.component.html",
-    styleUrls: ["./terminal.component.scss"],
-    imports: [CommonModule, MatCardModule, MatProgressSpinnerModule]
+  selector: "tiptap-terminal",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: "./terminal.component.html",
+  styleUrls: ["./terminal.component.scss"],
+  imports: [CardComponent, CommonModule, MatProgressSpinnerModule],
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
