@@ -6,18 +6,18 @@ import {
   OnInit,
   signal,
 } from "@angular/core";
-import { MatCardModule } from "@angular/material/card";
 import { RouterLink } from "@angular/router";
+import { CardComponent } from "../../../../components/card/card.component";
 import { Finger } from "../../../../enums/finger.enum";
 import { Hand } from "../../../../enums/hand.enum";
 import { Lesson } from "../../../../models/lesson";
 import { CharacterSpace } from "../../character-space";
 
 @Component({
-    selector: "tiptap-lesson-detail",
-    templateUrl: "./lesson-detail.component.html",
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, MatCardModule, RouterLink]
+  selector: "tiptap-lesson-detail",
+  templateUrl: "./lesson-detail.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, CardComponent, RouterLink],
 })
 export class LessonDetailComponent implements OnInit {
   readonly lesson = input.required<Lesson>();

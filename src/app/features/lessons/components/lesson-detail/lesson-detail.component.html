@@ -1,24 +1,19 @@
-<mat-card>
-  <section class="px-4 py-3">
-    <div
-      role="heading"
-      class="text-xl mb-1"
+<tiptap-card>
+  <div class="mb-3">
+    <a
+      routerLink="/session"
+      [queryParams]="lesson()"
+      class="text-xl underline"
     >
-      <a
-        routerLink="/session"
-        [queryParams]="lesson()"
-        class="underline"
-      >
-        {{ link() | titlecase }}
-      </a>
-    </div>
+      {{ link() | titlecase }}
+    </a>
+  </div>
 
-    <div class="flex flex-wrap gap-4">
-      @for (element of characterSpace(); track element) {
-        <kbd class="px-3 py-2 text-xl">
-          {{ element }}
-        </kbd>
-      }
-    </div>
-  </section>
-</mat-card>
+  <div class="flex flex-wrap gap-4">
+    @for (element of characterSpace(); track element) {
+      <kbd class="px-3 py-2 text-xl">
+        {{ element }}
+      </kbd>
+    }
+  </div>
+</tiptap-card>
