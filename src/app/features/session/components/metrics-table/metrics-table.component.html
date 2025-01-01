@@ -1,42 +1,40 @@
-<mat-table
-  [dataSource]="dataSource"
-  class="w-full"
->
-  <ng-container matColumnDef="accuracy">
-    <mat-header-cell *matHeaderCellDef> Accuracy (%) </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{ row.accuracy | percent }} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="rawWPM">
-    <mat-header-cell *matHeaderCellDef> Raw WPM </mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      {{ row.rawWPM | number: "1.0-2" }}
-    </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="netWPM">
-    <mat-header-cell *matHeaderCellDef> Net WPM </mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      {{ row.netWPM | number: "1.0-2" }}
-    </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="totalWords">
-    <mat-header-cell *matHeaderCellDef> Words </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{ row.totalWords }} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="totalWordsWithErrors">
-    <mat-header-cell *matHeaderCellDef> Words with Errors </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{ row.totalWordsWithErrors }} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="totalCharacters">
-    <mat-header-cell *matHeaderCellDef> Total Characters </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{ row.totalCharacters }} </mat-cell>
-  </ng-container>
-
-  <!-- Header and Row Declarations -->
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-</mat-table>
+<div class="overflow-x-auto">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Accuracy (%)</th>
+        <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Raw WPM</th>
+        <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Net WPM</th>
+        <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Words</th>
+        <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">
+          Words with Errors
+        </th>
+        <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">
+          Total Characters
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+          {{ sessionResults().accuracy | percent }}
+        </td>
+        <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+          {{ sessionResults().rawWPM | number: "1.0-2" }}
+        </td>
+        <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+          {{ sessionResults().netWPM | number: "1.0-2" }}
+        </td>
+        <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+          {{ sessionResults().totalWords }}
+        </td>
+        <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+          {{ sessionResults().totalWordsWithErrors }}
+        </td>
+        <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+          {{ sessionResults().totalCharacters }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
