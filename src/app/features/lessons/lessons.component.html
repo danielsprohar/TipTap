@@ -1,35 +1,33 @@
 <mat-tab-group>
   <mat-tab label="Beginner">
-    <div class="flex flex-col gap-y-4 px-1 pb-4">
-      <section
-        class="mt-4"
-        *ngFor="let map of beginnerLessonsGroupedByHand | keyvalue"
-      >
-        <h1
-          class="text-2xl font-semibold mb-3"
-          [id]="'beginner_' + map.key"
-        >
-          {{ map.key === BOTH_HANDS ? "Home Keys" : (map.key | hand) }}
-        </h1>
-        <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
-      </section>
+    <div class="flex flex-col gap-y-8 px-1 pb-4">
+      @for (map of beginnerLessonsGroupedByHand | keyvalue; track $index) {
+        <section class="mt-4">
+          <h1
+            class="text-2xl font-semibold mb-3"
+            [id]="'beginner_' + map.key"
+          >
+            {{ map.key === BOTH_HANDS ? "Home Keys" : (map.key | hand) }}
+          </h1>
+          <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
+        </section>
+      }
     </div>
   </mat-tab>
 
   <mat-tab label="Intermediate">
-    <div class="flex flex-col gap-y-4 px-1 pb-4">
-      <section
-        class="mt-4"
-        *ngFor="let map of intermediateLessonsGroupedByHand | keyvalue"
-      >
-        <h1
-          class="text-2xl font-semibold mb-3"
-          [id]="'intermediate_' + map.key"
-        >
-          {{ map.key | hand }}
-        </h1>
-        <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
-      </section>
+    <div class="flex flex-col gap-y-8 px-1 pb-4">
+      @for (map of intermediateLessonsGroupedByHand | keyvalue; track $index) {
+        <section class="mt-4">
+          <h1
+            class="text-2xl font-semibold mb-3"
+            [id]="'intermediate_' + map.key"
+          >
+            {{ map.key | hand }}
+          </h1>
+          <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
+        </section>
+      }
     </div>
   </mat-tab>
 </mat-tab-group>
