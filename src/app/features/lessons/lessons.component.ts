@@ -6,7 +6,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { Hand } from "../../enums/hand.enum";
 import { Level } from "../../enums/level.enum";
 import { Lesson } from "../../models/lesson";
-import { LessonsListComponent } from "./components/lessons-list/lessons-list.component";
+import { LessonDetailComponent } from "./components/lesson-detail/lesson-detail.component";
 import { lessonsGroupedByLevelThenHand } from "./data/grouped-lessons";
 import { HandPipe } from "./pipes/hand.pipe";
 
@@ -15,12 +15,12 @@ import { HandPipe } from "./pipes/hand.pipe";
   templateUrl: "./lessons.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     HandPipe,
-    LessonsListComponent,
+    CommonModule,
     MatCardModule,
     MatListModule,
     MatTabsModule,
+    LessonDetailComponent,
   ],
 })
 export class LessonsComponent {

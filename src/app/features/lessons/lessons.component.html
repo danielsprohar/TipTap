@@ -9,7 +9,13 @@
           >
             {{ map.key === BOTH_HANDS ? "Home Keys" : (map.key | hand) }}
           </h1>
-          <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
+          <ul>
+            <li class="flex flex-col gap-y-4">
+              @for (lesson of map.value; track $index) {
+                <tiptap-lesson-detail [lesson]="lesson" />
+              }
+            </li>
+          </ul>
         </section>
       }
     </div>
@@ -25,7 +31,13 @@
           >
             {{ map.key | hand }}
           </h1>
-          <tiptap-lessons-list [lessons]="map.value"></tiptap-lessons-list>
+          <ul class="flex flex-col gap-y-4">
+            <li>
+              @for (lesson of map.value; track $index) {
+                <tiptap-lesson-detail [lesson]="lesson" />
+              }
+            </li>
+          </ul>
         </section>
       }
     </div>
