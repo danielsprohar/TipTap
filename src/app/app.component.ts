@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
-import { Navigation } from "./components/navigation.component";
+import { Navigation } from "./components/navigation/navigation.component";
 import { HandsetService } from "./services/handset.service";
 
 @Component({
