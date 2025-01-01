@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MatDividerModule } from "@angular/material/divider";
 import { RouterLink } from "@angular/router";
@@ -17,10 +17,10 @@ const FINGER_NAME_TO_COLOR_MAP = [
 ];
 
 @Component({
-    selector: "tiptap-home",
-    imports: [AsyncPipe, MatDividerModule, RouterLink, NgFor],
-    templateUrl: "./home.component.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "tiptap-home",
+  imports: [CommonModule, MatDividerModule, RouterLink],
+  templateUrl: "./home.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   readonly tableColumns = ["finger", "color", "hex"];

@@ -78,22 +78,21 @@
 
   <div class="flex">
     <table class="w-full text-center border-spacing-0">
-      <thead>
-        <tr class="border-b border-gray-500">
+      <thead class="py-2 border-b bg-zinc-200 dark:bg-zinc-800">
+        <tr>
           <th>Finger</th>
           <th>Color</th>
           <th>Preview</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let datum of dataSource"
-          class="border-b border-gray-500"
-        >
-          <td>{{ datum.finger }}</td>
-          <td>{{ datum.color }}</td>
-          <td [style.background]="datum.hexColorCode"></td>
-        </tr>
+        @for (datum of dataSource; track $index) {
+          <tr class="border-b border-zinc-300 dark:border-zinc-700">
+            <td>{{ datum.finger }}</td>
+            <td>{{ datum.color }}</td>
+            <td [style.background]="datum.hexColorCode"></td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
@@ -112,7 +111,7 @@
       <section>
         <h3 class="text-xl mb-2">Raw WPM</h3>
         <p>Raw WPM does not account for the errors you made.</p>
-        <div class="rounded-md p-2 mx-0 mt-1 bg-gray-400 text-black">
+        <div class="rounded-md p-2 mx-0 mt-1 bg-zinc-200 dark:bg-zinc-800">
           <p class="text-center">
             <code> Raw WPM = (total characters / 5) / (time / 60) </code>
           </p>
@@ -125,7 +124,7 @@
           Net WPM <em>does</em> account for the errors you made by subtracting
           the error rate from your raw WPM score.
         </p>
-        <div class="rounded-md p-2 mx-0 mt-1 bg-gray-400 text-black">
+        <div class="rounded-md p-2 mx-0 mt-1 bg-zinc-200 dark:bg-zinc-800">
           <p class="text-center">
             <code> New WPM = Raw WPM - (total errors / total characters) </code>
           </p>
