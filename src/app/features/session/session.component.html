@@ -3,9 +3,19 @@
     <tiptap-timer />
 
     @if (inProgress()) {
-      <button (click)="stopSession()">Stop</button>
+      <button
+        class="btn btn-primary"
+        (click)="stopSession()"
+      >
+        Stop
+      </button>
     } @else {
-      <button (click)="startSession()">Start</button>
+      <button
+        class="btn btn-primary"
+        (click)="startSession()"
+      >
+        Start
+      </button>
     }
   </div>
 
