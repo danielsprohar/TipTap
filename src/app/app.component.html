@@ -74,7 +74,7 @@
   <mat-sidenav-content>
     <!-- Top nav -->
     <div
-      class="fixed left-0 right-0 top-0 z-50 h-14 w-full flex items-center border-b bg-zinc-900 text-white border-zinc-400 dark:border-zinc-800"
+      class="fixed left-0 right-0 top-0 z-50 h-16 w-full flex items-center justify-between border-b bg-zinc-900 text-white"
     >
       @if (isHandset()) {
         <button
@@ -82,34 +82,42 @@
           aria-label="Toggle sidenav"
           (click)="drawer.toggle()"
         >
-          <mat-icon>menu</mat-icon>
+          <mat-icon class="text-white">menu</mat-icon>
         </button>
       }
 
-      <nav class="hidden mt-2 ml-3 sm:flex items-center gap-x-2">
-        <a
-          routerLink="/"
-          class="text-white hover:underline"
-        >
-          Home
-        </a>
-        <a
-          routerLink="lessons"
-          class="text-white hover:underline"
-        >
-          Lessons
-        </a>
-        <a
-          routerLink="random"
-          class="text-white hover:underline"
-        >
-          Random
-        </a>
+      <nav class="hidden mt-2 mx-3 sm:flex items-center">
+        <ul class="flex items-center gap-x-2">
+          <li>
+            <a
+              routerLink="/"
+              class="px-3 py-2 text-white rounded hover:bg-gradient-to-r from-cyan-500 to-blue-500"
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="lessons"
+              class="px-3 py-2 text-white rounded hover:bg-gradient-to-r from-cyan-500 to-blue-500"
+            >
+              Lessons
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="random"
+              class="px-3 py-2 text-white rounded hover:bg-gradient-to-r from-cyan-500 to-blue-500"
+            >
+              Random
+            </a>
+          </li>
+        </ul>
       </nav>
     </div>
 
     <!-- Add Content Here -->
-    <main class="max-w-4xl pt-14 px-4 my-0 mx-auto">
+    <main class="max-w-4xl pt-16 px-4 my-0 mx-auto">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
