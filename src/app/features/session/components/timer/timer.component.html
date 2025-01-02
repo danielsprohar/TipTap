@@ -1,10 +1,10 @@
 <div>
-  <span class="uppercase font-semibold">Time</span>
-  <p class="text-3xl font-mono">
+  <div class="text-sm font-semibold">Time</div>
+  <div class="text-3xl font-mono">
     @if (time$ | async; as time) {
       {{ sessionLengthSeconds - time }}
     } @else {
       {{ sessionLengthSeconds }}
     }
-  </p>
+  </div>
 </div>

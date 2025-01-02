@@ -1,5 +1,5 @@
-<div class="max-w-4xl flex flex-col">
-  <div class="mt-4 mb-2 flex items-center justify-between">
+<div class="max-w-5xl flex flex-col gap-y-10">
+  <div class="mt-10 flex items-center justify-between">
     <tiptap-timer />
 
     @if (inProgress()) {
@@ -23,6 +23,6 @@
 
   <!-- TODO: Open in dialog -->
   @if (completed()) {
-    <tiptap-session-metrics class="my-4" />
+    <tiptap-session-metrics />
   }
 </div>
