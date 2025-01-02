@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,7 +14,6 @@ import {
   viewChild,
 } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
-import { CardComponent } from "../../../../components/card/card.component";
 import { ThemeService } from "../../../../services/theme.service";
 import { KeyboardService } from "../../services/keyboard.service";
 import { MetricsService } from "../../services/metrics.service";
@@ -26,7 +24,7 @@ import { SessionService } from "../../services/session.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./terminal.component.html",
   styleUrls: ["./terminal.component.scss"],
-  imports: [CardComponent, CommonModule],
+  imports: [],
 })
 export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
