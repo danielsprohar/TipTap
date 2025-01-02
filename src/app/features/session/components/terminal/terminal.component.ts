@@ -152,19 +152,27 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
       return false;
     }
 
-    if (!this.isSessionInProgress()) return false;
     if (event.repeat) return false;
-    if (event.key === "Enter") return false;
-    if (event.key === "Shift") return false;
-    if (event.key === "Control") return false;
-    if (event.key === "Alt") return false;
-    if (event.metaKey) return false;
-    if (event.key.length > 1 && event.key.charAt(0) === "F") return false;
-    if (event.key === "Backspace") {
-      this.handleBackspace();
-    } else {
-      this.keyboardService.setPressedKey(event.key);
-      this.handleKey(event.key);
+
+    switch (event.key) {
+      case "Enter":
+      case "Shift":
+      case "Control":
+      case "Alt":
+        return false;
+      case "Backspace":
+        this.handleBackspace();
+        break;
+      default:
+        if (
+          event.metaKey ||
+          (event.key.length > 1 && event.key.charAt(0) === "F")
+        ) {
+          return false;
+        }
+        this.keyboardService.setPressedKey(event.key);
+        this.handleKey(event.key);
+        break;
     }
 
     return false;
@@ -173,7 +181,8 @@ export class TerminalComponent implements AfterViewInit, OnInit, OnDestroy {
   handleKey(key: string): void {
     const terminal: Element = this.terminal()?.nativeElement!;
     const currentLetter: Element = terminal.querySelector(".cursor")!;
-    // This helps us calculate the WPM after the session is complete
+
+    // Mark the current letter as attempted; this helps calculate the WPM
     this.renderer.setAttribute(currentLetter, "data-key", "attempted");
 
     if (key === currentLetter.textContent) {
