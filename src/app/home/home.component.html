@@ -1,9 +1,9 @@
 <div
-  class="flex flex-col gap-y-4 py-4"
+  class="flex flex-col gap-y-10 py-4"
   [class.dark-theme]="isDarkTheme$ | async"
 >
   <section>
-    <h1 class="text-3xl mb-2">Welcome to Tip Tap</h1>
+    <h1 class="text-3xl mb-4">Welcome to Tip Tap</h1>
     <p>
       Use Tip Tap to practice typing using the
       <a
@@ -38,7 +38,7 @@
   </section>
 
   <div>
-    <h2 class="text-2xl mb-2">Finger Placement</h2>
+    <h2 class="text-2xl mb-4">Finger Placement</h2>
 
     <p>
       Your index fingers, both left and right, should always find their way back
@@ -51,9 +51,11 @@
 
   <div>
     <img
-      class="w-full max-h-96 max-w-3xl mx-auto"
+      class="w-full object-cover"
       alt="Typing-colour for-finger-positions"
-      src="../../../assets/images/512px-Typing-colour_for-finger-positions.svg.png"
+      src="../../../assets/images/Typing-colour_for-finger-positions.svg"
+      height="400"
+      width="auto"
     />
 
     <div class="text-sm mt-1">
@@ -61,6 +63,7 @@
       <a
         data-tooltip="Wikimedia"
         href="https://commons.wikimedia.org/wiki/File:Typing-colour_for-finger-positions.svg"
+        class="text-cyan-800 dark:text-cyan-500"
         target="_blank"
       >
         Cy21
@@ -69,6 +72,7 @@
       <a
         data-tooltip="Creative Commons"
         href="https://creativecommons.org/licenses/by-sa/3.0"
+        class="text-cyan-800 dark:text-cyan-500"
         target="_blank"
       >
         CC BY-SA 3.0
@@ -76,60 +80,54 @@
     </div>
   </div>
 
-  <div class="flex">
-    <table class="w-full text-center border-spacing-0">
-      <thead class="py-2 border-b bg-zinc-200 dark:bg-zinc-800">
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead>
         <tr>
-          <th>Finger</th>
-          <th>Color</th>
-          <th>Preview</th>
+          <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Finger</th>
+          <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Color</th>
+          <th class="p-3 bg-zinc-200 dark:bg-zinc-800 text-left">Preview</th>
         </tr>
       </thead>
       <tbody>
         @for (datum of dataSource; track $index) {
-          <tr class="border-b border-zinc-300 dark:border-zinc-700">
-            <td>{{ datum.finger }}</td>
-            <td>{{ datum.color }}</td>
-            <td [style.background]="datum.hexColorCode"></td>
+          <tr>
+            <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+              {{ datum.finger }}
+            </td>
+            <td class="p-2 border border-zinc-200 dark:border-zinc-800">
+              {{ datum.color }}
+            </td>
+            <td
+              class="p-2 border border-zinc-200 dark:border-zinc-800"
+              [style.background]="datum.hexColorCode"
+            ></td>
           </tr>
         }
       </tbody>
     </table>
   </div>
 
-  <div>
-    <h2 class="text-2xl mb-2">Calculations</h2>
-    <p>
-      The following calculations are used to determine your score for each
-      lesson.
-    </p>
-
-    <div
-      id="maths"
-      class="flex flex-col gap-y-4 mt-4"
-    >
-      <section>
-        <h3 class="text-xl mb-2">Raw WPM</h3>
-        <p>Raw WPM does not account for the errors you made.</p>
-        <div class="rounded-md p-2 mx-0 mt-1 bg-zinc-200 dark:bg-zinc-800">
-          <p class="text-center">
-            <code> Raw WPM = (total characters / 5) / (time / 60) </code>
-          </p>
-        </div>
-      </section>
-
-      <section>
-        <h3 class="text-xl mb-2">Net WPM</h3>
-        <p>
-          Net WPM <em>does</em> account for the errors you made by subtracting
-          the error rate from your raw WPM score.
-        </p>
-        <div class="rounded-md p-2 mx-0 mt-1 bg-zinc-200 dark:bg-zinc-800">
-          <p class="text-center">
-            <code> New WPM = Raw WPM - (total errors / total characters) </code>
-          </p>
-        </div>
-      </section>
+  <section>
+    <h2 class="text-xl mb-2">Raw WPM</h2>
+    <p>Raw WPM does not account for the errors you made.</p>
+    <div class="rounded-md p-2 mx-0 mt-1 bg-zinc-200 dark:bg-zinc-800">
+      <p class="text-center">
+        <code> Raw WPM = (total characters / 5) / (time / 60) </code>
+      </p>
     </div>
-  </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl mb-2">Net WPM</h2>
+    <p>
+      Net WPM accounts for the errors you made by subtracting the error rate
+      from your raw WPM score.
+    </p>
+    <div class="rounded-md p-2 mx-0 mt-1 bg-zinc-200 dark:bg-zinc-800">
+      <p class="text-center">
+        <code> New WPM = Raw WPM - (total errors / total characters) </code>
+      </p>
+    </div>
+  </section>
 </div>
