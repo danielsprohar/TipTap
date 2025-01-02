@@ -19,7 +19,15 @@
     }
   </div>
 
-  <tiptap-terminal [words]="words()" />
+  <div>
+    <tiptap-terminal [words]="words()" />
+
+    @if (!inProgress()) {
+      <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+        Start typing to begin.
+      </p>
+    }
+  </div>
 
   <!-- TODO: Open in dialog -->
   @if (completed()) {
